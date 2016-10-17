@@ -1,0 +1,45 @@
+<html><head>
+  <SCRIPT src="./web-files/dtjava.js"></SCRIPT>
+<script>
+    function launchApplication(jnlpfile) {
+        dtjava.launch(            {
+                url : 'BeatBoxer.jnlp',
+                jnlp_content : 'PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPGpubHAgc3BlYz0iMS4wIiB4bWxuczpqZng9Imh0dHA6Ly9qYXZhZnguY29tIiBocmVmPSJCZWF0Qm94ZXIuam5scCI+CiAgPGluZm9ybWF0aW9uPgogICAgPHRpdGxlPkJlYXRCb3hlcjwvdGl0bGU+CiAgICA8dmVuZG9yPmt1bmFsPC92ZW5kb3I+CiAgICA8ZGVzY3JpcHRpb24+bnVsbDwvZGVzY3JpcHRpb24+CiAgICA8b2ZmbGluZS1hbGxvd2VkLz4KICA8L2luZm9ybWF0aW9uPgogIDxyZXNvdXJjZXM+CiAgICA8ajJzZSB2ZXJzaW9uPSIxLjYrIiBocmVmPSJodHRwOi8vamF2YS5zdW4uY29tL3Byb2R1Y3RzL2F1dG9kbC9qMnNlIi8+CiAgICA8amFyIGhyZWY9IkJlYXRCb3hlci5qYXIiIHNpemU9IjIzNTc5MCIgZG93bmxvYWQ9ImVhZ2VyIiAvPgogICAgPGphciBocmVmPSJsaWIvbXlzcWwtY29ubmVjdG9yLWphdmEtNS4xLjQwLWJpbi5qYXIiIHNpemU9Ijk5MDkyNyIgZG93bmxvYWQ9ImVhZ2VyIiAvPgogIDwvcmVzb3VyY2VzPgogIDxhcHBsZXQtZGVzYyAgd2lkdGg9IjgwMCIgaGVpZ2h0PSI2MDAiIG1haW4tY2xhc3M9ImNvbS5qYXZhZngubWFpbi5Ob0phdmFGWEZhbGxiYWNrIiAgbmFtZT0iQmVhdEJveGVyIiA+CiAgICA8cGFyYW0gbmFtZT0icmVxdWlyZWRGWFZlcnNpb24iIHZhbHVlPSI4LjArIi8+CiAgPC9hcHBsZXQtZGVzYz4KICA8amZ4OmphdmFmeC1kZXNjICB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCIgbWFpbi1jbGFzcz0iYmVhdGJveGVyLkJlYXRCb3hlciIgIG5hbWU9IkJlYXRCb3hlciIgLz4KICA8dXBkYXRlIGNoZWNrPSJhbHdheXMiLz4KPC9qbmxwPgo='
+            },
+            {
+                javafx : '8.0+'
+            },
+            {}
+        );
+        return false;
+    }
+</script>
+
+<script>
+    function javafxEmbedbeatboxer() {
+        dtjava.embed(
+            {
+                id : 'beatboxer',
+                url : 'BeatBoxer.jnlp',
+                placeholder : 'javafx-app-placeholder',
+                width : '800',
+                height : '600',
+                jnlp_content : 'PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPGpubHAgc3BlYz0iMS4wIiB4bWxuczpqZng9Imh0dHA6Ly9qYXZhZnguY29tIiBocmVmPSJCZWF0Qm94ZXIuam5scCI+CiAgPGluZm9ybWF0aW9uPgogICAgPHRpdGxlPkJlYXRCb3hlcjwvdGl0bGU+CiAgICA8dmVuZG9yPmt1bmFsPC92ZW5kb3I+CiAgICA8ZGVzY3JpcHRpb24+bnVsbDwvZGVzY3JpcHRpb24+CiAgICA8b2ZmbGluZS1hbGxvd2VkLz4KICA8L2luZm9ybWF0aW9uPgogIDxyZXNvdXJjZXM+CiAgICA8ajJzZSB2ZXJzaW9uPSIxLjYrIiBocmVmPSJodHRwOi8vamF2YS5zdW4uY29tL3Byb2R1Y3RzL2F1dG9kbC9qMnNlIi8+CiAgICA8amFyIGhyZWY9IkJlYXRCb3hlci5qYXIiIHNpemU9IjIzNTc5MCIgZG93bmxvYWQ9ImVhZ2VyIiAvPgogICAgPGphciBocmVmPSJsaWIvbXlzcWwtY29ubmVjdG9yLWphdmEtNS4xLjQwLWJpbi5qYXIiIHNpemU9Ijk5MDkyNyIgZG93bmxvYWQ9ImVhZ2VyIiAvPgogIDwvcmVzb3VyY2VzPgogIDxhcHBsZXQtZGVzYyAgd2lkdGg9IjgwMCIgaGVpZ2h0PSI2MDAiIG1haW4tY2xhc3M9ImNvbS5qYXZhZngubWFpbi5Ob0phdmFGWEZhbGxiYWNrIiAgbmFtZT0iQmVhdEJveGVyIiA+CiAgICA8cGFyYW0gbmFtZT0icmVxdWlyZWRGWFZlcnNpb24iIHZhbHVlPSI4LjArIi8+CiAgPC9hcHBsZXQtZGVzYz4KICA8amZ4OmphdmFmeC1kZXNjICB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCIgbWFpbi1jbGFzcz0iYmVhdGJveGVyLkJlYXRCb3hlciIgIG5hbWU9IkJlYXRCb3hlciIgLz4KICA8dXBkYXRlIGNoZWNrPSJhbHdheXMiLz4KPC9qbmxwPgo='
+            },
+            {
+                javafx : '8.0+'
+            },
+            {}
+        );
+    }
+    <!-- Embed FX application into web page once page is loaded -->
+    dtjava.addOnloadCallback(javafxEmbedbeatboxer);
+</script>
+
+</head><body>
+<h2>Test page for <b>BeatBoxer</b></h2>
+  <b>Webstart:</b> <a href='BeatBoxer.jnlp' onclick="return launchApplication('BeatBoxer.jnlp');">click to launch this app as webstart</a><br><hr><br>
+
+  <!-- Applet will be inserted here -->
+  <div id='javafx-app-placeholder'></div>
+</body></html>
