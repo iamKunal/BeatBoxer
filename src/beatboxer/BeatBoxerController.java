@@ -8,12 +8,10 @@ package beatboxer;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import javafx.beans.binding.Bindings;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
+import javafx.beans.binding.*;
+import javafx.collections.*;
+import javafx.event.*;
+import javafx.fxml.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 

@@ -1,10 +1,9 @@
 package beatboxer;
 
 import java.sql.*;
-public class Update {
+public class Update extends CreateConnection{
 	void updateTrack(int TrackId, String newTrackName){
 		try {
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/BeatBoxer","root","123");
 			String sql = "update track set trackname = ? where trackid = ?";
 			PreparedStatement statement = con.prepareStatement(sql);
 			statement.setString(1, newTrackName);
@@ -17,7 +16,6 @@ public class Update {
 	void updateArtist(int TrackId, String newArtistName){
 		int ArtistId = 0;
 		try {
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/BeatBoxer","root","123");
 			PreparedStatement getartistid = con.prepareStatement("select artistid from trackinfo where trackid = ?");
 			getartistid.setInt(1, TrackId);
 			ResultSet artist = getartistid.executeQuery();
@@ -46,7 +44,6 @@ public class Update {
 			statement1.executeUpdate();
 		} catch (Exception e) {
 			try {
-				Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/BeatBoxer","root","123");
 				String sql = "update trackinfo set artistid = ? where trackid = ?";
 				PreparedStatement statement = con.prepareStatement(sql);
 				statement.setInt(1, ArtistId);
@@ -59,7 +56,6 @@ public class Update {
 	void updateAlbum(int TrackId, String newAlbumName){
 		int AlbumId = 0;
 		try {
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/BeatBoxer","root","123");
 			PreparedStatement getalbumid = con.prepareStatement("select albumid from trackinfo where trackid = ?");
 			getalbumid.setInt(1, TrackId);
 			ResultSet album = getalbumid.executeQuery();
@@ -88,7 +84,6 @@ public class Update {
 			statement1.executeUpdate();
 		} catch (Exception e) {
 			try {
-				Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/BeatBoxer","root","123");
 				String sql = "update trackinfo set albumid = ? where trackid = ?";
 				PreparedStatement statement = con.prepareStatement(sql);
 				statement.setInt(1, AlbumId);

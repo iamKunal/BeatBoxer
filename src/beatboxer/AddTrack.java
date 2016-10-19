@@ -1,7 +1,7 @@
 package beatboxer;
 
 import java.sql.*;
-public class AddTrack {
+public class AddTrack extends CreateConnection{
 	String TrackName;
 	String ArtistName;
 	String AlbumName;
@@ -29,7 +29,6 @@ public class AddTrack {
 				ArtistId = 0;
 				throw new Exception();
 			}
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/BeatBoxer","root","123");
 			Statement count = con.createStatement();
 			ResultSet res = count.executeQuery("select * from artist");
 			boolean flag = true;
@@ -60,7 +59,6 @@ public class AddTrack {
 				AlbumId = 0;
 				throw new Exception();
 			}
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/BeatBoxer","root","123");
 			Statement count = con.createStatement();
 			ResultSet res = count.executeQuery("select * from album");
 			boolean flag = true;
@@ -87,7 +85,6 @@ public class AddTrack {
 	}
 	void addTrack(){
 		try{
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/BeatBoxer","root","123");
 			Statement count = con.createStatement();
 			ResultSet res = count.executeQuery("select count(*) from track");
 			res.next();
@@ -107,7 +104,6 @@ public class AddTrack {
 	}
 	void addtrackinfo(){
 		try{
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/BeatBoxer","root","123");
 			String sql = "insert into trackinfo(trackid,artistid,albumid) values(?,?,?)";
 			PreparedStatement statement = con.prepareStatement(sql);
 			statement.setInt(1,TrackId);

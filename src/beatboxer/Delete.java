@@ -1,10 +1,9 @@
 package beatboxer;
 
 import java.sql.*;
-public class Delete {
+public class Delete extends CreateConnection{
 	public void deleteTrack(int TrackId){
 		try{
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/BeatBoxer","root","123");
 			String sql = "delete from track where trackid = ?";
 			PreparedStatement statement = con.prepareStatement(sql);
 			statement.setInt(1,TrackId);
@@ -19,7 +18,6 @@ public class Delete {
 	}
 	public void deleteAlbum(int AlbumId){
 		try{
-			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/BeatBoxer","root","123");
 			String sql = "delete from album where albumid = ?";
 			PreparedStatement statement = con.prepareStatement(sql);
 			statement.setInt(1,AlbumId);
