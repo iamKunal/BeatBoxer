@@ -16,8 +16,6 @@ public class AddTrack extends CreateConnection{
 		AlbumName = albumName;
 		Location = location;
 		Genre = genre;
-	}
-	public void add(){
 		addTrack();
 		addartist();
 		addalbum();
