@@ -7,6 +7,8 @@
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
@@ -22,7 +24,7 @@
                   <Slider fx:id="timeSlider" value="50.0" BorderPane.alignment="CENTER" />
                </top>
                <left>
-                  <Label fx:id="timer" minWidth="70.0" prefWidth="70.0" text="Label" BorderPane.alignment="CENTER" />
+                  <Label fx:id="timer" minWidth="70.0" prefWidth="70.0" text="CurrentTime" BorderPane.alignment="CENTER" />
                </left>
                <right>
                   <Label minWidth="70.0" prefWidth="70.0" text="Label" BorderPane.alignment="CENTER" />
@@ -32,21 +34,6 @@
                </center>
             </BorderPane>
          </bottom>
-         <right>
-            <VBox prefHeight="400.0" prefWidth="235.0" styleClass="listBox" BorderPane.alignment="CENTER">
-               <children>
-                  <Label id="playlists" fx:id="playlists" maxWidth="1.7976931348623157E308" text="Playlists" />
-                  <ListView id="playlistListView" fx:id="playlistView" maxWidth="1.7976931348623157E308">
-                     <VBox.margin>
-                        <Insets />
-                     </VBox.margin>
-                  </ListView>
-               </children>
-               <padding>
-                  <Insets right="10.0" />
-               </padding>
-            </VBox>
-         </right>
          <top>
             <VBox fx:id="detailBox" prefHeight="173.0" prefWidth="862.0" styleClass="detailBox" BorderPane.alignment="CENTER">
                <children>
@@ -93,8 +80,40 @@
          <center>
             <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
                <children>
-                  <Label id="playlists" fx:id="nowPlaying" maxWidth="1.7976931348623157E308" text="Now Playing" />
-                  <ListView id="playlistListView" fx:id="playlistView1" disable="true" maxWidth="1.7976931348623157E308" />
+                  <TabPane maxHeight="1.7976931348623157E308" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" tabMaxHeight="1.7976931348623158E307" tabMinWidth="200.0">
+                    <tabs>
+                      <Tab closable="false" text="Now Playing">
+                           <content>
+                              <VBox>
+                                 <children>
+                                    <ListView id="playlistListView" fx:id="nowPlayingListView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" />
+                                 </children>
+                              </VBox>
+                           </content>
+                        </Tab>
+                      <Tab text="All Songs">
+                           <content>
+                              <VBox>
+                                 <children>
+                                    <ListView id="playlistListView" fx:id="allsongsView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" />
+                                 </children>
+                              </VBox>
+                           </content>
+                        </Tab>
+                        <Tab id="playlsits" text="Playlists">
+                           <content>
+                              <VBox>
+                                 <children>
+                                    <ListView id="playlistListView" fx:id="playlistListView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" />
+                                 </children>
+                              </VBox>
+                           </content>
+                        </Tab>
+                    </tabs>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </TabPane>
                </children>
                <padding>
                   <Insets left="10.0" />

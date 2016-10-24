@@ -42,11 +42,13 @@ public class BeatBoxerController implements Initializable {
     @FXML
     private ListView<String> nowPlayingListView;
     @FXML
+    private ListView<String> allsongsListView;
+    @FXML
+    private ListView<String> playlistListView;
+    @FXML
     private Label playlists;
     @FXML
     private Label playlistList;
-    @FXML
-    private ListView<String> playlistView;
     @FXML
     private BorderPane player;
     @FXML
@@ -70,7 +72,8 @@ public class BeatBoxerController implements Initializable {
         for (int i = 0; i < 20; i++) {        
             _playlists.add("YOYO");
         }
-        playlistView.setItems(_playlists);
+        playlistListView.setItems(_playlists);
+//        playlistView.setMinWidth(Double.MAX_VALUE);
     }    
     
 }
