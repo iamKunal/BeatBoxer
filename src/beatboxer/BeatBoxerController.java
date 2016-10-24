@@ -9,12 +9,16 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.beans.binding.Bindings;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 
 /**
@@ -44,7 +48,7 @@ public class BeatBoxerController implements Initializable {
     @FXML
     private ListView<String> allsongsListView;
     @FXML
-    private ListView<String> playlistListView;
+    private ListView<BBItem> playlistListView;
     @FXML
     private Label playlists;
     @FXML
@@ -61,6 +65,9 @@ public class BeatBoxerController implements Initializable {
     public void playMusic(){
         BeatBoxer.hey();
     }
+    public void onClick(){
+        
+    }
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -68,12 +75,38 @@ public class BeatBoxerController implements Initializable {
         nowPlaying.setText("Not Playing");
         trackDetails.setWrapText(true);
         trackDetails.setText("No track Playing.");
-        ObservableList<String> _playlists = FXCollections.observableArrayList();
-        for (int i = 0; i < 20; i++) {        
-            _playlists.add("YOYO");
+        ObservableList<BBItem> _playlists = FXCollections.observableArrayList();
+        for (int i = 0; i < 1; i++) {        
+            _playlists.add(new BBItem(1,"ABC"));
         }
         playlistListView.setItems(_playlists);
 //        playlistView.setMinWidth(Double.MAX_VALUE);
+        /*-------------------playListView Single Click Handler-------------------*/
+//        playlistListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<BBItem>() {
+//
+//            @Override
+//            public void changed(ObservableValue<? extends BBItem> observable, BBItem oldValue, BBItem newValue) {
+//                // Your action here
+//                System.out.println("Selected item: " + newValue.getId());
+//            }
+//        });
+        
+        /*-------------------playListView Double Click Handler-------------------*/
+        playlistListView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent click) {
+                if(playlistListView.getSelectionModel().getSelectedItem()==null){
+                        //Do Nothing
+                }
+                else if (click.getClickCount() == 2) {
+                   //Use ListView's getSelected Item
+                   BBItem a = playlistListView.getSelectionModel().getSelectedItem();
+                   playlistListView.getSelectionModel().select(-1);
+                   //use this to do whatever you want to. Open Link etc.
+                    System.out.println(a.getId());
+                }
+            }
+        });
     }    
     
 }
