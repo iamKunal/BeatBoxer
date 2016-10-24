@@ -2,14 +2,14 @@ package beatboxer;
 
 import java.sql.*;
 public class AddTrack extends CreateConnection{
-	String TrackName;
-	String ArtistName;
-	String AlbumName;
-	String Location;
-	String Genre;
-	int TrackId;
-	int ArtistId;
-	int AlbumId;
+	private String TrackName;
+	private String ArtistName;
+	private String AlbumName;
+	private String Location;
+	private String Genre;
+	private int TrackId;
+	private int ArtistId;
+	private int AlbumId;
 	public AddTrack(String trackName, String artistName, String albumName,String location, String genre){
 		TrackName = trackName;
 		ArtistName = artistName;
@@ -23,67 +23,73 @@ public class AddTrack extends CreateConnection{
 		addalbum();
 		addtrackinfo();
 	}
-	void addartist(){
+	private void addartist(){
 		try{
 			if(ArtistName.equals(null)){
 				ArtistId = 0;
 				throw new Exception();
 			}
-			Statement count = con.createStatement();
-			ResultSet res = count.executeQuery("select * from artist");
+			Statement st = con.createStatement();
+			ResultSet count = st.executeQuery("select count(*) from artist");
+			count.next();
 			boolean flag = true;
-			while(res.next()){
-				if(res.getString("artistname").equals(ArtistName)){
-					ArtistId = res.getInt("artistid");
-					flag = false;
-					break;
-				}
+			if(count.getInt("count(*)") == 0){
+				flag = false;
 			}
-			if(flag){
-				res = count.executeQuery("select count(*) from artist");
-				res.next();
-				ArtistId = res.getInt("count(*)") + 1;
-				String sql = "insert into artist(artistid,artistname) values(?,?)";
+			
+			String sql = "select artistid from artist where artistname = ?";
+			PreparedStatement check = con.prepareStatement(sql);
+			check.setString(1, ArtistName);
+			ResultSet res = check.executeQuery();
+			if(res == null || !flag){
+				ArtistId = count.getInt("count(*)") + 1;
+				sql = "insert into artist(artistid,artistname) values(?,?)";
 				PreparedStatement statement = con.prepareStatement(sql);
 				statement.setInt(1,ArtistId);
 		        statement.setString(2,ArtistName);
 		        statement.executeUpdate();
+			}else{
+				res.next();
+				ArtistId = res.getInt("artistid");
 			}
 		}catch(Exception e){
 			
 		}
 	}
-	void addalbum(){
+	private void addalbum(){
 		try{
 			if(AlbumName.equals(null)){
 				AlbumId = 0;
 				throw new Exception();
 			}
-			Statement count = con.createStatement();
-			ResultSet res = count.executeQuery("select * from album");
+			Statement st = con.createStatement();
+			ResultSet count = st.executeQuery("select count(*) from album");
+			count.next();
 			boolean flag = true;
-			while(res.next()){
-				if(res.getString("albumname").equals(AlbumName)){
-					AlbumId = res.getInt("albumid");
-					flag = false;
-					break;
-				}
+			if(count.getInt("count(*)") == 0){
+				flag = false;
 			}
-			if(flag){
-				res = count.executeQuery("select count(*) from album");
-				res.next();
-				AlbumId = res.getInt("count(*)") + 1;
-				String sql = "insert into album(albumid,albumname) values(?,?)";
+			
+			String sql = "select albumid from album where albumname = ?";
+			PreparedStatement check = con.prepareStatement(sql);
+			check.setString(1, AlbumName);
+			ResultSet res = check.executeQuery();
+			if(res == null || !flag){
+				AlbumId = count.getInt("count(*)") + 1;
+				sql = "insert into album(albumid,albumname) values(?,?)";
 				PreparedStatement statement = con.prepareStatement(sql);
 				statement.setInt(1,AlbumId);
 		        statement.setString(2,AlbumName);
 		        statement.executeUpdate();
+			}else{
+				res.next();
+				AlbumId = res.getInt("albumid");
 			}
 		}catch(Exception e){
 			
 		}
 	}
-	void addTrack(){
+	private void addTrack(){
 		try{
 			Statement count = con.createStatement();
 			ResultSet res = count.executeQuery("select count(*) from track");
@@ -102,7 +108,7 @@ public class AddTrack extends CreateConnection{
 			
 		}
 	}
-	void addtrackinfo(){
+	private void addtrackinfo(){
 		try{
 			String sql = "insert into trackinfo(trackid,artistid,albumid) values(?,?,?)";
 			PreparedStatement statement = con.prepareStatement(sql);
