@@ -1,9 +1,10 @@
 package beatboxer;
 
 import java.sql.*;
-public class DataBase extends CreateConnection{
+public class DataBase{
 	public void CreateDataBase(){
 		try{
+			Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306","root","123");
 			Statement check = con.createStatement();
 			check.execute("create database BeatBoxer");
 			check.execute("use BeatBoxer");
