@@ -37,11 +37,12 @@ public class AddTrack extends CreateConnection{
 				flag = false;
 			}
 			
-			String sql = "select artistid from artist where artistname = ?";
+			String sql = "select count(artistid) from artist where artistname = ?";
 			PreparedStatement check = con.prepareStatement(sql);
 			check.setString(1, ArtistName);
 			ResultSet res = check.executeQuery();
-			if(res == null || !flag){
+			res.next();
+			if(res.getInt("count(artistid)")==0|| !flag){
 				ArtistId = count.getInt("count(*)") + 1;
 				sql = "insert into artist(artistid,artistname) values(?,?)";
 				PreparedStatement statement = con.prepareStatement(sql);
@@ -70,11 +71,12 @@ public class AddTrack extends CreateConnection{
 				flag = false;
 			}
 			
-			String sql = "select albumid from album where albumname = ?";
+			String sql = "select count(albumid) from album where albumname = ?";
 			PreparedStatement check = con.prepareStatement(sql);
 			check.setString(1, AlbumName);
 			ResultSet res = check.executeQuery();
-			if(res == null || !flag){
+			res.next();
+			if(res.getInt("count(albumid)")==0|| !flag){
 				AlbumId = count.getInt("count(*)") + 1;
 				sql = "insert into album(albumid,albumname) values(?,?)";
 				PreparedStatement statement = con.prepareStatement(sql);
