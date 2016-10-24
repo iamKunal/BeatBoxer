@@ -25,4 +25,7 @@ public class BBItem {
     public int getId(){
         return this.Id;
     }
+    public String toString(){
+        return this.name;
+    }
 }
