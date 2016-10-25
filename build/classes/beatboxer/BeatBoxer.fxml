@@ -21,13 +21,13 @@
          <bottom>
             <BorderPane id="player" fx:id="player" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <top>
-                  <Slider fx:id="timeSlider" value="50.0" BorderPane.alignment="CENTER" />
+                  <Slider fx:id="timeSlider" BorderPane.alignment="CENTER" />
                </top>
                <left>
-                  <Label fx:id="timer" minWidth="70.0" prefWidth="70.0" text="CurrentTime" BorderPane.alignment="CENTER" />
+                  <Label fx:id="timer" minWidth="70.0" prefWidth="70.0" text="-- : --" BorderPane.alignment="CENTER" />
                </left>
                <right>
-                  <Label minWidth="70.0" prefWidth="70.0" text="Label" BorderPane.alignment="CENTER" />
+                  <Label fx:id="totalTimer" minWidth="70.0" prefWidth="70.0" text="-- : --" BorderPane.alignment="CENTER" />
                </right>
                <center>
                   <ToggleButton id="playButton" fx:id="playButton" contentDisplay="CENTER" maxHeight="100.0" maxWidth="100.0" minHeight="100.0" minWidth="100.0" mnemonicParsing="false" onAction="#playMusic" prefHeight="100.0" prefWidth="100.0" style="-fx-background-color: #FFFFFF;" BorderPane.alignment="CENTER" />
@@ -95,7 +95,7 @@
                            <content>
                               <VBox>
                                  <children>
-                                    <ListView id="playlistListView" fx:id="allsongsView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" />
+                                    <ListView id="playlistListView" fx:id="allsongsListView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" />
                                  </children>
                               </VBox>
                            </content>

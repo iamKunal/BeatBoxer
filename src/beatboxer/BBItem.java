@@ -10,11 +10,15 @@ package beatboxer;
  * @author kunal
  */
 public class BBItem {
-    private int Id;
-    private String name;
+    protected int Id;
+    protected String name;
     public BBItem(int Id,String name){
         this.Id = Id;
         this.name = name;
+    }
+    public BBItem(){
+        this.Id = 0;
+        this.name = "";
     }
     public String getName(){
         return name;
@@ -25,6 +29,7 @@ public class BBItem {
     public int getId(){
         return this.Id;
     }
+    @Override
     public String toString(){
         return this.name;
     }
