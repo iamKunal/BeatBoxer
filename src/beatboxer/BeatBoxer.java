@@ -20,13 +20,13 @@ public class BeatBoxer extends Application {
     public static MediaPlayer mediaPlayer;
     @Override
     public void start(Stage stage) throws Exception {
+        mediaPlayer = new MediaPlayer(new Media("file://" + "/home/kunal/Documents/JAVA/cs.mp3"));
         Parent root = FXMLLoader.load(getClass().getResource("BeatBoxer.fxml"));
         Scene scene = new Scene(root);
         scene.getStylesheets().add(getClass().getResource("stylesheet.css").toExternalForm());
         stage.setScene(scene);
         stage.show();
-        mediaPlayer = new MediaPlayer(new Media("file://" + "/home/kunal/Documents/JAVA/cs.mp3"));
-        
+        mediaPlayer.play();
     }
     public static void play(){
         if(mediaPlayer.getStatus().equals(MediaPlayer.Status.PLAYING))

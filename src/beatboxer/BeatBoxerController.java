@@ -21,6 +21,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
+import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 
@@ -63,41 +64,62 @@ public class BeatBoxerController implements Initializable {
     @FXML
     private ToggleButton playButton;
     @FXML
-    public void playMusic(){
+    public void playMusic(){        
         BeatBoxer.play();
     }
     public void playPlaylist(BBItem playlist){
-        
     }
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-//        Duration total=new Duration(100000);
-//        BeatBoxer.mediaPlayer.currentTimeProperty().addListener();
-        timeSlider.valueProperty().addListener(new ChangeListener<Number>() {
+        /*------------Instance of the Main BeatBoxer Class for easy Access --------*/
+        BeatBoxer bb = new BeatBoxer();
+        /*-------------Slider and Current Time Listeners----------------------------*/
+        bb.mediaPlayer.currentTimeProperty().addListener(new ChangeListener<Duration>() {
             @Override
-            public void changed(ObservableValue<? extends Number> observable,
-                    Number oldValue, Number newValue) {
-
-                Double newV = newValue.doubleValue();
-                if(BeatBoxer.mediaPlayer.getStatus().equals(MediaPlayer.Status.UNKNOWN)==true){
-                    timer.setText("-- : --");
-                    totalTimer.setText("-- : --");
-                }
-                else{
-                    double secs = BeatBoxer.mediaPlayer.getTotalDuration().toSeconds() * newV/100;
-                    double mins = secs/60;
-                    secs = secs%60;
-                    timer.setText(String.format("%02.0f:%02.0f", mins,secs));
-                    BeatBoxer.mediaPlayer.seek(Duration.seconds(secs));
-                    secs = BeatBoxer.mediaPlayer.getTotalDuration().toSeconds();
-                    mins = secs/60;
-                    secs%=60;
-                    totalTimer.setText(String.format("%02.0f:%02.0f", mins,secs));
-                }
-                
+            public void changed(
+                    ObservableValue<? extends Duration> observableValue,
+                    Duration duration,
+                    Duration current) {
+                    if(! timeSlider.isValueChanging()){
+                        timeSlider.setValue(current.toSeconds());
+                        timer.setText(String.format("%02.0f:%02.0f", Math.floor(current.toSeconds()/60),Math.floor(current.toSeconds()%60)));
+                        double total = bb.mediaPlayer.getTotalDuration().toSeconds();
+                        totalTimer.setText(String.format("%02.0f:%02.0f", Math.floor(total/60),Math.floor(total%60)));
+                        
+                    }
             }
         });
+        bb.mediaPlayer.totalDurationProperty().addListener((obs, oldD, newD) -> {
+            timeSlider.setMax(newD.toSeconds());
+        });
+        timeSlider.valueChangingProperty().addListener((obs,wasCh,isCh)->{
+            if(! isCh){
+                bb.mediaPlayer.seek(Duration.seconds(timeSlider.getValue()));
+            }
+        });
+        timeSlider.valueProperty().addListener((obs, oldVal,newVal) -> {
+            if(! timeSlider.isValueChanging()){
+                double current = bb.mediaPlayer.getCurrentTime().toSeconds();
+                if(Math.abs(current - newVal.doubleValue())>0.5){
+                    bb.mediaPlayer.seek(Duration.seconds(newVal.doubleValue()));
+                }
+            }
+        });
+        
+        /*--------------For Play-Pause button Sync--------------------------------*/
+        bb.mediaPlayer.statusProperty().addListener(new ChangeListener<MediaPlayer.Status>() {
+            @Override
+            public void changed(ObservableValue<? extends MediaPlayer.Status> observable, MediaPlayer.Status oldValue, MediaPlayer.Status newValue) {
+                if(newValue.equals(MediaPlayer.Status.PLAYING)){
+                    playButton.setSelected(true);
+                }
+                else
+                    playButton.setScaleShape(false);
+            }
+        });
+        
+        
         nowPlaying.setText("Not Playing");
         trackDetails.setWrapText(true);
         trackDetails.setText("No track Playing.\na");
