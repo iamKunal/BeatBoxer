@@ -7,6 +7,7 @@ package beatboxer;
 
 import java.net.URL;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.beans.binding.Bindings;
@@ -63,19 +64,44 @@ public class BeatBoxerController implements Initializable {
     private Label totalTimer;
     @FXML
     private ToggleButton playButton;
+    public static ChangeListener currentTimePropertyListener;
+    public static ChangeListener totalDurationPropertyListener;
+    public static ChangeListener statusPropertyListener;
+    public static ChangeListener onEndOfMediaPropertyListener;
     @FXML
     public void playMusic(){        
         BeatBoxer.play();
     }
+    public void playAll(){
+        Show show = new Show();
+        CreateConnection c = new CreateConnection();
+        ResultSet res;
+        try{
+		Statement count = c.con.createStatement();
+                res=count.executeQuery("Select * from Track NATURAL JOIN TrackInfo NATURAL JOIN Artist natural join Album");
+                
+                while(res.next()){
+                    System.out.println(res.getString("TrackName"));
+                }
+        }
+        catch(Exception e){
+            ;
+        }
+    
+        ObservableList allSongs = FXCollections.observableArrayList();
+    }
     public void playPlaylist(BBItem playlist){
+        if(playlist.getId()==0){
+            playAll();
+        }
     }
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         /*------------Instance of the Main BeatBoxer Class for easy Access --------*/
         BeatBoxer bb = new BeatBoxer();
-        /*-------------Slider and Current Time Listeners----------------------------*/
-        bb.mediaPlayer.currentTimeProperty().addListener(new ChangeListener<Duration>() {
+        /*-------------Slider and Time Listeners----------------------------*/
+        currentTimePropertyListener =  new ChangeListener<Duration>() {
             @Override
             public void changed(
                     ObservableValue<? extends Duration> observableValue,
@@ -86,13 +112,32 @@ public class BeatBoxerController implements Initializable {
                         timer.setText(String.format("%02.0f:%02.0f", Math.floor(current.toSeconds()/60),Math.floor(current.toSeconds()%60)));
                         double total = bb.mediaPlayer.getTotalDuration().toSeconds();
                         totalTimer.setText(String.format("%02.0f:%02.0f", Math.floor(total/60),Math.floor(total%60)));
-                        
+                        if(Math.abs(current.toSeconds()-total)<0.1){
+                            playButton.setSelected(false);
+                            bb.mediaPlayer.stop();
+                        }
                     }
             }
-        });
-        bb.mediaPlayer.totalDurationProperty().addListener((obs, oldD, newD) -> {
-            timeSlider.setMax(newD.toSeconds());
-        });
+        };
+        totalDurationPropertyListener = new ChangeListener<Duration>(){
+            @Override
+            public void changed(ObservableValue<? extends Duration> obs, Duration oldD, Duration newD) {
+                timeSlider.setMax(newD.toSeconds());
+            }
+        };
+        /*--------------For Play-Pause button Sync--------------------------------*/
+        statusPropertyListener = new ChangeListener<MediaPlayer.Status>() {
+            @Override
+            public void changed(ObservableValue<? extends MediaPlayer.Status> observable, MediaPlayer.Status oldValue, MediaPlayer.Status newValue) {
+                if(newValue.equals(MediaPlayer.Status.PLAYING)){
+                    playButton.setSelected(true);
+                    
+                }
+                else
+                    playButton.setScaleShape(false);
+            }
+        };
+        bb.initMediaPlayer();       //Adds all the required Listeners
         timeSlider.valueChangingProperty().addListener((obs,wasCh,isCh)->{
             if(! isCh){
                 bb.mediaPlayer.seek(Duration.seconds(timeSlider.getValue()));
@@ -107,23 +152,11 @@ public class BeatBoxerController implements Initializable {
             }
         });
         
-        /*--------------For Play-Pause button Sync--------------------------------*/
-        bb.mediaPlayer.statusProperty().addListener(new ChangeListener<MediaPlayer.Status>() {
-            @Override
-            public void changed(ObservableValue<? extends MediaPlayer.Status> observable, MediaPlayer.Status oldValue, MediaPlayer.Status newValue) {
-                if(newValue.equals(MediaPlayer.Status.PLAYING)){
-                    playButton.setSelected(true);
-                }
-                else
-                    playButton.setScaleShape(false);
-            }
-        });
-        
         
         nowPlaying.setText("Not Playing");
         trackDetails.setWrapText(true);
         trackDetails.setText("No track Playing.\na");
-        BBSong a = new BBSong(1,"ABC","CDEF","FGH","GHI","loc");
+        BBSong a = new BBSong(1,"ABC","CDEF","FGH","GHI","/home/kunal/Documents/JAVA/cs.mp3");
         ObservableList<BBSong> _nowplayinglist = FXCollections.observableArrayList();
         for (int i = 0; i < 1; i++) {        
             _nowplayinglist.add(a);
@@ -134,7 +167,7 @@ public class BeatBoxerController implements Initializable {
         }
         ObservableList<BBItem> _playlists = FXCollections.observableArrayList();
         for (int i = 0; i < 1; i++) {        
-            _playlists.add(new BBItem(1,"ABC"));
+            _playlists.add(new BBItem(0,"All Songs"));
         }
         allsongsListView.setItems(_allsongs);
         playlistListView.setItems(_playlists);
@@ -159,10 +192,11 @@ public class BeatBoxerController implements Initializable {
                    if(nowPlayingListView.getSelectionModel().getSelectedItem()==null)
                         System.out.println("empty1");//pass
                    else{
-                        BBItem a = nowPlayingListView.getSelectionModel().getSelectedItem();
+                        BBSong a = nowPlayingListView.getSelectionModel().getSelectedItem();
                         nowPlayingListView.getSelectionModel().select(-1);
                         //use this to do whatever you want to. Open Link etc.
                          System.out.println(a.getId());
+                         bb.play(a);
                     }
                 }
             }
@@ -176,7 +210,7 @@ public class BeatBoxerController implements Initializable {
                    if(allsongsListView.getSelectionModel().getSelectedItem()==null)
                         System.out.println("empty2");//pass
                    else{
-                        BBItem a = allsongsListView.getSelectionModel().getSelectedItem();
+                        BBSong a = allsongsListView.getSelectionModel().getSelectedItem();
                         allsongsListView.getSelectionModel().select(-1);
                         //use this to do whatever you want to. Open Link etc.
                          System.out.println(a.getId());
@@ -197,7 +231,7 @@ public class BeatBoxerController implements Initializable {
                         BBItem a = playlistListView.getSelectionModel().getSelectedItem();
                         playlistListView.getSelectionModel().select(-1);
                         //use this to do whatever you want to. Open Link etc.
-                         System.out.println(a.getId());
+                        playPlaylist(a);
                     }
                 }
             }
