@@ -1,57 +1,58 @@
 package beatboxer;
 import java.sql.*;
+import javafx.collections.*;
 public class Show extends CreateConnection{
 
-	public ResultSet ShowAllTracks(){
+	public ObservableList<BBSong> ShowAllTracks(){
 	try{
 		Statement count = con.createStatement();
         ResultSet res=count.executeQuery("Select * from Track NATURAL JOIN TrackInfo NATURAL JOIN artist natural join album");
-        return res;
+        return BBGenerator.song(res);
 	}catch(Exception e){
 		
 	}
 	return null;
 	}
-	public ResultSet ShowAllArtists(){
+	public ObservableList<BBItem> ShowAllArtists(){
 		try{
 			Statement count = con.createStatement();
 	        ResultSet res=count.executeQuery("Select * from Artist");
-	        return res;
+	        return BBGenerator.item(res);
 		}catch(Exception e){
 			
 		}
 		return null;
 	}
-	public ResultSet ShowAllTracksByArtists(int artistId){
+	public ObservableList<BBItem> ShowAllTracksByArtists(int artistId){
 		try{
 			String sql = "select * from Track NATURAL JOIN TrackInfo WHERE ArtistId=?";
 			PreparedStatement statement = con.prepareStatement(sql);
 			statement.setInt(1,artistId);
 			ResultSet res=statement.executeQuery();
-			return res;
+			return BBGenerator.item(res);
 		}catch(Exception e){
 			
 		}
 		return null;
 		
 	}
-	public ResultSet ShowAllAlbums(){
+	public ObservableList<BBItem> ShowAllAlbums(){
 		try{
 			Statement count = con.createStatement();
 	        ResultSet res=count.executeQuery("Select * from Album");
-	        return res;
+	        return BBGenerator.item(res);
 		}catch(Exception e){
 			
 		}
 		return null;
 	}
-	public ResultSet ShowAllTracksinAlbum(int albumId){
+	public ObservableList<BBItem> ShowAllTracksinAlbum(int albumId){
 		try{
 			String sql = "select * from Track NATURAL JOIN TrackInfo WHERE AlbumId=?";
 			PreparedStatement statement = con.prepareStatement(sql);
 			statement.setInt(1,albumId);
 			ResultSet res=statement.executeQuery();
-			return res;
+			return BBGenerator.item(res);
 		}catch(Exception e){
 			
 		}

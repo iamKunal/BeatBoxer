@@ -5,7 +5,6 @@
  */
 package beatboxer;
 
-import javafx.beans.property.StringProperty;
 
 /**
  *
@@ -39,9 +38,6 @@ public class BBSong extends BBItem {
     }
     public void setGenre(String genre){
         this.genre=genre;
-    }
-    public String getLocation(){
-        return this.location;
     }
     public String stringified(){
         return "Name\t:\t" + name + '\n'

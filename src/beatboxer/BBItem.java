@@ -11,8 +11,7 @@ package beatboxer;
  */
 public class BBItem {
     protected int Id;
-    protected
-            String name;
+    protected String name;
     public BBItem(int Id,String name){
         this.Id = Id;
         this.name = name;
