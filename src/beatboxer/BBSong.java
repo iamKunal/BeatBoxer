@@ -5,7 +5,6 @@
  */
 package beatboxer;
 
-import javafx.beans.property.StringProperty;
 
 /**
  *
