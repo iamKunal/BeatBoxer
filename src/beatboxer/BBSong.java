@@ -5,6 +5,9 @@
  */
 package beatboxer;
 
+import java.io.File;
+import java.nio.file.Paths;
+
 
 /**
  *
@@ -17,27 +20,64 @@ public class BBSong extends BBItem {
     private String location;
     public BBSong(){
         super();
-        this.artist=this.genre=this.location="";
+        this.artist=this.genre=this.location="Unknown";
     }
     public BBSong(int Id, String name, String album, String artist, String genre, String location){
-        super(Id,name);
-        this.album=album;
-        this.artist=artist;
-        this.genre=genre;
+        this.setAlbum(album);
+        this.setArtist(artist);
+        this.setGenre(genre);
         this.location=location;
+        this.setName(name);
+        
     }
     @Override
     public String toString(){
         return name + "   |   " + album + "   |   " + artist + "   |   " + genre;
     }
+    @Override
+    public void setName(String name){
+        try{
+               this.name = name;
+               if(name==""){
+                   this.name=Paths.get(location).getFileName().toString();
+               }
+            }
+        catch (NullPointerException e){
+            this.name=Paths.get(location).getFileName().toString();
+        }
+    }
     public void setAlbum(String album){
-        this.album=album;
+        try{
+           this.album = album;
+           if(album=="")
+               this.album="Uknown";
+        }
+        catch (NullPointerException e){
+            this.album = "Unknown";
+        }
     }
     public void setArtist(String artist){
-        this.artist=artist;
+        try{
+           this.artist = artist;
+           if(artist=="")
+               this.artist="Uknown";
+        }
+        catch (NullPointerException e){
+            this.artist = "Unknown";
+        }
     }
     public void setGenre(String genre){
-        this.genre=genre;
+        try{
+           this.genre = genre;
+           if(genre=="")
+               this.genre="Uknown";
+        }
+        catch (NullPointerException e){
+            this.genre = "Unknown";
+        }
+    }
+    public String getLocation(){
+        return this.location;
     }
     public String stringified(){
         return "Name\t:\t" + name + '\n'

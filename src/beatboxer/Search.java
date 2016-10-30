@@ -4,7 +4,7 @@ public class Search extends CreateConnection{
 	
 	public ResultSet SearchAlbum(String string){
 		try {
-			String sql = "select * from Album WHERE AlbumName LIKE ?";
+			String sql = "select * from album WHERE albumname LIKE ?";
 			PreparedStatement statement = con.prepareStatement(sql);
 			statement.setString(1,'%'+string+'%');
 			ResultSet res=statement.executeQuery();
@@ -17,8 +17,8 @@ public class Search extends CreateConnection{
 	
 	public ResultSet SearchTrack(String string){
 		try {
-			String sql = "select * from Track NATURAL JOIN TrackInfo" + 
-					"NATURAL JOIN artist NATURAL JOIN album WHERE TrackName LIKE ?";
+			String sql = "select * from track NATURAL JOIN trackinfo" + 
+					"NATURAL JOIN artist NATURAL JOIN album WHERE trackname LIKE ?";
 			PreparedStatement statement = con.prepareStatement(sql);
 			statement.setString(1,"%"+string+"%");
 			ResultSet res=statement.executeQuery();
@@ -31,7 +31,7 @@ public class Search extends CreateConnection{
 	
 	public ResultSet SearchArtist(String string){
 		try {
-			String sql = "select * from Artist WHERE ArtistName LIKE ?";
+			String sql = "select * from artist WHERE artistname LIKE ?";
 			PreparedStatement statement = con.prepareStatement(sql);
 			statement.setString(1,'%'+string+'%');
 			ResultSet res=statement.executeQuery();

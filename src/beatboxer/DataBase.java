@@ -8,32 +8,32 @@ public class DataBase{
 			Statement check = con.createStatement();
 			check.execute("create database BeatBoxer");
 			check.execute("use BeatBoxer");
-				check.execute("create table Track(" +
-						"TrackId int primary key NOT NULL," +
-						"TrackName varchar(50) NOT NULL," +
-						"DateAdded date NOT NULL," +
-						"Location varchar(500) NOT NULL," +
-						"Genre varchar(30)," +
-						"NoOfTimesPlayed int," +
-						"MD5Hash varchar(128))");
-				check.execute("create table Artist(" +
-						"ArtistId int primary key NOT NULL," +
-						"ArtistName varchar(50) NOT NULL)");
-				check.execute("create table Album(" + 
-						"AlbumId int primary key NOT NULL," +
-						"AlbumName varchar(100) NOT NULL)");
-				check.execute("create table Directories(FolderLocation varchar(500) NOT NULL)");
-				check.execute("create table Favourites(TrackId int primary key NOT NULL)");
-				check.execute("create table PlayList(" +
-						"PlayListId int primary key NOT NULL," +
-						"PlayListName varchar(100) NOT NULL)");
-				check.execute("create table PlayListInfo("+
-						"PlayListId int NOT NULL," +
-						"TrackId int NOT NULL," +
-						"PlayOrder int NOT NULL," +
-						"primary key(PlayListId, TrackId))");
-				check.execute("create table TrackInfo(TrackId int Primary key NOT NULL," +
-						"ArtistId int,AlbumId int)");
+				check.execute("create table track(" +
+						"trackid int primary key NOT NULL," +
+						"trackname varchar(50) NOT NULL," +
+						"dateadded date NOT NULL," +
+						"location varchar(500) NOT NULL," +
+						"genre varchar(30)," +
+						"nooftimesplayed int," +
+						"md5hash varchar(128))");
+				check.execute("create table artist(" +
+						"artistid int primary key NOT NULL," +
+						"artistname varchar(50) NOT NULL)");
+				check.execute("create table album(" + 
+						"albumid int primary key NOT NULL," +
+						"albumname varchar(100) NOT NULL)");
+				check.execute("create table directories(folderlocation varchar(500) NOT NULL)");
+				check.execute("create table favourites(trackid int primary key NOT NULL)");
+				check.execute("create table playlist(" +
+						"playlistid int primary key NOT NULL," +
+						"playlistname varchar(100) NOT NULL)");
+				check.execute("create table playlistinfo("+
+						"playlistid int NOT NULL," +
+						"trackid int NOT NULL," +
+						"trackorder int NOT NULL," +
+						"primary key(playlistid, trackid))");
+				check.execute("create table trackinfo(trackid int Primary key NOT NULL," +
+						"artistid int,albumid int)");
 		}catch(Exception e){
 			
 		}
