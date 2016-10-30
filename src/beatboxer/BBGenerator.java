@@ -22,4 +22,11 @@ public class BBGenerator {
 		} catch (SQLException e) { }
 		return list;
 	}
+        public static int find(ObservableList<BBSong> haystack, BBSong needle){
+            for (int i = 0; i < haystack.size(); i++) {
+                if(haystack.get(i).getId()==needle.getId())
+                    return i;
+            }
+            return -1;
+        }
 }

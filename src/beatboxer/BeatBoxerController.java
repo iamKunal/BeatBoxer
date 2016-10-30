@@ -98,12 +98,14 @@ public class BeatBoxerController implements Initializable {
                     Duration current) {
                     if(! timeSlider.isValueChanging()){
                         timeSlider.setValue(current.toSeconds());
-                        timer.setText(String.format("%02.0f:%02.0f", Math.floor(current.toSeconds()/60),Math.floor(current.toSeconds()%60)));
+                        timer.setText(String.format("%02.0f:%02.0f", Math.floor(current.toSeconds()/60),Math.floor(current.toSeconds()%60+0.5)));
                         double total = bb.mediaPlayer.getTotalDuration().toSeconds();
                         totalTimer.setText(String.format("%02.0f:%02.0f", Math.floor(total/60),Math.floor(total%60)));
-                        if(Math.abs(current.toSeconds()-total)<0.1){
+                        if(Math.abs(current.toSeconds()-total)<0.5){
                             playButton.setSelected(false);
                             bb.mediaPlayer.stop();
+                            if(bb.autoPlay)
+                                bb.mediaPlayer.play();
                         }
                     }
             }

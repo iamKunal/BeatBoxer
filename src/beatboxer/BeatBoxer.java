@@ -6,6 +6,7 @@
 package beatboxer;
 
 import java.io.File;
+import java.util.ArrayList;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -15,7 +16,6 @@ import javafx.scene.Scene;
 import javafx.scene.media.*;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
 /**
  *
  * @author kunal
@@ -23,8 +23,8 @@ import javafx.util.Duration;
 public class BeatBoxer extends Application {
     public static MediaPlayer mediaPlayer;
     public static ObservableList<BBSong> nowPlaying;
-    public static boolean autoPlay=false;
-    public static int currentId=0;
+    public static boolean autoPlay=true;
+    public static int currentIndex=-1;
     @Override
     public void start(Stage stage) throws Exception {
         
@@ -33,6 +33,17 @@ public class BeatBoxer extends Application {
         mediaPlayer = toMediaPlayer(nowPlaying.get(0));
         Parent root = FXMLLoader.load(getClass().getResource("BeatBoxer.fxml"));
         Scene scene = new Scene(root);
+        
+        try{
+            System.out.println(new BBScanner().getMeta("/home/kunal/Documents/JAVA/sia.mp3"));
+        }
+        catch(Exception e){
+            ;
+        }
+        ArrayList<String> lst = new BBScanner().scan("/home/kunal/Documents/JAVA/");
+        for(String s : lst){
+            System.out.println(s);
+        }
         scene.getStylesheets().add(getClass().getResource("stylesheet.css").toExternalForm());
         stage.setScene(scene);
         stage.show();
@@ -46,21 +57,28 @@ public class BeatBoxer extends Application {
                 if(nowPlaying.size()==1){
                     mediaPlayer.play();
                 }
-                else if(currentId==0){
+                else if(currentIndex==nowPlaying.size()-1){
                     BBSong song = nowPlaying.get(0);
+                    currentIndex=0;
+                    play(song);
+                }
+                else{
+                    BBSong song = nowPlaying.get(++currentIndex);
                     play(song);
                 }
             }
             else {
-                
+                mediaPlayer.play();
             }
         }
+        else
             mediaPlayer.play();
     }
     public static void play(BBSong track){
         mediaPlayer.dispose();
         mediaPlayer = toMediaPlayer(track.getLocation());
         initMediaPlayer();
+        currentIndex = BBGenerator.find(nowPlaying, track);
         mediaPlayer.play();
     }
     public static void initMediaPlayer(){
@@ -72,8 +90,14 @@ public class BeatBoxer extends Application {
     public static void hey(){
         System.out.println("YOLO");
     }
+    public static Media toMedia(String URI){
+        return (new Media(new File(URI).toURI().toString()));
+    }
+    public static Media toMedia(BBSong song){
+        return (toMedia(song.getLocation()));
+    }
     public static MediaPlayer toMediaPlayer(String URI){
-        return new MediaPlayer(new Media(new File(URI).toURI().toString()));
+        return new MediaPlayer(toMedia(URI));
     }
     public static MediaPlayer toMediaPlayer(BBSong song){
         return toMediaPlayer(song.getLocation());

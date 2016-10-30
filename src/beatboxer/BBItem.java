@@ -13,8 +13,13 @@ public class BBItem {
     protected int Id;
     protected String name;
     public BBItem(int Id,String name){
-        this.Id = Id;
-        this.name = name;
+        try{
+            this.Id = Id;
+        }
+        catch (NullPointerException e){
+            this.Id = -1;
+        }
+        this.setName(name);
     }
     public BBItem(){
         this.Id = 0;
@@ -24,7 +29,12 @@ public class BBItem {
         return name;
     }
     public void setName(String name){
-        this.name = name;
+        try{
+               this.name = name;
+            }
+        catch (NullPointerException e){
+            this.name = "";
+        }
     }
     public int getId(){
         return this.Id;
