@@ -26,7 +26,7 @@ public class BBSong extends BBItem {
         this.setAlbum(album);
         this.setArtist(artist);
         this.setGenre(genre);
-        this.location=location;
+        this.setLocation(location);
         this.setName(name);
         
     }
@@ -75,6 +75,9 @@ public class BBSong extends BBItem {
         catch (NullPointerException e){
             this.genre = "Unknown";
         }
+    }
+    public void setLocation(String location){
+        this.location = location;
     }
     public String getLocation(){
         return this.location;

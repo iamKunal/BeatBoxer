@@ -6,9 +6,9 @@ public class Show extends CreateConnection{
 	public ObservableList<BBSong> ShowAllTracks(){
 	try{
 		Statement count = con.createStatement();
-        ResultSet res=count.executeQuery("Select * from track NATURAL JOIN trackinfo NATURAL JOIN artist natural join album");
+        ResultSet res=count.executeQuery("select * from track natural join artist natural join album natural join trackinfo");
         return BBGenerator.song(res);
-	}catch(Exception e){
+	}catch(SQLException e){
 		
 	}
 	return null;
@@ -18,7 +18,7 @@ public class Show extends CreateConnection{
 			Statement count = con.createStatement();
 	        ResultSet res=count.executeQuery("Select * from artist");
 	        return BBGenerator.item(res);
-		}catch(Exception e){
+		}catch(SQLException e){
 			
 		}
 		return null;
@@ -30,7 +30,7 @@ public class Show extends CreateConnection{
 			statement.setInt(1,artistId);
 			ResultSet res=statement.executeQuery();
 			return BBGenerator.item(res);
-		}catch(Exception e){
+		}catch(SQLException e){
 			
 		}
 		return null;
@@ -41,7 +41,7 @@ public class Show extends CreateConnection{
 			Statement count = con.createStatement();
 	        ResultSet res=count.executeQuery("Select * from album");
 	        return BBGenerator.item(res);
-		}catch(Exception e){
+		}catch(SQLException e){
 			
 		}
 		return null;
@@ -53,7 +53,7 @@ public class Show extends CreateConnection{
 			statement.setInt(1,albumId);
 			ResultSet res=statement.executeQuery();
 			return BBGenerator.item(res);
-		}catch(Exception e){
+		}catch(SQLException e){
 			
 		}
 		return null;

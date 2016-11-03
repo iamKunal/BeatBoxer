@@ -17,7 +17,7 @@ public class BBGenerator {
 		ObservableList<BBSong> list = FXCollections.observableArrayList();
 		try {
 			while(res.next()){
-				list.add(new BBSong(res.getInt(3),res.getString(4),res.getString(11),res.getString(10),res.getString(7),res.getString(6)));
+				list.add(new BBSong(res.getInt(1),res.getString(4),res.getString(11),res.getString(10),res.getString(7),res.getString(6)));
 			}
 		} catch (SQLException e) { }
 		return list;
