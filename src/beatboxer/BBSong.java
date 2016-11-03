@@ -15,6 +15,18 @@ import java.nio.file.Paths;
  */
 public class BBSong extends BBItem {
     private String album;
+    private static final String SEP="   -   ";
+    public String getAlbum() {
+        return album;
+    }
+
+    public String getArtist() {
+        return artist;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
     private String artist;
     private String genre;
     private String location;
@@ -23,6 +35,7 @@ public class BBSong extends BBItem {
         this.artist=this.genre=this.location="Unknown";
     }
     public BBSong(int Id, String name, String album, String artist, String genre, String location){
+        this.Id=Id;
         this.setAlbum(album);
         this.setArtist(artist);
         this.setGenre(genre);
@@ -32,7 +45,7 @@ public class BBSong extends BBItem {
     }
     @Override
     public String toString(){
-        return name + "   |   " + album + "   |   " + artist + "   |   " + genre;
+        return name + SEP + album + SEP + artist + SEP + genre;
     }
     @Override
     public void setName(String name){

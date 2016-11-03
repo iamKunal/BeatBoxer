@@ -8,6 +8,10 @@ package beatboxer;
 import java.io.File;
 import java.util.ArrayList;
 import javafx.application.Application;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
@@ -23,13 +27,14 @@ import javafx.util.Duration;
 public class BeatBoxer extends Application {
     public static MediaPlayer mediaPlayer;
     public static ObservableList<BBSong> nowPlaying;
-    public static boolean autoPlay=true;
-    public static int currentIndex=-1;
+    public static boolean autoPlay=false;
+    public static int currentIndex=0;
+    public static StringProperty state;
     @Override
     public void start(Stage stage) throws Exception {
-        
+        state= new SimpleStringProperty("Unknown");
         nowPlaying = FXCollections.observableArrayList();
-        nowPlaying.add(new BBSong(1,"ABC","CDEF","FGH","GHI","/home/kunal/Documents/JAVA/siaa.mp3"));
+        nowPlaying.add(new BBSong(1,"ABC","CDEF","FGH","GHI","/home/kunal/Documents/JAVA/cs.mp3"));
         mediaPlayer = toMediaPlayer(nowPlaying.get(0));
         Parent root = FXMLLoader.load(getClass().getResource("BeatBoxer.fxml"));
         Scene scene = new Scene(root);
@@ -47,38 +52,67 @@ public class BeatBoxer extends Application {
         scene.getStylesheets().add(getClass().getResource("stylesheet.css").toExternalForm());
         stage.setScene(scene);
         stage.show();
-        mediaPlayer.play();
+//        mediaPlayer.play();
+        state.addListener(new ChangeListener<String>(){
+            @Override
+            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                System.out.println(newValue);
+                if(newValue.equals("autoPlayNext")){
+//                    playNext();
+                        if(currentIndex==nowPlaying.size()-1){
+                            BBSong song = (nowPlaying.get(0));
+                            play(song);
+                            if(!autoPlay)
+                                mediaPlayer.pause();
+                            currentIndex=0;
+                        }
+                        else{
+                            BBSong song = (nowPlaying.get(++currentIndex));
+                            play(song);
+                        }
+                }
+                else if(newValue.equals("EOF")){
+                    mediaPlayer.stop();
+                }
+                
+            }
+            
+        });
     }
     public static void play(){
-        if(mediaPlayer.getStatus().equals(MediaPlayer.Status.PLAYING))
+        System.out.println("a");
+        if(mediaPlayer.getStatus().equals(MediaPlayer.Status.PLAYING)){
             mediaPlayer.pause();
-        else if(mediaPlayer.getStatus().equals(MediaPlayer.Status.STOPPED)){
-            if(autoPlay){
-                if(nowPlaying.size()==1){
-                    mediaPlayer.play();
-                }
-                else if(currentIndex==nowPlaying.size()-1){
-                    BBSong song = nowPlaying.get(0);
-                    currentIndex=0;
-                    play(song);
-                }
-                else{
-                    BBSong song = nowPlaying.get(++currentIndex);
-                    play(song);
-                }
-            }
-            else {
-                mediaPlayer.play();
-            }
         }
-        else
+        else {
             mediaPlayer.play();
+        }
+    }
+    public static void playNext(){
+        if(currentIndex==nowPlaying.size()-1){
+            if(autoPlay){
+                BBSong song = nowPlaying.get(0);
+                currentIndex=0;
+//                System.out.println("a");
+                play(song);
+//                System.out.println("b");
+            }
+            else
+                mediaPlayer.stop();
+        }
+        else{
+            currentIndex++;
+            BBSong song = nowPlaying.get(currentIndex);
+            System.out.println(song);
+            play(song);
+        }
     }
     public static void play(BBSong track){
         mediaPlayer.dispose();
         mediaPlayer = toMediaPlayer(track.getLocation());
         initMediaPlayer();
         currentIndex = BBGenerator.find(nowPlaying, track);
+        System.out.println("cI=" + currentIndex  + track.getId() + track);
         mediaPlayer.play();
     }
     public static void initMediaPlayer(){

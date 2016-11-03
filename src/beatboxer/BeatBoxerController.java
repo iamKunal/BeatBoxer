@@ -49,6 +49,8 @@ public class BeatBoxerController implements Initializable {
     @FXML
     private Label nowPlaying;
     @FXML
+    private TabPane listViewTabPane;
+    @FXML
     private ListView<BBSong> nowPlayingListView;
     @FXML
     private ListView<BBSong> allsongsListView;
@@ -69,26 +71,39 @@ public class BeatBoxerController implements Initializable {
     public static ChangeListener statusPropertyListener;
     public static ChangeListener onEndOfMediaPropertyListener;
     @FXML
-    public void playMusic(){        
+    public void playMusic(){
         BeatBoxer.play();
     }
-    public void playAll(){
+    public void playAll(){      //play All Songs
         Show show = new Show();
-        ObservableList allSongs = show.ShowAllTracks();
-        for (int i = 0; i < allSongs.size(); i++) {
-            System.out.println(allSongs.get(i));
-        }
+//        ObservableList<BBSong> allSongs = show.ShowAllTracks();
+        ObservableList<BBSong> allSongs = FXCollections.observableArrayList();
+        allSongs.addAll(new BBSong(1, "Sia", "Cheap", "Siaaa", "Pop", "/home/kunal/Documents/JAVA/siaa.mp3"),
+                new BBSong(2, "CS", "CSS", "Artist", "Rock", "/home/kunal/Documents/JAVA/cs.mp3"));
+//        System.out.println(allSongs.get(0).getId());
+        BeatBoxer.nowPlaying.setAll(allSongs);
+        
+        BeatBoxer.play(BeatBoxer.nowPlaying.get(0));
+    }
+    private String getTrackDetails(){
+        return BeatBoxer.nowPlaying.get((BeatBoxer.currentIndex)).stringified();
+    }
+    private int getListViewIndex(ListView<BBSong> l, BBSong song){
+        return BBGenerator.find(l.getItems(), song);
     }
     public void playPlaylist(BBItem playlist){
         if(playlist.getId()==0){
             playAll();
         }
+        else{
+            
+        }
+        nowPlayingListView.setItems(BeatBoxer.nowPlaying);
+        listViewTabPane.getSelectionModel().select(0);
     }
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        /*------------Instance of the Main BeatBoxer Class for easy Access --------*/
-        BeatBoxer bb = new BeatBoxer();
         /*-------------Slider and Time Listeners----------------------------*/
         currentTimePropertyListener =  new ChangeListener<Duration>() {
             @Override
@@ -99,13 +114,25 @@ public class BeatBoxerController implements Initializable {
                     if(! timeSlider.isValueChanging()){
                         timeSlider.setValue(current.toSeconds());
                         timer.setText(String.format("%02.0f:%02.0f", Math.floor(current.toSeconds()/60),Math.floor(current.toSeconds()%60+0.5)));
-                        double total = bb.mediaPlayer.getTotalDuration().toSeconds();
-                        totalTimer.setText(String.format("%02.0f:%02.0f", Math.floor(total/60),Math.floor(total%60)));
-                        if(Math.abs(current.toSeconds()-total)<0.5){
-                            playButton.setSelected(false);
-                            bb.mediaPlayer.stop();
-                            if(bb.autoPlay)
-                                bb.mediaPlayer.play();
+                        try{
+                            double total = BeatBoxer.mediaPlayer.getTotalDuration().toSeconds();
+                            totalTimer.setText(String.format("%02.0f:%02.0f", Math.floor(total/60),Math.floor(total%60)));
+                            trackDetails.setText(getTrackDetails());
+                            nowPlayingListView.getSelectionModel().clearAndSelect(BeatBoxer.currentIndex);
+                            if(Math.abs(current.toSeconds()-total)<0.5){
+                                playButton.setSelected(false);
+                                BeatBoxer.state.setValue("EOF");
+    //                            bb.mediaPlayer.dispose();
+//                                if(BeatBoxer.autoPlay){
+                                    BeatBoxer.state.setValue("autoPlayNext");
+    //                                BeatBoxer.play();
+//                                }
+//                                else
+//                                    BeatBoxer.state.setValue("playNext");
+                            }
+                        }
+                        catch(NullPointerException e){
+                            ;
                         }
                     }
             }
@@ -122,23 +149,28 @@ public class BeatBoxerController implements Initializable {
             public void changed(ObservableValue<? extends MediaPlayer.Status> observable, MediaPlayer.Status oldValue, MediaPlayer.Status newValue) {
                 if(newValue.equals(MediaPlayer.Status.PLAYING)){
                     playButton.setSelected(true);
-                    
+                    nowPlaying.setText("Now Playing...");
                 }
-                else
+                else{
                     playButton.setScaleShape(false);
+                    if(newValue.equals(MediaPlayer.Status.PAUSED))
+                        nowPlaying.setText("Now Paused...");
+                    else
+                        nowPlaying.setText("Not Playing...");
+                }
             }
         };
-        bb.initMediaPlayer();       //Adds all the required Listeners
+        BeatBoxer.initMediaPlayer();       //Adds all the required Listeners
         timeSlider.valueChangingProperty().addListener((obs,wasCh,isCh)->{
             if(! isCh){
-                bb.mediaPlayer.seek(Duration.seconds(timeSlider.getValue()));
+                BeatBoxer.mediaPlayer.seek(Duration.seconds(timeSlider.getValue()));
             }
         });
         timeSlider.valueProperty().addListener((obs, oldVal,newVal) -> {
             if(! timeSlider.isValueChanging()){
-                double current = bb.mediaPlayer.getCurrentTime().toSeconds();
+                double current = BeatBoxer.mediaPlayer.getCurrentTime().toSeconds();
                 if(Math.abs(current - newVal.doubleValue())>0.5){
-                    bb.mediaPlayer.seek(Duration.seconds(newVal.doubleValue()));
+                    BeatBoxer.mediaPlayer.seek(Duration.seconds(newVal.doubleValue()));
                 }
             }
         });
@@ -187,7 +219,7 @@ public class BeatBoxerController implements Initializable {
                         nowPlayingListView.getSelectionModel().select(-1);
                         //use this to do whatever you want to. Open Link etc.
                          System.out.println(a.getId());
-                         bb.play(a);
+                         BeatBoxer.play(a);
                     }
                 }
             }
@@ -205,6 +237,8 @@ public class BeatBoxerController implements Initializable {
                         allsongsListView.getSelectionModel().select(-1);
                         //use this to do whatever you want to. Open Link etc.
                          System.out.println(a.getId());
+                         playPlaylist(new BBItem(0, "All Songs"));
+                         BeatBoxer.play(a);
                     }
                 }
             }
