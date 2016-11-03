@@ -8,11 +8,11 @@ public class Delete extends CreateConnection{
 			PreparedStatement statement = con.prepareStatement(sql);
 			statement.setInt(1,TrackId);
 			statement.executeUpdate();
-			String sql1 = "delete from trackinfo where trackid = ?";
-			PreparedStatement statement1 = con.prepareStatement(sql1);
-			statement1.setInt(1,TrackId);
-			statement1.executeUpdate();
-		}catch(Exception e){
+			sql = "delete from trackinfo where trackid = ?";
+			statement = con.prepareStatement(sql);
+			statement.setInt(1,TrackId);
+			statement.executeUpdate();
+		}catch(SQLException e){
 			
 		}
 	}
@@ -29,7 +29,7 @@ public class Delete extends CreateConnection{
 			while(res.next()){
 				deleteTrack(res.getInt("trackid"));
 			}
-		}catch(Exception e){
+		}catch(SQLException e){
 			
 		}
 	}
