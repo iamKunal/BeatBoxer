@@ -271,11 +271,11 @@ var dtjava = function() {
     }
 
    function showMessageBox() {
-        var message = 'Java Plug-in is not supported by this browser. <a href="http://java.com/dt-redirect">More info</a>';
+        var message = 'Java Plug-in is not supported by this browser. <a href="https://java.com/dt-redirect">More info</a>';
         var mbStyle = 'background-color: #ffffce;text-align: left;border: solid 1px #f0c000; padding: 1.65em 1.65em .75em 0.5em; font-family: Helvetica, Arial, sans-serif; font-size: 75%; top:5;left:5;position:absolute; opacity:0.9; width:600px;';
         var messageStyle = "border: .85px; margin:-2.2em 0 0.55em 2.5em;";
 
-        var messageBox = '<img src="http://java.com/js/alert_16.png"><div style="'+ messageStyle +'"><p>'+ message + '</p>';
+        var messageBox = '<img src="https://java.com/js/alert_16.png"><div style="'+ messageStyle +'"><p>'+ message + '</p>';
 
 
         var divTag = document.createElement("div");
@@ -842,7 +842,7 @@ var dtjava = function() {
             //tell user to grant permissions and retry
             var actionLabel;
             if (notNull(app.placeholder)) {
-                var onClickFunc = function() {w.open("http://www.java.com/en/download/faq/chrome.xml"); return false;};
+                var onClickFunc = function() {w.open("https://www.java.com/en/download/faq/chrome.xml"); return false;};
                 var msg1 = "Please give Java permission to run on this browser web page.";
                 var msg2 = "Click for more information.";
                 var altText = "";
@@ -2225,7 +2225,7 @@ var dtjava = function() {
         if (!notNull(loc)) {
             loc = guessLocale();
         }
-        return 'http://java.com/dt-redirect?' +
+        return 'https://java.com/dt-redirect?' +
             ((notNull(window.location) && notNull(window.location.href)) ?
                 ('&returnPage=' + window.location.href) : '') +
             (notNull(loc) ? ('&locale=' + loc) : '');
@@ -2825,34 +2825,34 @@ var dtjava = function() {
         } catch(err) {}
     }
 
-    var javafxURL = "http://java.com/javafx";
+    var javafxURL = "https://java.com/javafx";
 
     //TODO: validate ALL messages are shown as expected and when expected (for applet/webstart/install)
     var errorMessages = {
         "launch:fx:generic" : ["JavaFX application could not launch due to system configuration.",
-            " See ", "a", "http://java.com/javafx", "java.com/javafx",
+            " See ", "a", "https://java.com/javafx", "java.com/javafx",
             " for troubleshooting information."],
         "launch:fx:generic:embedded" : ["JavaFX application could not launch due to system configuration ",
             "(", "onclick", "show error details", ").",
-            " See ", "a", "http://java.com/javafx", "java.com/javafx",
+            " See ", "a", "https://java.com/javafx", "java.com/javafx",
             " for troubleshooting information."],
         "install:fx:restart" : ["Restart your browser to complete the JavaFX installation,",
             " then return to this page."],
         "install:fx:error:generic" : ["JavaFX install not completed.",
-            " See ", "a", "http://java.com/javafx", "java.com/javafx",
+            " See ", "a", "https://java.com/javafx", "java.com/javafx",
             " for troubleshooting information."],
         "install:fx:error:download" : ["JavaFX install could not start because of a download error.",
-            " See ", "a", "http://java.com/javafx", "java.com/javafx",
+            " See ", "a", "https://java.com/javafx", "java.com/javafx",
             " for troubleshooting information."],
         "install:fx:error:cancelled" : ["JavaFX install was cancelled.",
             " Reload the page and click on the download button to try again."],
         "install:jre:error:cancelled" : ["Java install was cancelled.",
             " Reload the page and click on the download button to try again."],
         "install:jre:error:generic" : ["Java install not completed.",
-            " See ", "a", "http://java.com/", "java.com",
+            " See ", "a", "https://java.com/", "java.com",
             " for troubleshooting information."],
         "install:jre:error:download" : ["Java install could not start because of a download error.",
-            " See ", "a", "http://java.com/", "java.com/",
+            " See ", "a", "https://java.com/", "java.com/",
             " for troubleshooting information."],
         "install:inprogress:jre" : ["Java install in progress."],
         "install:inprogress:javafx" : ["JavaFX install in progress."],
@@ -2869,19 +2869,19 @@ var dtjava = function() {
             " and run the installer. Then reload the page to install JavaFX."],
         "browser":    [ 'Content can not be displayed using your Web browser. Please open this page using another browser.'],
         "jre:none":    [ 'JavaFX application requires a recent Java runtime. Please download and install the latest JRE from ',
-            'a', 'http://java.com', "java.com", '.'],
+            'a', 'https://java.com', "java.com", '.'],
         "jre:old" :    [ 'JavaFX application requires a recent Java runtime. Please download and install the latest JRE from ',
-            'a', 'http://java.com', "java.com", '.'],
+            'a', 'https://java.com', "java.com", '.'],
         "jre:plugin":  ['b', "A Java plugin is required to view this content.", 'br',
-            "Make sure that ", "a", 'http://java.com', "a recent Java runtime",
+            "Make sure that ", "a", 'https://java.com', "a recent Java runtime",
             " is installed, and the Java plugin is enabled."],
         "jre:blocked": ["Please give Java permission to run. This will allow Java to present content provided on this page."],
         "jre:unsupported": ["b", "Java is required to view this content but Java is currently unsupported on this platform.",
-            "br", "Please consult ", "a", "http://java.com", "the Java documentation",
+            "br", "Please consult ", "a", "https://java.com", "the Java documentation",
             " for list of supported platforms."],
         "jre:browser" : ["b", "Java plugin is required to view this content but Java plugin is currently unsupported in this browser.",
             "br", "Please try to launch this application using other browser. Please consult ",
-            "a", "http://java.com", "the Java documentation",
+            "a", "https://java.com", "the Java documentation",
             " for list of supported browsers for your OS."],
         "javafx:unsupported" : ["b", "JavaFX 2.0 is required to view this content but JavaFX is currently unsupported on this platform.",
             "br", "Please consult ", "a", javafxURL, "the JavaFX documentation",

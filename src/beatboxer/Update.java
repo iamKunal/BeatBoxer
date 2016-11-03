@@ -2,7 +2,7 @@ package beatboxer;
 
 import java.sql.*;
 public class Update extends CreateConnection{
-	void updateTrack(int TrackId, String newTrackName){
+	public void updateTrack(int TrackId, String newTrackName){
 		try {
 			String sql = "update track set trackname = ? where trackid = ?";
 			PreparedStatement statement = con.prepareStatement(sql);
@@ -13,20 +13,16 @@ public class Update extends CreateConnection{
 			
 		}
 	}
-	void updateArtist(int TrackId, String newArtistName){
+	public void updateArtist(int TrackId, String newArtistName){
 		int ArtistId = 0;
 		try {
-			PreparedStatement getartistid = con.prepareStatement("select artistid from trackinfo where trackid = ?");
-			getartistid.setInt(1, TrackId);
-			ResultSet artist = getartistid.executeQuery();
-			artist.next();
-			ArtistId = artist.getInt("artistid");
 			Statement count = con.createStatement();
-			ResultSet res = count.executeQuery("select artistname from artist");
+			ResultSet res = count.executeQuery("select * from artist");
 			while(res.next()){
 				if(res.getString("artistname").equals(newArtistName)){
-					ArtistId = res.getInt("artistid");
-					throw new Exception();
+                                    ArtistId = res.getInt("artistid");
+                                    trackinfo(ArtistId,TrackId,"artistid");
+                                    throw new Exception();
 				}
 			}
 			res = count.executeQuery("select count(*) from artist");
@@ -35,37 +31,22 @@ public class Update extends CreateConnection{
 			String sql = "insert into artist(artistid,artistname) values(?,?)";
 			PreparedStatement statement = con.prepareStatement(sql);
 			statement.setInt(1,ArtistId);
-	        statement.setString(2,newArtistName);
-	        statement.executeUpdate();
-	        sql = "update trackinfo set artistid = ? where trackid = ?";
-			PreparedStatement statement1 = con.prepareStatement(sql);
-			statement1.setInt(1, ArtistId);
-			statement1.setInt(2,TrackId);
-			statement1.executeUpdate();
+                        statement.setString(2,newArtistName);
+                        statement.executeUpdate();
+                        trackinfo(ArtistId,TrackId,"artistid");
+                        
 		} catch (Exception e) {
-			try {
-				String sql = "update trackinfo set artistid = ? where trackid = ?";
-				PreparedStatement statement = con.prepareStatement(sql);
-				statement.setInt(1, ArtistId);
-				statement.setInt(2,TrackId);
-				statement.executeUpdate();
-			} catch (Exception e1) {
-			}
 		}
 	}
-	void updateAlbum(int TrackId, String newAlbumName){
+	public void updateAlbum(int TrackId, String newAlbumName){
 		int AlbumId = 0;
 		try {
-			PreparedStatement getalbumid = con.prepareStatement("select albumid from trackinfo where trackid = ?");
-			getalbumid.setInt(1, TrackId);
-			ResultSet album = getalbumid.executeQuery();
-			album.next();
-			AlbumId = album.getInt("albumid");
 			Statement count = con.createStatement();
-			ResultSet res = count.executeQuery("select albumname from album");
+			ResultSet res = count.executeQuery("select * from album");
 			while(res.next()){
 				if(res.getString("albumname").equals(newAlbumName)){
 					AlbumId = res.getInt("albumid");
+                                        trackinfo(AlbumId,TrackId,"albumid");
 					throw new Exception();
 				}
 			}
@@ -75,22 +56,31 @@ public class Update extends CreateConnection{
 			String sql = "insert into album(albumid,albumname) values(?,?)";
 			PreparedStatement statement = con.prepareStatement(sql);
 			statement.setInt(1,AlbumId);
-	        statement.setString(2,newAlbumName);
-	        statement.executeUpdate();
-	        sql = "update trackinfo set albumtid = ? where trackid = ?";
-			PreparedStatement statement1 = con.prepareStatement(sql);
-			statement1.setInt(1, AlbumId);
-			statement1.setInt(2,TrackId);
-			statement1.executeUpdate();
+                        statement.setString(2,newAlbumName);
+                        statement.executeUpdate();
+                        trackinfo(AlbumId,TrackId,"albumid");
 		} catch (Exception e) {
-			try {
-				String sql = "update trackinfo set albumid = ? where trackid = ?";
-				PreparedStatement statement = con.prepareStatement(sql);
-				statement.setInt(1, AlbumId);
-				statement.setInt(2,TrackId);
-				statement.executeUpdate();
-			} catch (Exception e1) {
-			}
 		}
 	}
+        private void trackinfo(int id1,int id2,String colname){
+            if(colname.equals("artistid")){
+                try {
+                    String sql = "update trackinfo set artistid = ? where trackid = ?";
+                    PreparedStatement statement = con.prepareStatement(sql);
+                    statement.setInt(1,id1);
+                    statement.setInt(2,id2);
+                    statement.executeUpdate();
+                } catch (SQLException e) {
+                }
+            }else{
+                try {
+                    String sql = "update trackinfo set albumid = ? where trackid = ?";
+                    PreparedStatement statement = con.prepareStatement(sql);
+                    statement.setInt(1,id1);
+                    statement.setInt(2,id2);
+                    statement.executeUpdate();
+                } catch (SQLException e) {
+                }
+            }   
+        }
 }

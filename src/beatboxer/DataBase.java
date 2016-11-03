@@ -11,7 +11,7 @@ public class DataBase{
 				check.execute("create table track(" +
 						"trackid int primary key NOT NULL," +
 						"trackname varchar(50) NOT NULL," +
-						"dateadded date NOT NULL," +
+						"dateadded timestamp NOT NULL DEFAULT current_timestamp," +
 						"location varchar(500) NOT NULL," +
 						"genre varchar(30)," +
 						"nooftimesplayed int," +

@@ -40,16 +40,20 @@ public class AddTrack extends CreateConnection{
 			check.setString(1, ArtistName);
 			ResultSet res = check.executeQuery();
 			res.next();
-			if(res.getInt("count(artistid)")==0|| !flag){
+			if(res.getInt("count(artistid)")==0 || !flag){
 				ArtistId = count.getInt("count(*)") + 1;
 				sql = "insert into artist(artistid,artistname) values(?,?)";
 				PreparedStatement statement = con.prepareStatement(sql);
 				statement.setInt(1,ArtistId);
-		        statement.setString(2,ArtistName);
-		        statement.executeUpdate();
+                                statement.setString(2,ArtistName);
+                                statement.executeUpdate();
 			}else{
-				res.next();
-				ArtistId = res.getInt("artistid");
+                            sql = "select artistid from artist where artistname = ?";
+                            check = con.prepareStatement(sql);
+                            check.setString(1,ArtistName);
+                            res = check.executeQuery();
+                            res.next();
+                            ArtistId = res.getInt("artistid");
 			}
 		}catch(Exception e){
 			
@@ -82,8 +86,12 @@ public class AddTrack extends CreateConnection{
 		        statement.setString(2,AlbumName);
 		        statement.executeUpdate();
 			}else{
-				res.next();
-				AlbumId = res.getInt("albumid");
+                            sql = "select albumid from album where albumname = ?";
+                            check = con.prepareStatement(sql);
+                            check.setString(1,AlbumName);
+                            res = check.executeQuery();
+                            res.next();
+                            AlbumId = res.getInt("albumid");
 			}
 		}catch(Exception e){
 			
@@ -95,18 +103,16 @@ public class AddTrack extends CreateConnection{
 			ResultSet res = count.executeQuery("select count(*) from track");
 			res.next();
 			TrackId = res.getInt("count(*)") + 1;
-			String sql = "insert into track(trackid,trackname,genre,dateadded,location) values(?,?,?,?,?)";
+			String sql = "insert into track(trackid,trackname,genre,location) values(?,?,?,?)";
 			PreparedStatement statement = con.prepareStatement(sql);
 			statement.setInt(1,TrackId);
-	        statement.setString(2,TrackName);
-	        statement.setString(3, Genre);
-	        Date curr = new Date(0);
-	        statement.setDate(4, curr);
-	        statement.setString(5, Location);
-	        statement.executeUpdate();
-		}catch(Exception e){
-			
-		}
+                        statement.setString(2,TrackName);
+                        statement.setString(3, Genre);
+                        statement.setString(4, Location);
+                        statement.executeUpdate();
+                        }catch(Exception e){
+
+                        }
 	}
 	private void addtrackinfo(){
 		try{
