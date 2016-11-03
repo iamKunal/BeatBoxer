@@ -5,7 +5,7 @@ public class CreateConnection {
 	CreateConnection(){
 		try{
 			con = DriverManager.getConnection("jdbc:mysql://localhost:3306/BeatBoxer","root","123");
-		}catch(Exception e){
+		}catch(SQLException e){
 			
 		}
 	}
