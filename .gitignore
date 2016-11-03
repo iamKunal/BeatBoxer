@@ -1,3 +1,2 @@
-dist/run*/
-dist/run*/*
+dist/
 build/
