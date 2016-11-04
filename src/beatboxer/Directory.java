@@ -22,9 +22,9 @@ public class Directory extends CreateConnection {
             PreparedStatement statement = con.prepareStatement(sql);
             statement.setString(1, Location);
             statement.executeUpdate();
-            sql = "select trackid from track where loaction like ?";
+            sql = "select trackid from track where location like ?";
             statement = con.prepareStatement(sql);
-            statement.setString(1, Location + "%");
+            statement.setString(1, Location + '%');
             ResultSet res = statement.executeQuery();
             while (res.next()) {
                 Delete track = new Delete();
