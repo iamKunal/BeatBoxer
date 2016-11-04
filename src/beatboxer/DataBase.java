@@ -12,7 +12,7 @@ public class DataBase{
 						"trackid int primary key NOT NULL," +
 						"trackname varchar(50) NOT NULL," +
 						"dateadded timestamp NOT NULL DEFAULT current_timestamp," +
-						"location varchar(500) NOT NULL," +
+						"location varchar(500) NOT NULL UNIQUE," +
 						"genre varchar(30)," +
 						"nooftimesplayed int," +
 						"md5hash varchar(128))");
