@@ -17,6 +17,25 @@ public class Delete extends CreateConnection {
             sql = "delete from playlistinfo where trackid = ?";
             statement.setInt(1, TrackId);
             statement.executeUpdate();
+            Statement st = con.createStatement();
+            ResultSet res = st.executeQuery("select artistid,count(*) from trackinfo group by artistid");
+            while(res.next()){
+                if(res.getInt("count(*)")==0){
+                    sql = "delete from artist where artistid = ?";
+                    statement = con.prepareStatement(sql);
+                    statement.setInt(1, res.getInt("artistid"));
+                    statement.executeUpdate();
+                }
+            }
+            res = st.executeQuery("select albumid,count(*) from trackinfo group by albumid");
+            while(res.next()){
+                if(res.getInt("count(*)")==0){
+                    sql = "delete from album where albumid = ?";
+                    statement = con.prepareStatement(sql);
+                    statement.setInt(1, res.getInt("albumid"));
+                    statement.executeUpdate();
+                }
+            }
         } catch (SQLException e) {
 
         }
