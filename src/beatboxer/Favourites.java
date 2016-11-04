@@ -4,8 +4,8 @@ import java.sql.*;
 
 public class Favourites extends CreateConnection {
 
-    public void add(int trackid) {
-        String sql = "insert into favourites(trackid) values(?)";
+    public void favourite(int trackid) {
+        String sql = "update track set favourite = true where trackid = ?";
         try {
             PreparedStatement statement = con.prepareStatement(sql);
             statement.setInt(1, trackid);
@@ -15,8 +15,8 @@ public class Favourites extends CreateConnection {
         }
     }
 
-    public void delete(int trackid) {
-        String sql = "delete from favourites where trackid = ?";
+    public void unfavourite(int trackid) {
+        String sql = "update track set favourite = false where trackid = ?";
         try {
             PreparedStatement statement = con.prepareStatement(sql);
             statement.setInt(1, trackid);
