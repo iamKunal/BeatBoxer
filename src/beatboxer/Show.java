@@ -89,4 +89,16 @@ public class Show extends CreateConnection {
         }
         return null;
     }
+
+    public ObservableList<BBSong> ShowAllFavourites() {
+        try {
+            String sql = "select * from track natural join artist natural join album natural join trackinfo natural join favourites";
+            Statement tracks = con.createStatement();
+            ResultSet res = tracks.executeQuery(sql);
+            return BBGenerator.song(res);
+        } catch (SQLException e) {
+
+        }
+        return null;
+    }
 }
