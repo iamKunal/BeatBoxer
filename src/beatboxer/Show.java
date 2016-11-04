@@ -92,7 +92,7 @@ public class Show extends CreateConnection {
 
     public ObservableList<BBSong> ShowAllFavourites() {
         try {
-            String sql = "select * from track natural join artist natural join album natural join trackinfo natural join favourites";
+            String sql = "select * from track natural join artist natural join album natural join trackinfo where favourite = true";
             Statement tracks = con.createStatement();
             ResultSet res = tracks.executeQuery(sql);
             return BBGenerator.song(res);
