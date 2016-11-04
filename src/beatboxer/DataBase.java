@@ -15,7 +15,7 @@ public class DataBase{
 						"location varchar(500) NOT NULL UNIQUE," +
 						"genre varchar(30)," +
 						"nooftimesplayed int," +
-						"md5hash varchar(128))");
+						"favourite boolean default false)");
 				check.execute("create table artist(" +
 						"artistid int primary key NOT NULL," +
 						"artistname varchar(50) NOT NULL)");
