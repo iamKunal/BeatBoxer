@@ -23,8 +23,23 @@ and open the template in the editor.
 Label{
     -fx-padding: 10px;
 }
+Button{
+    -fx-background-color: rgba(255,255,255,0);
+}
+ToggleButton{
+    -fx-background-color: rgba(255,255,255,0);
+}
 #playlists{
     -fx-background-color: #BBBBBB;
+}
+#editButton{
+    -fx-background-image: url('images/edit_100.png');
+}
+#favouriteButton{
+    -fx-background-image: url('images/favourite_100.png');
+}
+#favouriteButton:selected{
+    -fx-background-image: url('images/favourited_100.png');
 }
 /*.listBox{
     -fx-padding: 10px;

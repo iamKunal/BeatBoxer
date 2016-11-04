@@ -18,6 +18,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.media.*;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 /**
@@ -27,7 +28,7 @@ import javafx.util.Duration;
 public class BeatBoxer extends Application {
     public static MediaPlayer mediaPlayer;
     public static ObservableList<BBSong> nowPlaying;
-    public static boolean autoPlay=false;
+    public static boolean autoPlay=true;
     public static int currentIndex=0;
     public static StringProperty state;
     @Override
@@ -80,7 +81,6 @@ public class BeatBoxer extends Application {
         });
     }
     public static void play(){
-        System.out.println("a");
         if(mediaPlayer.getStatus().equals(MediaPlayer.Status.PLAYING)){
             mediaPlayer.pause();
         }
@@ -112,7 +112,7 @@ public class BeatBoxer extends Application {
         mediaPlayer = toMediaPlayer(track.getLocation());
         initMediaPlayer();
         currentIndex = BBGenerator.find(nowPlaying, track);
-        System.out.println("cI=" + currentIndex  + track.getId() + track);
+        System.out.println("cI=" + currentIndex  + track + " " + track.isFavourite());
         mediaPlayer.play();
     }
     public static void initMediaPlayer(){
@@ -135,6 +135,14 @@ public class BeatBoxer extends Application {
     }
     public static MediaPlayer toMediaPlayer(BBSong song){
         return toMediaPlayer(song.getLocation());
+    }
+    public static String getDirectory(){
+        DirectoryChooser chooser = new DirectoryChooser();
+        chooser.setTitle("JavaFX Projects");
+        File defaultDirectory = new File("/home");
+        chooser.setInitialDirectory(defaultDirectory);
+        File selectedDirectory = chooser.showDialog(new Stage());
+        return selectedDirectory.getAbsolutePath();
     }
     /**
      * @param args the command line arguments

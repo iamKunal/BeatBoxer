@@ -63,8 +63,7 @@ public class BBScanner {
             return new BBSong(-1,tags.getFirst(FieldKey.TITLE),
                     tags.getFirst(FieldKey.ALBUM),
                     tags.getFirst(FieldKey.ARTIST),
-//                    tags.getFirst(FieldKey.GENRE),
-                    "",
+                    tags.getFirst(FieldKey.GENRE),
                     location);
         }
         catch(Exception e){

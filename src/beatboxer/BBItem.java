@@ -23,7 +23,7 @@ public class BBItem {
     }
     public BBItem(){
         this.Id = 0;
-        this.name = "";
+        this.name = "Unknown";
     }
     public String getName(){
         return name;
@@ -42,5 +42,8 @@ public class BBItem {
     @Override
     public String toString(){
         return this.name;
+    }
+    public int toInt(){
+        return this.Id;
     }
 }

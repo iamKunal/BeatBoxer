@@ -30,9 +30,11 @@ public class BBSong extends BBItem {
     private String artist;
     private String genre;
     private String location;
+    private boolean isFavourite;
     public BBSong(){
         super();
         this.artist=this.genre=this.location="Unknown";
+//        this.isFavourite=false;
     }
     public BBSong(int Id, String name, String album, String artist, String genre, String location){
         this.Id=Id;
@@ -42,6 +44,10 @@ public class BBSong extends BBItem {
         this.setLocation(location);
         this.setName(name);
         
+    }
+    public BBSong(int Id, String name, String album, String artist, String genre, String location, boolean isFavourite){
+        this(Id, name, album, artist, genre, location);
+        this.setFavourite(isFavourite);
     }
     @Override
     public String toString(){
@@ -95,6 +101,18 @@ public class BBSong extends BBItem {
     public String getLocation(){
         return this.location;
     }
+
+    public boolean isFavourite() {
+        return this.isFavourite;
+    }
+
+    public void setFavourite(boolean isFavourite) {
+        if(isFavourite==true)
+            this.isFavourite=true;
+        else
+            this.isFavourite=false;
+    }
+    
     public String stringified(){
         return "Name\t:\t" + name + '\n'
                 + "Album\t:\t" + album + '\n'
