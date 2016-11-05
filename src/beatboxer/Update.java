@@ -62,6 +62,19 @@ public class Update extends CreateConnection{
 		} catch (Exception e) {
 		}
 	}
+	
+    public void updategenre(int trackid, String newgenre) {
+        String sql = "update track set genre = ? where trackid = ?";
+        try {
+            PreparedStatement statement = con.prepareStatement(sql);
+            statement.setString(1, newgenre);
+            statement.setInt(2, trackid);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+
+        }
+    }	
+	
         private void trackinfo(int id1,int id2,String colname){
             if(colname.equals("artistid")){
                 try {
