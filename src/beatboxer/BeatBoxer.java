@@ -145,6 +145,13 @@ public class BeatBoxer extends Application {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        try{
+            DataBase db = new DataBase();
+            db.CreateDataBase();
+        }
+        catch(Exception e){
+            ;
+        }
         launch(args);
     }
     

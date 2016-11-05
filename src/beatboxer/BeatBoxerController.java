@@ -194,6 +194,48 @@ public class BeatBoxerController implements Initializable {
         ObservableList<BBSong> allSongs = show.ShowAllTracks();
         BeatBoxer.nowPlaying.setAll(allSongs);
     }
+    public void playAlbum(BBItem album){
+        try{
+            Show sh = new Show();
+            ObservableList<BBSong> songList = sh.ShowAllTracksinAlbum(album.getId());
+            BeatBoxer.nowPlaying.setAll(songList);
+            for(BBSong song : songList){
+                System.out.println(song);
+            }
+            nowPlayingListView.setDisable(false);
+            playButton.setDisable(false);
+            editButton.setDisable(false);
+            favouriteButton.setDisable(false);
+            nowPlayingListView.setItems(BeatBoxer.nowPlaying);
+            listViewTabPane.getSelectionModel().select(0);
+            BeatBoxer.play(BeatBoxer.nowPlaying.get(0));
+            BeatBoxer.mediaPlayer.stop();
+        }
+        catch(Exception e){
+            ;
+        }
+    }
+    public void playArtist(BBItem artist){
+        try{
+            Show sh = new Show();
+            ObservableList<BBSong> songList = sh.ShowAllTracksByArtists(artist.getId());
+            BeatBoxer.nowPlaying.setAll(songList);
+            for(BBSong song : songList){
+                System.out.println(song);
+            }
+            nowPlayingListView.setDisable(false);
+            playButton.setDisable(false);
+            editButton.setDisable(false);
+            favouriteButton.setDisable(false);
+            nowPlayingListView.setItems(BeatBoxer.nowPlaying);
+            listViewTabPane.getSelectionModel().select(0);
+            BeatBoxer.play(BeatBoxer.nowPlaying.get(0));
+            BeatBoxer.mediaPlayer.stop();
+        }
+        catch(Exception e){
+            ;
+        }
+    }
     private String getTrackDetails(){
         return BeatBoxer.nowPlaying.get((BeatBoxer.currentIndex)).stringified();
     }
@@ -396,6 +438,56 @@ public class BeatBoxerController implements Initializable {
                         BBItem a = playlistListView.getSelectionModel().getSelectedItem();
                         playlistListView.getSelectionModel().select(-1);
                         playPlaylist(a);
+                    }
+                }
+            }
+        });
+        /*-------------------albumListView Double Click Handler---------------*/
+        albumListView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent click) {
+                if (click.getClickCount() == 2) {
+                   //Use ListView's getSelected Item
+                   if(albumListView.getSelectionModel().getSelectedItem()==null)
+                        System.out.println("empty1");//pass
+                   else{
+                        BBItem a = albumListView.getSelectionModel().getSelectedItem();
+                        albumListView.getSelectionModel().select(-1);
+                        playAlbum(a);
+                    }
+                }
+            }
+        });      
+        /*-------------------artistListView Double Click Handler---------------*/
+        artistListView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent click) {
+                if (click.getClickCount() == 2) {
+                   //Use ListView's getSelected Item
+                   if(artistListView.getSelectionModel().getSelectedItem()==null)
+                        System.out.println("empty1");//pass
+                   else{
+                        BBItem a = artistListView.getSelectionModel().getSelectedItem();
+                        artistListView.getSelectionModel().select(-1);
+                        playArtist(a);
+                    }
+                }
+            }
+        });
+        /*-------------------songListView Double Click Handler---------------*/
+        songListView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent click) {
+                if (click.getClickCount() == 2) {
+                   //Use ListView's getSelected Item
+                   if(songListView.getSelectionModel().getSelectedItem()==null)
+                        System.out.println("empty2");//pass
+                   else{
+                        BBSong a = songListView.getSelectionModel().getSelectedItem();
+                        songListView.getSelectionModel().select(-1);
+                         System.out.println(a.getId());
+                         playPlaylist(new BBItem(0, "All Songs"));
+                         BeatBoxer.play(a);
                     }
                 }
             }
