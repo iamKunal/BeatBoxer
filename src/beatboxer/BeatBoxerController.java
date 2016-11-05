@@ -71,6 +71,14 @@ public class BeatBoxerController implements Initializable {
     @FXML
     private Label totalTimer;
     @FXML
+    private TextField searchField;
+    @FXML
+    private ListView<BBItem> albumListView;
+    @FXML
+    private ListView<BBItem> artistListView;
+    @FXML
+    private ListView<BBSong> songListView;
+    @FXML
     private ToggleButton playButton;
     @FXML
     private ToggleButton favouriteButton;
@@ -94,6 +102,27 @@ public class BeatBoxerController implements Initializable {
         refresh();
     }
     @FXML
+    private void search(){
+        String searchString = searchField.getText();
+        System.out.println(searchString);
+        searchString = searchString.replaceAll("\\s+","");
+        if(searchString.equals("")){
+            songListView.setItems(null);
+            albumListView.setItems(null);
+            artistListView.setItems(null);
+            return;
+        }
+        try{
+            Search se = new Search();
+            songListView.setItems(se.SearchTrack(searchString));
+            albumListView.setItems(se.SearchAlbum(searchString));
+            artistListView.setItems(se.SearchArtist(searchString));
+        }
+        catch(Exception e){
+            System.out.println("Hey");
+        }
+    }
+    @FXML
     private void favourite(){
         try{
             Favourites f = new Favourites();
@@ -113,8 +142,52 @@ public class BeatBoxerController implements Initializable {
         }
     }
     @FXML
-    private void editItem(){
-//        listViewTabPane.getSelectionModel().
+    private void editItem() throws Exception{
+//        try{
+        int tabSelected = listViewTabPane.getSelectionModel().getSelectedIndex();
+        if(tabSelected == 0 || tabSelected==1){
+            BBSong selectedSong;
+            if(tabSelected==0){
+                if(nowPlayingListView.getSelectionModel().getSelectedIndex()==-1)
+                    return;
+                selectedSong = nowPlayingListView.getSelectionModel().getSelectedItem();
+            }
+            else{
+                if(allsongsListView.getSelectionModel().getSelectedIndex()==-1)
+                    return;
+                selectedSong = allsongsListView.getSelectionModel().getSelectedItem();
+            }
+            System.out.println(selectedSong);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("SongEditor.fxml"));
+            Parent songEditorRoot = (Parent) loader.load();
+            Scene songEditor = new Scene(songEditorRoot);
+            SongEditorController control = (SongEditorController)loader.getController();
+            control.initData(selectedSong);
+            Stage stager = new Stage();
+            stager.setScene(songEditor);
+            stager.showAndWait();
+            nowPlayingListView.setItems(BeatBoxer.nowPlaying);
+            try{
+                Show show  = new Show();
+                ObservableList<BBSong> songList = show.ShowAllTracks();
+                allsongsListView.setItems(songList);
+            }
+            catch(Exception e){
+                ;
+            }
+        }
+        if(tabSelected==2){
+            BBItem selectedPlayList;
+            if(playlistListView.getSelectionModel().getSelectedIndex()<=1){
+                return;
+            }
+            selectedPlayList = playlistListView.getSelectionModel().getSelectedItem();
+            System.out.println(selectedPlayList);
+        }
+//        }
+//       catch(Exception e){
+//           System.out.println("Hello");;
+//       }
     }
     public void playAll(){      //play All Songs
         Show show = new Show();

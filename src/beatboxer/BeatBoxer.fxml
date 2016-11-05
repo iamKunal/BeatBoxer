@@ -81,7 +81,7 @@
                               </Label>
                            </children>
                         </VBox>
-                        <Button id="editButton" fx:id="editButton" mnemonicParsing="false" prefHeight="100.0" prefWidth="100.0" />
+                        <Button id="editButton" fx:id="editButton" mnemonicParsing="false" onAction="#editItem" prefHeight="100.0" prefWidth="100.0" />
                         <ToggleButton id="favouriteButton" fx:id="favouriteButton" maxHeight="100.0" maxWidth="100.0" minHeight="100.0" minWidth="100.0" mnemonicParsing="false" onAction="#favourite" prefHeight="100.0" prefWidth="100.0" />
                      </children>
                      <VBox.margin>
@@ -140,13 +140,13 @@
          <right>
             <VBox prefHeight="200.0" prefWidth="343.0" BorderPane.alignment="CENTER">
                <children>
-                  <TextField promptText="Search..." />
+                  <TextField fx:id="searchField" onKeyReleased="#search" promptText="Search..." />
                   <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Albums" />
-                  <ListView maxWidth="1.7976931348623157E308" />
+                  <ListView fx:id="albumListView" maxWidth="1.7976931348623157E308" />
                   <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Artist" />
-                  <ListView maxWidth="1.7976931348623157E308" />
+                  <ListView fx:id="artistListView" maxWidth="1.7976931348623157E308" />
                   <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Songs" />
-                  <ListView maxWidth="1.7976931348623157E308" />
+                  <ListView fx:id="songListView" maxWidth="1.7976931348623157E308" />
                </children>
             </VBox>
          </right>
