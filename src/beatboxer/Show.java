@@ -29,7 +29,7 @@ public class Show extends CreateConnection {
 
     public ObservableList<BBSong> ShowAllTracksByArtists(int artistId) {
         try {
-            String sql = "select * from track NATURAL JOIN trackinfo WHERE artistid=?";
+            String sql = "select * from track natural join artist natural join album natural join trackinfo WHERE artistid=?";
             PreparedStatement statement = con.prepareStatement(sql);
             statement.setInt(1, artistId);
             ResultSet res = statement.executeQuery();
@@ -54,7 +54,7 @@ public class Show extends CreateConnection {
 
     public ObservableList<BBSong> ShowAllTracksinAlbum(int albumId) {
         try {
-            String sql = "select * from track NATURAL JOIN trackinfo WHERE albumid=?";
+            String sql = "select * from track natural join artist natural join album natural join trackinfo WHERE albumid=?";
             PreparedStatement statement = con.prepareStatement(sql);
             statement.setInt(1, albumId);
             ResultSet res = statement.executeQuery();
