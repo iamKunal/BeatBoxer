@@ -63,7 +63,7 @@ public class Update extends CreateConnection{
 		}
 	}
 	
-    public void updategenre(int trackid, String newgenre) {
+    public void updateGenre(int trackid, String newgenre) {
         String sql = "update track set genre = ? where trackid = ?";
         try {
             PreparedStatement statement = con.prepareStatement(sql);
