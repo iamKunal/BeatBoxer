@@ -35,21 +35,11 @@ public class BeatBoxer extends Application {
     public void start(Stage stage) throws Exception {
         state= new SimpleStringProperty("Unknown");
         nowPlaying = FXCollections.observableArrayList();
-        nowPlaying.add(new BBSong(1,"ABC","CDEF","FGH","GHI","/home/kunal/Documents/JAVA/cs.mp3"));
+        nowPlaying.add(new BBSong(1,"ABC","CDEF","FGH","GHI","0.mp3"));
         mediaPlayer = toMediaPlayer(nowPlaying.get(0));
         Parent root = FXMLLoader.load(getClass().getResource("BeatBoxer.fxml"));
         Scene scene = new Scene(root);
         
-        try{
-            System.out.println(new BBScanner().getMeta("/home/kunal/Documents/JAVA/sia.mp3"));
-        }
-        catch(Exception e){
-            ;
-        }
-        ArrayList<String> lst = new BBScanner().scan("/home/kunal/Documents/JAVA/");
-        for(String s : lst){
-            System.out.println(s);
-        }
         scene.getStylesheets().add(getClass().getResource("stylesheet.css").toExternalForm());
         stage.setScene(scene);
         stage.show();
@@ -139,10 +129,17 @@ public class BeatBoxer extends Application {
     public static String getDirectory(){
         DirectoryChooser chooser = new DirectoryChooser();
         chooser.setTitle("JavaFX Projects");
-        File defaultDirectory = new File("/home");
+        
+        File defaultDirectory = new File("/");
         chooser.setInitialDirectory(defaultDirectory);
         File selectedDirectory = chooser.showDialog(new Stage());
-        return selectedDirectory.getAbsolutePath();
+        try{
+            String path = selectedDirectory.getAbsolutePath();
+            return path;
+        }
+        catch(Exception e){
+            return "";
+        }
     }
     /**
      * @param args the command line arguments

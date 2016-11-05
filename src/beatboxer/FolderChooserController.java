@@ -48,7 +48,7 @@ public class FolderChooserController implements Initializable {
         ObservableList<String> folderList = FXCollections.observableArrayList();
         folderList = folderChooserListView.getItems();
         String newFolder = BeatBoxer.getDirectory();
-        if(! folderList.contains(newFolder)){
+        if(! folderList.contains(newFolder) &&  !newFolder.equals("")){
             folderList.add(newFolder);
             instructions.add(new Pair(1,newFolder));
             folderChooserListView.setItems(folderList);

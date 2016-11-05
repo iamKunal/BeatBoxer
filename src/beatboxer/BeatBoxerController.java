@@ -112,6 +112,10 @@ public class BeatBoxerController implements Initializable {
             ;
         }
     }
+    @FXML
+    private void editItem(){
+//        listViewTabPane.getSelectionModel().
+    }
     public void playAll(){      //play All Songs
         Show show = new Show();
         ObservableList<BBSong> allSongs = show.ShowAllTracks();
