@@ -15,6 +15,7 @@ public class Delete extends CreateConnection {
             statement.setInt(1, TrackId);
             statement.executeUpdate();
             sql = "delete from playlistinfo where trackid = ?";
+            statement = con.prepareStatement(sql);
             statement.setInt(1, TrackId);
             statement.executeUpdate();
             Statement st = con.createStatement();
