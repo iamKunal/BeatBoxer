@@ -9,7 +9,7 @@ public class Directory extends CreateConnection {
         String sql = "insert into directories(folderlocation) values(?)";
         try {
             PreparedStatement statement = con.prepareStatement(sql);
-            statement.setString(1, Location);
+            statement.setString(1, Location.replace("\\", "/"));
             statement.executeUpdate();
         } catch (SQLException e) {
 
@@ -24,9 +24,10 @@ public class Directory extends CreateConnection {
             statement.executeUpdate();
             sql = "select trackid from track where location like ?";
             statement = con.prepareStatement(sql);
-            statement.setString(1, Location + '%');
+            statement.setString(1, Location.replace("\\", "/") + "/%");
             ResultSet res = statement.executeQuery();
             while (res.next()) {
+                System.out.println(res.getInt("trackid"));
                 Delete track = new Delete();
                 track.deleteTrack(res.getInt("trackid"));
             }
