@@ -36,8 +36,6 @@ public class DataBase {
                     + "primary key(playlistid, trackid))");
             check.execute("create table trackinfo(trackid int Primary key NOT NULL,"
                     + "artistid int,albumid int)");
-            check.execute("insert into playlist(playlistid, playlistname) values(0,'All Songs')");
-            check.execute("insert into playlist(playlistid, playlistname) values(-1,'Favourites')");
         } catch (Exception e) {
 
         }
