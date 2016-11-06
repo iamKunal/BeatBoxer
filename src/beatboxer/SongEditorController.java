@@ -49,11 +49,12 @@ public class SongEditorController implements Initializable {
             song.setArtist(artistField.getText());
             song.setGenre(genreField.getText());
             int index = BBGenerator.find(BeatBoxer.nowPlaying, song);
-            BeatBoxer.nowPlaying.set(index, song);
+            if(index!=-1)
+                BeatBoxer.nowPlaying.set(index, song);
             cancel();
         }
         catch(Exception e){
-            ;
+            System.out.println("err");
         }
     }
     @FXML

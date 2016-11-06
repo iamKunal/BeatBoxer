@@ -73,7 +73,7 @@
                         </Menu>
                       <Menu fx:id="playlistMenu" mnemonicParsing="false" text="Playlist">
                         <items>
-                          <MenuItem mnemonicParsing="false" text="New..." />
+                          <MenuItem mnemonicParsing="false" onAction="#createPlaylist" text="New..." />
                         </items>
                       </Menu>
                       <Menu fx:id="helpMenu" mnemonicParsing="false" text="Help">

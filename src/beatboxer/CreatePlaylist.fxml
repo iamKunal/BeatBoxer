@@ -21,8 +21,8 @@
             <Font name="System Bold" size="13.0" />
           </font>
         </Label>
-            <TextField fx:id="searchField" onKeyReleased="#checkName" promptText="Enter Name..." />
-            <Label fx:id="errorLabel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" textFill="RED" />
+            <TextField fx:id="nameField" onKeyReleased="#checkName" promptText="Enter Name..." />
+            <Label fx:id="errorLabel" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="40.0" textFill="RED" />
       </children>
     </VBox>
     <HBox maxHeight="-Infinity" maxWidth="+Infinity" minHeight="-Infinity" minWidth="-Infinity" GridPane.columnIndex="1" GridPane.rowIndex="1">
@@ -33,7 +33,7 @@
           </HBox.margin>
         </HBox>
         <Pane maxWidth="+Infinity" HBox.hgrow="ALWAYS" />
-        <Button fx:id="cancelButton" cancelButton="true" minWidth="80.0" mnemonicParsing="false" onAction="#cancel" text="Cancel" HBox.hgrow="NEVER">
+        <Button fx:id="cancel" cancelButton="true" minWidth="80.0" mnemonicParsing="false" onAction="#cancel" text="Cancel" HBox.hgrow="NEVER">
           <HBox.margin>
             <Insets />
           </HBox.margin>

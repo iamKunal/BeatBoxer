@@ -7,6 +7,7 @@ package beatboxer;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -15,6 +16,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -32,7 +34,7 @@ public class CreatePlaylistController implements Initializable {
     @FXML
     private HBox actionParent;
     @FXML
-    private Button cancelButton;
+    private Button cancel;
     @FXML
     private HBox okParent;
     @FXML
@@ -49,14 +51,42 @@ public class CreatePlaylistController implements Initializable {
     @FXML
     private void checkName(KeyEvent event) throws Exception{
         String newPlaylist = nameField.getText();
+        newPlaylist = newPlaylist.replaceAll("\\s+","");
+        if(newPlaylist.equals("")){
+            ok.setDisable(true);
+            errorLabel.setText("");
+        }
+        else{
+            Show sh = new Show();
+            ObservableList<BBItem> list = sh.ShowAllPlayLists();
+            for(BBItem playList : list){
+                if(playList.getName().equals(newPlaylist)){
+                    ok.setDisable(true);
+                    errorLabel.setText("A playlist with that name already exists. Please enter \na different name.");
+                    return;
+                }
+            }
+            errorLabel.setText("");
+            ok.setDisable(false);
+        }
     }
 
     @FXML
     private void cancel(ActionEvent event) {
+        Stage currentStage = (Stage) cancel.getScene().getWindow();
+        currentStage.close();
     }
 
     @FXML
     private void okExecute(ActionEvent event) {
+        try{
+            PlayList p = new PlayList();
+            p.create(nameField.getText());
+            cancel(new ActionEvent());
+        }
+        catch(Exception e){
+            ;
+        }
     }
     
 }

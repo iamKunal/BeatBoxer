@@ -175,14 +175,15 @@ public class BeatBoxerController implements Initializable {
             stager.setScene(songEditor);
             stager.setTitle("Modify Song : " + selectedSong.getName());
             stager.showAndWait();
-            nowPlayingListView.setItems(BeatBoxer.nowPlaying);
+            if(!BeatBoxer.nowPlaying.contains(BeatBoxer.defaultSong))
+                nowPlayingListView.setItems(BeatBoxer.nowPlaying);
             try{
                 Show show  = new Show();
                 ObservableList<BBSong> songList = show.ShowAllTracks();
                 allsongsListView.setItems(songList);
             }
             catch(Exception e){
-                ;
+                System.out.println("Prob");
             }
         }
         if(tabSelected==2){
@@ -244,6 +245,21 @@ public class BeatBoxerController implements Initializable {
             }
             selectedPlayList = playlistListView.getSelectionModel().getSelectedItem();
             System.out.println(selectedPlayList);
+        }
+    }
+    @FXML
+    private void createPlaylist(){
+        try{
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("CreatePlaylist.fxml"));
+            Parent createPlaylistRoot = (Parent) loader.load();
+            Scene createPlaylist = new Scene(createPlaylistRoot);
+            Stage stager = new Stage();
+            stager.setScene(createPlaylist);
+            stager.setTitle("Create a new Playlist");
+            stager.showAndWait();
+        }
+        catch(Exception e){
+            ;
         }
     }
     @FXML
@@ -311,6 +327,9 @@ public class BeatBoxerController implements Initializable {
         nextButton.setDisable(value);
     }
     private String getTrackDetails(){
+        if(BeatBoxer.nowPlaying.size()<=BeatBoxer.currentIndex){
+            return "No track Playing.";
+        }
         return BeatBoxer.nowPlaying.get((BeatBoxer.currentIndex)).stringified();
     }
     private BBSong getCurrentSong(){
@@ -325,10 +344,14 @@ public class BeatBoxerController implements Initializable {
             nowPlayingListView.setItems(null);
             trackDetails.setText("\n\nNo track Playing.");
             disablePlayGroup(true);
-            editButton.setDisable(true);
+//            editButton.setDisable(true);
             favouriteButton.setDisable(true);
             allsongsListView.setDisable(false);
             playlistListView.setDisable(false);
+            ObservableList<BBItem> playLists = FXCollections.observableArrayList();
+            playLists.add(new BBItem(0, "All Songs"));
+            playLists.add(new BBItem(-1, "Favourites"));
+            playLists.addAll(new Show().ShowAllPlayLists());
             Show show  = new Show();
             ObservableList<BBSong> songList = show.ShowAllTracks();
             if(songList.size()==0){
@@ -336,6 +359,7 @@ public class BeatBoxerController implements Initializable {
                 playlistListView.setDisable(true);
             }
             allsongsListView.setItems(songList);
+            playlistListView.setItems(playLists);
             BeatBoxer.mediaPlayer.stop();
             timer.setText("-- : --");
             totalTimer.setText("-- : --");
@@ -348,8 +372,26 @@ public class BeatBoxerController implements Initializable {
         if(playlist.getId()==0){
             playAll();
         }
+        else if (playlist.getId()==-1){
+            try{
+                Show sh = new Show();
+                nowPlayingListView.setItems(sh.ShowAllFavourites());
+                BeatBoxer.nowPlaying = sh.ShowAllFavourites();
+            }
+            catch(Exception e){
+                ;
+            }
+        }
         else{
-            
+            try{
+                Show sh = new Show();
+                ObservableList<BBSong> l = sh.ShowAllTracksinPlayList(playlist.getId());
+                nowPlayingListView.setItems(l);
+                BeatBoxer.nowPlaying = l;
+            }
+            catch(Exception e){
+                ;
+            }
         }
         nowPlayingListView.setDisable(false);
         disablePlayGroup(false);
@@ -357,7 +399,13 @@ public class BeatBoxerController implements Initializable {
         favouriteButton.setDisable(false);
         nowPlayingListView.setItems(BeatBoxer.nowPlaying);
         listViewTabPane.getSelectionModel().select(0);
-        BeatBoxer.play(BeatBoxer.nowPlaying.get(0));
+        if(BeatBoxer.nowPlaying.size()==0){
+            disablePlayGroup(true);
+            favouriteButton.setDisable(true);
+        }
+        else{
+            BeatBoxer.play(BeatBoxer.nowPlaying.get(0));
+        }
         BeatBoxer.mediaPlayer.stop();
     }
     
@@ -427,7 +475,7 @@ public class BeatBoxerController implements Initializable {
                         nowPlaying.setText("Not Playing...");
                         trackDetails.setText("\n\nNo track Playing.");
                         disablePlayGroup(true);
-                        editButton.setDisable(true);
+//                        editButton.setDisable(true);
                         favouriteButton.setDisable(true);
                     }
                 }
@@ -451,12 +499,7 @@ public class BeatBoxerController implements Initializable {
         
         nowPlaying.setText("Not Playing");
         trackDetails.setWrapText(true);
-        ObservableList<BBItem> _playlists = FXCollections.observableArrayList();
-        for (int i = 0; i < 1; i++) {        
-            _playlists.add(new BBItem(0,"All Songs"));
-        }
         refresh();
-        playlistListView.setItems(_playlists);
 //        playlistView.setMinWidth(Double.MAX_VALUE);
         /*-------------------playListView Single Click Handler-------------------*/
 //        playlistListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<BBItem>() {
@@ -513,6 +556,7 @@ public class BeatBoxerController implements Initializable {
                    else{
                         BBItem a = playlistListView.getSelectionModel().getSelectedItem();
                         playlistListView.getSelectionModel().select(-1);
+                        BeatBoxer.mediaPlayer.stop();
                         playPlaylist(a);
                     }
                 }
