@@ -1,6 +1,7 @@
 package beatboxer;
 
 import java.sql.*;
+import java.util.ArrayList;
 import javafx.collections.*;
 
 public class Show extends CreateConnection {
@@ -100,6 +101,60 @@ public class Show extends CreateConnection {
             Statement tracks = con.createStatement();
             ResultSet res = tracks.executeQuery(sql);
             return BBGenerator.song(res);
+        } catch (SQLException e) {
+
+        }
+        return null;
+    }
+
+    public ObservableList<BBSong> ShowByMode(String mode) {
+        mode = mode.toLowerCase();
+        ArrayList<String> genre = null;
+        switch (mode) {
+            case "driving":
+                genre.add("Rap");
+                genre.add("Rock");
+                genre.add("Romantic");
+                return BBGenerator.song(ShowByGenre(genre));
+            case "excercise":
+                genre.add("Dance");
+                genre.add("Hip-hop");
+                genre.add("Hiphop");
+                genre.add("Edm");
+                genre.add("Rock");
+                return BBGenerator.song(ShowByGenre(genre));
+            case "party":
+                genre.add("House");
+                genre.add("Progresive");
+                genre.add("Edm");
+                genre.add("Dance");
+                genre.add("Rap");
+                genre.add("Hip hop");
+                genre.add("Hip-hop");
+                genre.add("Pop");
+                return BBGenerator.song(ShowByGenre(genre));
+            case "soothing":
+                genre.add("Romantic");
+                genre.add("Ambient");
+                genre.add("Soft");
+                genre.add("Trap");
+                return BBGenerator.song(ShowByGenre(genre));
+        }
+        return null;
+    }
+
+    private ResultSet ShowByGenre(ArrayList<String> genre) {
+        try {
+            String sql = "select * from track natural join artist natural join album natural join trackinfo natural join playlistinfo where genre like ?";
+            for (int i = 0; i < genre.size() - 1; i++) {
+                sql += " or genre like ?";
+            }
+            sql += " order by trackname";
+            PreparedStatement tracks = con.prepareStatement(sql);
+            for (int i = 1; i <= genre.size(); i++) {
+                tracks.setString(i, '%' + genre.get(i) + '%');
+            }
+            return tracks.executeQuery();
         } catch (SQLException e) {
 
         }
