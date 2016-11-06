@@ -18,7 +18,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="root" fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="862.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="beatboxer.BeatBoxerController">
+<AnchorPane id="root" fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="beatboxer.BeatBoxerController">
     <children>
       <BorderPane id="borderPane" layoutX="79.0" layoutY="21.0" prefHeight="800.0" prefWidth="700.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <bottom>
@@ -33,7 +33,25 @@
                   <Label fx:id="totalTimer" minWidth="70.0" prefWidth="70.0" text="-- : --" BorderPane.alignment="CENTER" />
                </right>
                <center>
-                  <ToggleButton id="playButton" fx:id="playButton" contentDisplay="CENTER" maxHeight="100.0" maxWidth="100.0" minHeight="100.0" minWidth="100.0" mnemonicParsing="false" onAction="#playMusic" prefHeight="100.0" prefWidth="100.0" style="-fx-background-color: #FFFFFF;" BorderPane.alignment="CENTER" />
+                  <BorderPane BorderPane.alignment="CENTER">
+                     <center>
+                        <HBox maxHeight="100.0" maxWidth="250.0" minHeight="0.0" minWidth="0.0" prefHeight="0.0" prefWidth="0.0" spacing="5.0" BorderPane.alignment="CENTER">
+                           <children>
+                              <Button id="previousButton" fx:id="previousButton" layoutX="110.0" layoutY="35.0" maxHeight="75.0" maxWidth="75.0" minHeight="75.0" minWidth="75.0" mnemonicParsing="false" onAction="#playPrevious" prefHeight="75.0" prefWidth="75.0">
+                                 <HBox.margin>
+                                    <Insets top="13.0" />
+                                 </HBox.margin>
+                              </Button>
+                              <ToggleButton id="playButton" fx:id="playButton" contentDisplay="CENTER" maxHeight="100.0" maxWidth="100.0" minHeight="100.0" minWidth="100.0" mnemonicParsing="false" onAction="#playMusic" prefHeight="100.0" prefWidth="100.0" style="-fx-background-color: #FFFFFF;" />
+                              <Button id="nextButton" fx:id="nextButton" maxHeight="75.0" maxWidth="75.0" minHeight="75.0" minWidth="75.0" mnemonicParsing="false" onAction="#playNext" prefHeight="75.0" prefWidth="75.0">
+                                 <HBox.margin>
+                                    <Insets top="13.0" />
+                                 </HBox.margin>
+                              </Button>
+                           </children>
+                        </HBox>
+                     </center>
+                  </BorderPane>
                </center>
             </BorderPane>
          </bottom>
@@ -55,7 +73,7 @@
                         </Menu>
                       <Menu fx:id="playlistMenu" mnemonicParsing="false" text="Playlist">
                         <items>
-                          <MenuItem mnemonicParsing="false" text="Delete" />
+                          <MenuItem mnemonicParsing="false" text="New..." />
                         </items>
                       </Menu>
                       <Menu fx:id="helpMenu" mnemonicParsing="false" text="Help">
@@ -81,8 +99,23 @@
                               </Label>
                            </children>
                         </VBox>
-                        <Button id="editButton" fx:id="editButton" mnemonicParsing="false" onAction="#editItem" prefHeight="100.0" prefWidth="100.0" />
-                        <ToggleButton id="favouriteButton" fx:id="favouriteButton" maxHeight="100.0" maxWidth="100.0" minHeight="100.0" minWidth="100.0" mnemonicParsing="false" onAction="#favourite" prefHeight="100.0" prefWidth="100.0" />
+                        <BorderPane prefHeight="200.0" prefWidth="200.0">
+                           <right>
+                              <HBox alignment="CENTER_RIGHT" spacing="20.0" BorderPane.alignment="CENTER_RIGHT">
+                                 <children>
+                                    <Button id="deleteButton" fx:id="deleteButton" layoutX="130.0" layoutY="27.0" mnemonicParsing="false" onAction="#deleteItem" prefHeight="100.0" prefWidth="100.0" />
+                                    <ToggleButton id="favouriteButton" fx:id="favouriteButton" maxHeight="100.0" maxWidth="100.0" minHeight="100.0" minWidth="100.0" mnemonicParsing="false" onAction="#favourite" prefHeight="100.0" prefWidth="100.0" />
+                                    <Button id="editButton" fx:id="editButton" mnemonicParsing="false" onAction="#editItem" prefHeight="100.0" prefWidth="100.0" />
+                                 </children>
+                                 <opaqueInsets>
+                                    <Insets />
+                                 </opaqueInsets>
+                                 <padding>
+                                    <Insets right="10.0" />
+                                 </padding>
+                              </HBox>
+                           </right>
+                        </BorderPane>
                      </children>
                      <VBox.margin>
                         <Insets top="10.0" />

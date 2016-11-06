@@ -14,7 +14,7 @@ public class DataBase{
 						"dateadded timestamp NOT NULL DEFAULT current_timestamp," +
 						"location varchar(500) NOT NULL UNIQUE," +
 						"genre varchar(30)," +
-						"nooftimesplayed int," +
+						"nooftimesplayed int default 0," +
 						"favourite boolean default false)");
 				check.execute("create table artist(" +
 						"artistid int primary key NOT NULL," +

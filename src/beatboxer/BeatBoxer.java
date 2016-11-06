@@ -31,17 +31,20 @@ public class BeatBoxer extends Application {
     public static boolean autoPlay=true;
     public static int currentIndex=0;
     public static StringProperty state;
+    public static BBSong defaultSong;
     @Override
     public void start(Stage stage) throws Exception {
         state= new SimpleStringProperty("Unknown");
         nowPlaying = FXCollections.observableArrayList();
-        nowPlaying.add(new BBSong(1,"ABC","CDEF","FGH","GHI","0.mp3"));
+        defaultSong = new BBSong(1, "", "", "", "", "0.mp3");
+        nowPlaying.add(defaultSong);
         mediaPlayer = toMediaPlayer(nowPlaying.get(0));
         Parent root = FXMLLoader.load(getClass().getResource("BeatBoxer.fxml"));
         Scene scene = new Scene(root);
         
         scene.getStylesheets().add(getClass().getResource("stylesheet.css").toExternalForm());
         stage.setScene(scene);
+        stage.setTitle("BeatBoxer");
         stage.show();
 //        mediaPlayer.play();
         state.addListener(new ChangeListener<String>(){

@@ -84,6 +84,10 @@ public class BeatBoxerController implements Initializable {
     private ToggleButton favouriteButton;
     @FXML
     private Button editButton;
+    @FXML
+    private Button nextButton;
+    @FXML
+    private Button previousButton;
     public static ChangeListener currentTimePropertyListener;
     public static ChangeListener totalDurationPropertyListener;
     public static ChangeListener statusPropertyListener;
@@ -98,8 +102,12 @@ public class BeatBoxerController implements Initializable {
         Scene folderChooser = new Scene(folderChooserRoot);
         Stage stager = new Stage();
         stager.setScene(folderChooser);
+        Directory d = new Directory();
+        ArrayList<String> oldF = d.Show();
         stager.showAndWait();
-        refresh();
+//        if(! d.Show().equals(oldF))
+            refresh();
+        
     }
     @FXML
     private void search(){
@@ -165,6 +173,7 @@ public class BeatBoxerController implements Initializable {
             control.initData(selectedSong);
             Stage stager = new Stage();
             stager.setScene(songEditor);
+            stager.setTitle("Modify Song : " + selectedSong.getName());
             stager.showAndWait();
             nowPlayingListView.setItems(BeatBoxer.nowPlaying);
             try{
@@ -189,6 +198,66 @@ public class BeatBoxerController implements Initializable {
 //           System.out.println("Hello");;
 //       }
     }
+    @FXML
+    private void deleteItem() throws Exception{
+        int tabSelected = listViewTabPane.getSelectionModel().getSelectedIndex();
+        if(tabSelected == 0 || tabSelected==1){
+            BBSong selectedSong;
+            if(tabSelected==0){
+                if(nowPlayingListView.getSelectionModel().getSelectedIndex()==-1)
+                    return;
+                selectedSong = nowPlayingListView.getSelectionModel().getSelectedItem();
+            }
+            else{
+                if(allsongsListView.getSelectionModel().getSelectedIndex()==-1)
+                    return;
+                selectedSong = allsongsListView.getSelectionModel().getSelectedItem();
+            }
+            System.out.println(selectedSong);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("ItemDeleter.fxml"));
+            Parent itemDeleterRoot = (Parent) loader.load();
+            Scene songEditor = new Scene(itemDeleterRoot);
+            ItemDeleterController control = (ItemDeleterController)loader.getController();
+            control.initSong(selectedSong);
+            Stage stager = new Stage();
+            stager.setScene(songEditor);
+            stager.setTitle("Delete Song : " + selectedSong.getName());
+            stager.showAndWait();
+            if(new Show().ShowAllTracks().size()==0 || BeatBoxer.nowPlaying.size()==0){
+                refresh();
+            }
+            nowPlayingListView.setItems(BeatBoxer.nowPlaying);
+            allsongsListView.setItems(new Show().ShowAllTracks());
+            try{
+                Show show  = new Show();
+                ObservableList<BBSong> songList = show.ShowAllTracks();
+                allsongsListView.setItems(songList);
+            }
+            catch(Exception e){
+                ;
+            }
+        }
+        if(tabSelected==2){
+            BBItem selectedPlayList;
+            if(playlistListView.getSelectionModel().getSelectedIndex()<=1){
+                return;
+            }
+            selectedPlayList = playlistListView.getSelectionModel().getSelectedItem();
+            System.out.println(selectedPlayList);
+        }
+    }
+    @FXML
+    public void playNext(){
+        int size = BeatBoxer.nowPlaying.size();
+        BeatBoxer.mediaPlayer.stop();
+        BeatBoxer.play(BeatBoxer.nowPlaying.get((BeatBoxer.currentIndex + 1)%size));
+    }
+    @FXML
+    public void playPrevious(){
+        int size = BeatBoxer.nowPlaying.size();
+        BeatBoxer.mediaPlayer.stop();
+        BeatBoxer.play(BeatBoxer.nowPlaying.get((BeatBoxer.currentIndex + size - 1)%size));
+    }
     public void playAll(){      //play All Songs
         Show show = new Show();
         ObservableList<BBSong> allSongs = show.ShowAllTracks();
@@ -203,7 +272,7 @@ public class BeatBoxerController implements Initializable {
                 System.out.println(song);
             }
             nowPlayingListView.setDisable(false);
-            playButton.setDisable(false);
+            disablePlayGroup(false);
             editButton.setDisable(false);
             favouriteButton.setDisable(false);
             nowPlayingListView.setItems(BeatBoxer.nowPlaying);
@@ -224,7 +293,7 @@ public class BeatBoxerController implements Initializable {
                 System.out.println(song);
             }
             nowPlayingListView.setDisable(false);
-            playButton.setDisable(false);
+            disablePlayGroup(false);
             editButton.setDisable(false);
             favouriteButton.setDisable(false);
             nowPlayingListView.setItems(BeatBoxer.nowPlaying);
@@ -235,6 +304,11 @@ public class BeatBoxerController implements Initializable {
         catch(Exception e){
             ;
         }
+    }
+    public void disablePlayGroup(boolean value){
+        playButton.setDisable(value);
+        previousButton.setDisable(value);
+        nextButton.setDisable(value);
     }
     private String getTrackDetails(){
         return BeatBoxer.nowPlaying.get((BeatBoxer.currentIndex)).stringified();
@@ -250,7 +324,7 @@ public class BeatBoxerController implements Initializable {
             nowPlayingListView.setDisable(true);
             nowPlayingListView.setItems(null);
             trackDetails.setText("\n\nNo track Playing.");
-            playButton.setDisable(true);
+            disablePlayGroup(true);
             editButton.setDisable(true);
             favouriteButton.setDisable(true);
             allsongsListView.setDisable(false);
@@ -263,6 +337,8 @@ public class BeatBoxerController implements Initializable {
             }
             allsongsListView.setItems(songList);
             BeatBoxer.mediaPlayer.stop();
+            timer.setText("-- : --");
+            totalTimer.setText("-- : --");
         }
         catch(Exception e){
             ;
@@ -276,7 +352,7 @@ public class BeatBoxerController implements Initializable {
             
         }
         nowPlayingListView.setDisable(false);
-        playButton.setDisable(false);
+        disablePlayGroup(false);
         editButton.setDisable(false);
         favouriteButton.setDisable(false);
         nowPlayingListView.setItems(BeatBoxer.nowPlaying);
@@ -333,7 +409,7 @@ public class BeatBoxerController implements Initializable {
                 if(newValue.equals(MediaPlayer.Status.PLAYING)){
                     playButton.setSelected(true);
                     nowPlaying.setText("Now Playing...");
-                        playButton.setDisable(false);
+                        disablePlayGroup(false);
                         editButton.setDisable(false);
                         favouriteButton.setDisable(false);
                         favouriteButton.setSelected(getCurrentSong().isFavourite());
@@ -342,7 +418,7 @@ public class BeatBoxerController implements Initializable {
                     playButton.setScaleShape(false);
                     if(newValue.equals(MediaPlayer.Status.PAUSED)){
                         nowPlaying.setText("Now Paused...");
-                        playButton.setDisable(false);
+                        disablePlayGroup(false);
                         editButton.setDisable(false);
                         favouriteButton.setDisable(false);
                         favouriteButton.setSelected(getCurrentSong().isFavourite());
@@ -350,7 +426,7 @@ public class BeatBoxerController implements Initializable {
                     else{
                         nowPlaying.setText("Not Playing...");
                         trackDetails.setText("\n\nNo track Playing.");
-                        playButton.setDisable(true);
+                        disablePlayGroup(true);
                         editButton.setDisable(true);
                         favouriteButton.setDisable(true);
                     }

@@ -35,6 +35,15 @@ ToggleButton{
 #editButton{
     -fx-background-image: url('images/edit_100.png');
 }
+#deleteButton{
+    -fx-background-image: url('images/delete_100.png');
+}
+#nextButton{
+    -fx-background-image: url('images/next_75.png');
+}
+#previousButton{
+    -fx-background-image: url('images/previous_75.png');
+}
 #favouriteButton{
     -fx-background-image: url('images/favourite_100.png');
 }
