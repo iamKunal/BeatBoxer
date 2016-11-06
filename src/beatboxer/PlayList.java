@@ -51,4 +51,16 @@ public class PlayList extends CreateConnection {
 
         }
     }
+
+    public void update(int playlistid, String newname) {
+        try {
+            String sql = "update playlist set playlistname = ? where playlistid = ?";
+            PreparedStatement statement = con.prepareStatement(sql);
+            statement.setString(1, newname);
+            statement.setInt(2, playlistid);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+
+        }
+    }
 }
