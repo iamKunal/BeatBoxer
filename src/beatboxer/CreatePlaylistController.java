@@ -51,7 +51,7 @@ public class CreatePlaylistController implements Initializable {
     @FXML
     private void checkName(KeyEvent event) throws Exception{
         String newPlaylist = nameField.getText();
-        newPlaylist = newPlaylist.replaceAll("\\s+","");
+        newPlaylist = newPlaylist.trim();
         if(newPlaylist.equals("")){
             ok.setDisable(true);
             errorLabel.setText("");
@@ -60,11 +60,16 @@ public class CreatePlaylistController implements Initializable {
             Show sh = new Show();
             ObservableList<BBItem> list = sh.ShowAllPlayLists();
             for(BBItem playList : list){
-                if(playList.getName().equals(newPlaylist)){
+                if(playList.getName().equalsIgnoreCase(newPlaylist)){
                     ok.setDisable(true);
                     errorLabel.setText("A playlist with that name already exists. Please enter \na different name.");
                     return;
                 }
+            }
+            if(newPlaylist.equalsIgnoreCase("All Songs") || newPlaylist.equalsIgnoreCase("Favourites")){
+                ok.setDisable(true);
+                errorLabel.setText("A playlist with that name already exists. Please enter \na different name.");
+                return;       
             }
             errorLabel.setText("");
             ok.setDisable(false);

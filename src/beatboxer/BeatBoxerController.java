@@ -24,6 +24,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.media.Media;
@@ -48,6 +51,8 @@ public class BeatBoxerController implements Initializable {
     private Menu controlMenu;
     @FXML
     private Menu playlistMenu;
+    @FXML
+    private MenuItem newPlayListMenu;
     @FXML
     private Menu helpMenu;
     @FXML
@@ -88,6 +93,7 @@ public class BeatBoxerController implements Initializable {
     private Button nextButton;
     @FXML
     private Button previousButton;
+    
     public static ChangeListener currentTimePropertyListener;
     public static ChangeListener totalDurationPropertyListener;
     public static ChangeListener statusPropertyListener;
@@ -113,7 +119,7 @@ public class BeatBoxerController implements Initializable {
     private void search(){
         String searchString = searchField.getText();
         System.out.println(searchString);
-        searchString = searchString.replaceAll("\\s+","");
+        searchString = searchString.trim();
         if(searchString.equals("")){
             songListView.setItems(null);
             albumListView.setItems(null);
@@ -150,8 +156,8 @@ public class BeatBoxerController implements Initializable {
         }
     }
     @FXML
-    private void editItem() throws Exception{
-//        try{
+    private void editItem() {
+        try{
         int tabSelected = listViewTabPane.getSelectionModel().getSelectedIndex();
         if(tabSelected == 0 || tabSelected==1){
             BBSong selectedSong;
@@ -192,12 +198,26 @@ public class BeatBoxerController implements Initializable {
                 return;
             }
             selectedPlayList = playlistListView.getSelectionModel().getSelectedItem();
+            if(selectedPlayList.getId() <= 0)
+                return;
             System.out.println(selectedPlayList);
+            
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("PlaylistEditor.fxml"));
+            Parent playlistEditorRoot = (Parent) loader.load();
+            Scene playlistEditor = new Scene(playlistEditorRoot);
+            PlaylistEditorController control = (PlaylistEditorController)loader.getController();
+            control.initData(selectedPlayList);
+            Stage stager = new Stage();
+            stager.setScene(playlistEditor);
+            stager.setTitle("Modify Playlist : " + selectedPlayList.getName());
+            stager.showAndWait();
+            playlistListView.setItems(null);
+            playlistListView.setItems(new Show().ShowAllPlayLists());
         }
-//        }
-//       catch(Exception e){
-//           System.out.println("Hello");;
-//       }
+        }
+       catch(Exception e){
+           System.out.println("Hello");;
+       }
     }
     @FXML
     private void deleteItem() throws Exception{
@@ -257,6 +277,7 @@ public class BeatBoxerController implements Initializable {
             stager.setScene(createPlaylist);
             stager.setTitle("Create a new Playlist");
             stager.showAndWait();
+            playlistListView.setItems(new Show().ShowAllPlayLists());
         }
         catch(Exception e){
             ;
@@ -349,8 +370,8 @@ public class BeatBoxerController implements Initializable {
             allsongsListView.setDisable(false);
             playlistListView.setDisable(false);
             ObservableList<BBItem> playLists = FXCollections.observableArrayList();
-            playLists.add(new BBItem(0, "All Songs"));
-            playLists.add(new BBItem(-1, "Favourites"));
+//            playLists.add(new BBItem(0, "All Songs"));
+//            playLists.add(new BBItem(-1, "Favourites"));
             playLists.addAll(new Show().ShowAllPlayLists());
             Show show  = new Show();
             ObservableList<BBSong> songList = show.ShowAllTracks();
@@ -411,7 +432,9 @@ public class BeatBoxerController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        newPlayListMenu.setAccelerator(new KeyCodeCombination(KeyCode.N));
         /*-------------Slider and Time Listeners----------------------------*/
+        
         currentTimePropertyListener =  new ChangeListener<Duration>() {
             @Override
             public void changed(

@@ -40,14 +40,15 @@ public class SongEditorController implements Initializable {
     private void okExecute(){
         try{
             Update u = new Update();
-            u.updateTrack(song.getId(), songField.getText());
-            u.updateAlbum(song.getId(), albumField.getText());
-            u.updateArtist(song.getId(), artistField.getText());
-            u.updateGenre(song.getId(), genreField.getText());
-            song.setName(songField.getText());
-            song.setAlbum(albumField.getText());
-            song.setArtist(artistField.getText());
-            song.setGenre(genreField.getText());
+            String songString = songField.getText().trim(), albumString = albumField.getText().trim(), artistString = artistField.getText().trim(), genreString = genreField.getText().trim();
+            u.updateTrack(song.getId(), songString);
+            u.updateAlbum(song.getId(), albumString);
+            u.updateArtist(song.getId(), artistString);
+            u.updateGenre(song.getId(), genreString);
+            song.setName(songString);
+            song.setAlbum(albumString);
+            song.setArtist(artistString);
+            song.setGenre(genreString);
             int index = BBGenerator.find(BeatBoxer.nowPlaying, song);
             if(index!=-1)
                 BeatBoxer.nowPlaying.set(index, song);

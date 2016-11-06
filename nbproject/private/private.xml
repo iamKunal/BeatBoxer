@@ -5,6 +5,7 @@
         <group>
             <file>file:/home/kunal/Documents/GITPRO/BeatBoxer/src/beatboxer/PlayList.java</file>
             <file>file:/home/kunal/Documents/GITPRO/BeatBoxer/src/beatboxer/CreatePlaylistController.java</file>
+            <file>file:/home/kunal/Documents/GITPRO/BeatBoxer/src/beatboxer/PlaylistEditorController.java</file>
             <file>file:/home/kunal/Documents/GITPRO/BeatBoxer/src/beatboxer/DataBase.java</file>
             <file>file:/home/kunal/Documents/GITPRO/BeatBoxer/src/beatboxer/BBGenerator.java</file>
             <file>file:/home/kunal/Documents/GITPRO/BeatBoxer/src/beatboxer/CreateConnection.java</file>
@@ -20,8 +21,8 @@
             <file>file:/home/kunal/Documents/GITPRO/BeatBoxer/src/beatboxer/ItemDeleterController.java</file>
             <file>file:/home/kunal/Documents/GITPRO/BeatBoxer/src/beatboxer/Show.java</file>
             <file>file:/home/kunal/Documents/GITPRO/BeatBoxer/src/beatboxer/BeatBoxerController.java</file>
-            <file>file:/home/kunal/Documents/GITPRO/BeatBoxer/src/beatboxer/BBSong.java</file>
             <file>file:/home/kunal/Documents/GITPRO/BeatBoxer/src/beatboxer/FolderChooserController.java</file>
+            <file>file:/home/kunal/Documents/GITPRO/BeatBoxer/src/beatboxer/BBSong.java</file>
             <file>file:/home/kunal/Documents/GITPRO/BeatBoxer/src/beatboxer/stylesheet.css</file>
             <file>file:/home/kunal/Documents/GITPRO/BeatBoxer/src/beatboxer/PlayListInfo.java</file>
         </group>
