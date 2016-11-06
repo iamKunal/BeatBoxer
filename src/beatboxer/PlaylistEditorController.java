@@ -18,6 +18,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
@@ -31,28 +32,30 @@ import javax.xml.crypto.dsig.spec.C14NMethodParameterSpec;
  */
 public class PlaylistEditorController implements Initializable {
 
-    @FXML
     private TextField nameField;
-    @FXML
     private Label errorLabel;
-    @FXML
     private ListView<BBSong> allSongsListView;
     @FXML
     private Button ok;
     @FXML
     private Button cancel;
-    @FXML
     private Button right;
-    @FXML
     private Button left;
-    @FXML
     private Button up;
-    @FXML
     private Button down;
-    @FXML
     private ListView<BBSong> playListListView;
     private ArrayList<Pair <Integer, Integer>> instructions; //1-4 = R,L,U,D
     private BBItem playlist;
+    @FXML
+    private Label minuteLabel;
+    @FXML
+    private Label errorLabel1;
+    @FXML
+    private Label secondLabel;
+    @FXML
+    private Slider minuteSlider;
+    @FXML
+    private Label secondSlider;
     /**
      * Initializes the controller class.
      */
@@ -105,7 +108,6 @@ public class PlaylistEditorController implements Initializable {
         allSongsListView.setItems(allsongList);
         playListListView.setItems(playlistList);
     }
-    @FXML
     private void checkName(KeyEvent event) {
         String newPlaylist = nameField.getText();
         newPlaylist = newPlaylist.trim();
@@ -168,7 +170,6 @@ public class PlaylistEditorController implements Initializable {
         currentStage.close();
     }
 
-    @FXML
     private void right(ActionEvent event) {
         BBSong song = allSongsListView.getSelectionModel().getSelectedItem();
         ObservableList<BBSong> list = allSongsListView.getItems();
@@ -184,7 +185,6 @@ public class PlaylistEditorController implements Initializable {
         instructions.add(new Pair(1,song.getId()));
     }
 
-    @FXML
     private void left(ActionEvent event) {
         BBSong song  = playListListView.getSelectionModel().getSelectedItem();
         ObservableList<BBSong> list = playListListView.getItems();
@@ -204,7 +204,6 @@ public class PlaylistEditorController implements Initializable {
         instructions.add(new Pair(2,song.getId()));
     }
 
-    @FXML
     private void up(ActionEvent event) {
         int index = playListListView.getSelectionModel().getSelectedIndex();
         BBSong song  = playListListView.getSelectionModel().getSelectedItem();
@@ -216,7 +215,6 @@ public class PlaylistEditorController implements Initializable {
         instructions.add(new Pair(3,song.getId()));
     }
 
-    @FXML
     private void down(ActionEvent event) {
         int index = playListListView.getSelectionModel().getSelectedIndex();
         BBSong song  = playListListView.getSelectionModel().getSelectedItem();

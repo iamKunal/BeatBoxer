@@ -19,6 +19,13 @@ public class BBGenerator {
 			while(res.next()){
                             list.add(new BBSong(res.getInt("trackid"),res.getString("trackname"),res.getString("albumname"),res.getString("artistname"),res.getString("genre"),res.getString("location"), res.getBoolean("favourite")));
 			}
+//                        ObservableList<BBSong> l = FXCollections.observableArrayList();
+//                        for(BBSong song : list){
+//                            if(! l.contains(song)){
+//                                l.add(song);
+//                            }
+//                        }
+//                        list = l;
 		} catch (SQLException e) { }
 		return list;
 	}

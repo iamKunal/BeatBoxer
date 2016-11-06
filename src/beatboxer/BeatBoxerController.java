@@ -48,7 +48,7 @@ public class BeatBoxerController implements Initializable {
     @FXML
     private Menu fileMenu ;
     @FXML
-    private Menu controlMenu;
+    private Menu modeMenu;
     @FXML
     private Menu playlistMenu;
     @FXML
@@ -93,7 +93,10 @@ public class BeatBoxerController implements Initializable {
     private Button nextButton;
     @FXML
     private Button previousButton;
-    
+    @FXML
+    private Button shuffleButton;
+    @FXML
+    private ToggleButton autoplayButton;
     public static ChangeListener currentTimePropertyListener;
     public static ChangeListener totalDurationPropertyListener;
     public static ChangeListener statusPropertyListener;
@@ -265,6 +268,17 @@ public class BeatBoxerController implements Initializable {
             }
             selectedPlayList = playlistListView.getSelectionModel().getSelectedItem();
             System.out.println(selectedPlayList);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("ItemDeleter.fxml"));
+            Parent itemDeleterRoot = (Parent) loader.load();
+            Scene songEditor = new Scene(itemDeleterRoot);
+            ItemDeleterController control = (ItemDeleterController)loader.getController();
+            control.initPlayList(selectedPlayList);
+            Stage stager = new Stage();
+            stager.setScene(songEditor);
+            stager.setTitle("Delete Playlist : " + selectedPlayList.getName());
+            stager.showAndWait();
+            playlistListView.setItems(null);
+            playlistListView.setItems(new Show().ShowAllPlayLists());
         }
     }
     @FXML
@@ -294,6 +308,26 @@ public class BeatBoxerController implements Initializable {
         int size = BeatBoxer.nowPlaying.size();
         BeatBoxer.mediaPlayer.stop();
         BeatBoxer.play(BeatBoxer.nowPlaying.get((BeatBoxer.currentIndex + size - 1)%size));
+    }
+    @FXML
+    private void shuffle(){
+        ObservableList<BBSong> list = BeatBoxer.nowPlaying;
+        BBSong song = getCurrentSong();
+        FXCollections.shuffle(list);
+        list.remove(song);
+        list.add(0, song);
+        BeatBoxer.currentIndex = 0;
+        nowPlayingListView.setItems(list);
+    }
+    @FXML
+    private void timer() throws Exception{
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("Timer.fxml"));
+            Parent timerRoot = (Parent) loader.load();
+            Scene timer = new Scene(timerRoot);
+            Stage stager = new Stage();
+            stager.setScene(timer);
+            stager.setTitle("Timer");
+            stager.showAndWait();
     }
     public void playAll(){      //play All Songs
         Show show = new Show();
@@ -346,6 +380,8 @@ public class BeatBoxerController implements Initializable {
         playButton.setDisable(value);
         previousButton.setDisable(value);
         nextButton.setDisable(value);
+        shuffleButton.setDisable(value);
+        autoplayButton.setDisable(value);
     }
     private String getTrackDetails(){
         if(BeatBoxer.nowPlaying.size()<=BeatBoxer.currentIndex){
@@ -433,6 +469,37 @@ public class BeatBoxerController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         newPlayListMenu.setAccelerator(new KeyCodeCombination(KeyCode.N));
+        
+        autoplayButton.selectedProperty().addListener(new ChangeListener<Object>(){
+            @Override
+            public void changed(ObservableValue<? extends Object> observable, Object oldValue, Object newValue) {
+                BeatBoxer.autoPlay = observable.getValue().toString().equalsIgnoreCase("true");
+            }
+            
+        });
+        
+        for(MenuItem m : modeMenu.getItems()){
+            m.setOnAction(e -> {
+                Show sh = new Show();
+                ObservableList<BBSong> list = sh.ShowByMode(m.getText());
+                BeatBoxer.nowPlaying.clear();
+                BeatBoxer.nowPlaying.setAll(list);
+                nowPlayingListView.setDisable(false);
+                disablePlayGroup(false);
+                editButton.setDisable(false);
+                favouriteButton.setDisable(false);
+                listViewTabPane.getSelectionModel().select(0);
+                nowPlayingListView.setItems(BeatBoxer.nowPlaying);
+                if(BeatBoxer.nowPlaying.size()==0){
+                    disablePlayGroup(true);
+                    favouriteButton.setDisable(true);
+                }
+                else{
+                    BeatBoxer.play(BeatBoxer.nowPlaying.get(0));
+                }
+                BeatBoxer.mediaPlayer.stop();
+            });
+        }
         /*-------------Slider and Time Listeners----------------------------*/
         
         currentTimePropertyListener =  new ChangeListener<Duration>() {
@@ -486,7 +553,7 @@ public class BeatBoxerController implements Initializable {
                         favouriteButton.setSelected(getCurrentSong().isFavourite());
                 }
                 else{
-                    playButton.setScaleShape(false);
+                    playButton.setSelected(false);
                     if(newValue.equals(MediaPlayer.Status.PAUSED)){
                         nowPlaying.setText("Now Paused...");
                         disablePlayGroup(false);

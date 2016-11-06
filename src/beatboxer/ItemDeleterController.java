@@ -32,7 +32,7 @@ public class ItemDeleterController implements Initializable {
     private HBox okParent;
     private boolean isSong;
     private BBSong song;
-    private BBSong playList;
+    private BBItem playList;
 
     /**
      * Initializes the controller class.
@@ -46,10 +46,10 @@ public class ItemDeleterController implements Initializable {
         this.song = song;
         detailsLabel.setText(detailsLabel.getText() + " song ?\n" + song.getName() + " by " + song.getArtist());
     }
-    public void initPlayList(BBSong playList){
+    public void initPlayList(BBItem playList){
         isSong = false;
         this.playList = playList;
-        detailsLabel.setText(detailsLabel.getText() + " playlist ?\n" + playList.getName()  + " ?");
+        detailsLabel.setText(detailsLabel.getText() + " playlist ?\n" + playList.getName());
     }
     @FXML
     private void cancel(ActionEvent event) {
@@ -80,6 +80,10 @@ public class ItemDeleterController implements Initializable {
                     BeatBoxer.nowPlaying.remove(song);
                     BeatBoxer.currentIndex = BBGenerator.find(BeatBoxer.nowPlaying, newSong);
                 }
+            }
+            else{
+                PlayList d = new PlayList();
+                d.delete(playList.getId());
             }
             cancel(new ActionEvent());
         }

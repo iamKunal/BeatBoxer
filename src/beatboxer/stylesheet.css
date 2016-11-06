@@ -44,8 +44,17 @@ ToggleButton{
 #previousButton{
     -fx-background-image: url('images/previous_75.png');
 }
+#shuffleButton{
+    -fx-background-image: url('images/shuffle_60.png');
+}
 #favouriteButton{
     -fx-background-image: url('images/favourite_100.png');
+}
+#autoplayButton:selected{
+    -fx-background-image: url('images/autoplay_60.png');
+}
+#autoplayButton{
+    -fx-background-image: url('images/noautoplay_60.png');
 }
 #favouriteButton:selected{
     -fx-background-image: url('images/favourited_100.png');

@@ -7,6 +7,7 @@ package beatboxer;
 
 import java.io.File;
 import java.util.ArrayList;
+import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -28,10 +29,11 @@ import javafx.util.Duration;
 public class BeatBoxer extends Application {
     public static MediaPlayer mediaPlayer;
     public static ObservableList<BBSong> nowPlaying;
-    public static boolean autoPlay=true;
+    public static boolean autoPlay=false;
     public static int currentIndex=0;
     public static StringProperty state;
     public static BBSong defaultSong;
+    public static Timeline timer;
     @Override
     public void start(Stage stage) throws Exception {
         state= new SimpleStringProperty("Unknown");

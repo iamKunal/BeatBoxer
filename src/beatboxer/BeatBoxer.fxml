@@ -51,6 +51,20 @@
                            </children>
                         </HBox>
                      </center>
+                     <right>
+                        <Button id="shuffleButton" fx:id="shuffleButton" maxHeight="60.0" maxWidth="60.0" mnemonicParsing="false" onAction="#shuffle" prefHeight="60.0" prefWidth="60.0" BorderPane.alignment="CENTER">
+                           <BorderPane.margin>
+                              <Insets right="60.0" />
+                           </BorderPane.margin>
+                        </Button>
+                     </right>
+                     <left>
+                        <ToggleButton id="autoplayButton" fx:id="autoplayButton" maxHeight="60.0" maxWidth="60.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" BorderPane.alignment="CENTER">
+                           <BorderPane.margin>
+                              <Insets left="60.0" />
+                           </BorderPane.margin>
+                        </ToggleButton>
+                     </left>
                   </BorderPane>
                </center>
             </BorderPane>
@@ -66,9 +80,12 @@
                           <MenuItem mnemonicParsing="false" text="Close" />
                         </items>
                       </Menu>
-                        <Menu fx:id="controlMenu" mnemonicParsing="false" text="Control">
+                        <Menu fx:id="modeMenu" mnemonicParsing="false" text="Mode">
                           <items>
-                            <MenuItem mnemonicParsing="false" text="Play" />
+                            <MenuItem mnemonicParsing="false" text="Driving" />
+                              <MenuItem mnemonicParsing="false" text="Exercise" />
+                              <MenuItem mnemonicParsing="false" text="Party" />
+                              <MenuItem mnemonicParsing="false" text="Soothing" />
                           </items>
                         </Menu>
                       <Menu fx:id="playlistMenu" mnemonicParsing="false" text="Playlist">
@@ -76,6 +93,11 @@
                           <MenuItem fx:id="newPlayListMenu" mnemonicParsing="false" onAction="#createPlaylist" text="New..." />
                         </items>
                       </Menu>
+                        <Menu mnemonicParsing="false" text="Timer">
+                          <items>
+                            <MenuItem mnemonicParsing="false" onAction="#timer" text="Timer..." />
+                          </items>
+                        </Menu>
                       <Menu fx:id="helpMenu" mnemonicParsing="false" text="Help">
                         <items>
                           <MenuItem mnemonicParsing="false" text="About" />
@@ -128,9 +150,9 @@
             </VBox>
          </top>
          <center>
-            <VBox prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
+            <VBox maxHeight="1.7976931348623157E308" prefWidth="100.0" BorderPane.alignment="CENTER">
                <children>
-                  <TabPane fx:id="listViewTabPane" maxHeight="1.7976931348623157E308" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" tabMaxHeight="1.7976931348623158E307" tabMinWidth="150.0">
+                  <TabPane fx:id="listViewTabPane" maxHeight="1.7976931348623157E308" tabClosingPolicy="UNAVAILABLE" tabMaxHeight="1.7976931348623158E307" tabMinWidth="150.0">
                     <tabs>
                       <Tab closable="false" text="Now Playing">
                            <content>

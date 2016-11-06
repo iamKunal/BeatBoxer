@@ -109,14 +109,14 @@ public class Show extends CreateConnection {
 
     public ObservableList<BBSong> ShowByMode(String mode) {
         mode = mode.toLowerCase();
-        ArrayList<String> genre = null;
+        ArrayList<String> genre = new ArrayList<>();
         switch (mode) {
             case "driving":
                 genre.add("Rap");
                 genre.add("Rock");
                 genre.add("Romantic");
                 return BBGenerator.song(ShowByGenre(genre));
-            case "excercise":
+            case "exercise":
                 genre.add("Dance");
                 genre.add("Hip-hop");
                 genre.add("Hiphop");
@@ -145,14 +145,14 @@ public class Show extends CreateConnection {
 
     private ResultSet ShowByGenre(ArrayList<String> genre) {
         try {
-            String sql = "select * from track natural join artist natural join album natural join trackinfo natural join playlistinfo where genre like ?";
+            String sql = "select * from track natural join artist natural join album natural join trackinfo where genre like ?";
             for (int i = 0; i < genre.size() - 1; i++) {
                 sql += " or genre like ?";
             }
             sql += " order by trackname";
             PreparedStatement tracks = con.prepareStatement(sql);
-            for (int i = 1; i <= genre.size(); i++) {
-                tracks.setString(i, '%' + genre.get(i) + '%');
+            for (int i = 0; i < genre.size(); i++) {
+                tracks.setString(i+1, '%' + genre.get(i) + '%');
             }
             return tracks.executeQuery();
         } catch (SQLException e) {
