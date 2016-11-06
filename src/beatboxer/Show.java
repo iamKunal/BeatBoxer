@@ -8,7 +8,7 @@ public class Show extends CreateConnection {
     public ObservableList<BBSong> ShowAllTracks() {
         try {
             Statement count = con.createStatement();
-            ResultSet res = count.executeQuery("select * from track natural join artist natural join album natural join trackinfo");
+            ResultSet res = count.executeQuery("select * from track natural join artist natural join album natural join trackinfo order by trackname");
             return BBGenerator.song(res);
         } catch (SQLException e) {
 
@@ -19,7 +19,7 @@ public class Show extends CreateConnection {
     public ObservableList<BBItem> ShowAllArtists() {
         try {
             Statement count = con.createStatement();
-            ResultSet res = count.executeQuery("Select * from artist");
+            ResultSet res = count.executeQuery("Select * from artist order by artistname");
             return BBGenerator.item(res);
         } catch (SQLException e) {
 
@@ -29,7 +29,7 @@ public class Show extends CreateConnection {
 
     public ObservableList<BBSong> ShowAllTracksByArtists(int artistId) {
         try {
-            String sql = "select * from track natural join artist natural join album natural join trackinfo WHERE artistid=?";
+            String sql = "select * from track natural join artist natural join album natural join trackinfo WHERE artistid = ? order by trackname";
             PreparedStatement statement = con.prepareStatement(sql);
             statement.setInt(1, artistId);
             ResultSet res = statement.executeQuery();
@@ -44,7 +44,7 @@ public class Show extends CreateConnection {
     public ObservableList<BBItem> ShowAllAlbums() {
         try {
             Statement count = con.createStatement();
-            ResultSet res = count.executeQuery("Select * from album");
+            ResultSet res = count.executeQuery("Select * from album order by albumname");
             return BBGenerator.item(res);
         } catch (SQLException e) {
 
@@ -54,7 +54,7 @@ public class Show extends CreateConnection {
 
     public ObservableList<BBSong> ShowAllTracksinAlbum(int albumId) {
         try {
-            String sql = "select * from track natural join artist natural join album natural join trackinfo WHERE albumid=?";
+            String sql = "select * from track natural join artist natural join album natural join trackinfo WHERE albumid = ? order by trackname";
             PreparedStatement statement = con.prepareStatement(sql);
             statement.setInt(1, albumId);
             ResultSet res = statement.executeQuery();
@@ -69,8 +69,12 @@ public class Show extends CreateConnection {
     public ObservableList<BBItem> ShowAllPlayLists() {
         try {
             Statement count = con.createStatement();
-            ResultSet res = count.executeQuery("Select * from playlist");
-            return BBGenerator.item(res);
+            ResultSet res = count.executeQuery("Select * from playlist order by playlistname");
+            ObservableList<BBItem> list = FXCollections.observableArrayList();
+            list.add(new BBItem(0, "All Songs"));
+            list.add(new BBItem(-1, "Favourites"));
+            list.addAll(BBGenerator.item(res));
+            return list;
         } catch (SQLException e) {
 
         }
@@ -92,7 +96,7 @@ public class Show extends CreateConnection {
 
     public ObservableList<BBSong> ShowAllFavourites() {
         try {
-            String sql = "select * from track natural join artist natural join album natural join trackinfo where favourite = true";
+            String sql = "select * from track natural join artist natural join album natural join trackinfo where favourite = true order by trackname";
             Statement tracks = con.createStatement();
             ResultSet res = tracks.executeQuery(sql);
             return BBGenerator.song(res);
