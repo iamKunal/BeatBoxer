@@ -210,6 +210,7 @@ public class BeatBoxerController implements Initializable {
             Scene playlistEditor = new Scene(playlistEditorRoot);
             PlaylistEditorController control = (PlaylistEditorController)loader.getController();
             control.initData(selectedPlayList);
+            playlistEditor.getStylesheets().add(getClass().getResource("playlistStylesheet.css").toExternalForm());
             Stage stager = new Stage();
             stager.setScene(playlistEditor);
             stager.setTitle("Modify Playlist : " + selectedPlayList.getName());
@@ -328,6 +329,10 @@ public class BeatBoxerController implements Initializable {
             stager.setScene(timer);
             stager.setTitle("Timer");
             stager.showAndWait();
+    }
+    @FXML
+    private void exit(){
+        System.exit(0);
     }
     public void playAll(){      //play All Songs
         Show show = new Show();

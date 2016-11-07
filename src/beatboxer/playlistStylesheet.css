@@ -1,0 +1,39 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 7 Nov, 2016, 11:05:42 AM
+    Author     : kunal
+*/
+
+
+#up{
+    -fx-background-color: rgba(255,255,255,0);
+    -fx-border-color: black;
+    -fx-border-insets: -5;
+    -fx-border-radius: 5;
+    -fx-background-image: url('images/up.png');    
+}
+#right{
+    -fx-background-color: rgba(255,255,255,0);
+    -fx-border-color: black;
+    -fx-border-insets: -5;
+    -fx-border-radius: 5;
+    -fx-background-image: url('images/right.png');    
+}
+#down{
+    -fx-background-color: rgba(255,255,255,0);
+    -fx-border-color: black;
+    -fx-border-insets: -5;
+    -fx-border-radius: 5;
+    -fx-background-image: url('images/down.png');    
+}
+#left{
+    -fx-background-color: rgba(255,255,255,0);
+    -fx-border-color: black;
+    -fx-border-insets: -5;
+    -fx-border-radius: 5;
+    -fx-background-image: url('images/left.png');    
+}

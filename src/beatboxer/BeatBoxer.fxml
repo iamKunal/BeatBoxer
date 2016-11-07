@@ -77,7 +77,7 @@
                       <Menu fx:id="fileMenu" mnemonicParsing="false" text="File">
                         <items>
                               <MenuItem mnemonicParsing="false" onAction="#chooseFolders" text="Choose Folders..." />
-                          <MenuItem mnemonicParsing="false" text="Close" />
+                          <MenuItem mnemonicParsing="false" onAction="#exit" text="Close" />
                         </items>
                       </Menu>
                         <Menu fx:id="modeMenu" mnemonicParsing="false" text="Mode">

@@ -58,6 +58,13 @@ public class TimerController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        stop.disabledProperty().addListener(new ChangeListener<Boolean>(){
+            @Override
+            public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
+                ok.setDisable(!newValue);
+            }
+            
+        });
         minuteLabel.textProperty().bind(Bindings.format("%02.0f",minuteSlider.valueProperty()));
         secondLabel.textProperty().bind(Bindings.format("%02.0f",secondSlider.valueProperty()));
         if(BeatBoxer.timer!=null){

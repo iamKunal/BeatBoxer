@@ -138,6 +138,8 @@ public class Show extends CreateConnection {
                 genre.add("Ambient");
                 genre.add("Soft");
                 genre.add("Trap");
+                genre.add("Soothing");
+                
                 return BBGenerator.song(ShowByGenre(genre));
         }
         return null;
