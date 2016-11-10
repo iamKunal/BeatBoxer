@@ -6,9 +6,8 @@ import java.util.ArrayList;
 public class Directory extends CreateConnection {
 
     public void add(String Location) {
-        String sql = "insert into directories(folderlocation) values(?)";
         try {
-            PreparedStatement statement = con.prepareStatement(sql);
+            PreparedStatement statement = con.prepareStatement("call adddirectory(?)");
             statement.setString(1, Location.replace("\\", "/"));
             statement.executeUpdate();
         } catch (SQLException e) {
@@ -17,20 +16,10 @@ public class Directory extends CreateConnection {
     }
 
     public void delete(String Location) {
-        String sql = "delete from directories where folderlocation = ?";
         try {
-            PreparedStatement statement = con.prepareStatement(sql);
-            statement.setString(1, Location);
+            PreparedStatement statement = con.prepareStatement("call deletedirectory(?)");
+            statement.setString(1, Location.replace("\\", "/"));
             statement.executeUpdate();
-            sql = "select trackid from track where location like ?";
-            statement = con.prepareStatement(sql);
-            statement.setString(1, Location.replace("\\", "/") + "/%");
-            ResultSet res = statement.executeQuery();
-            while (res.next()) {
-                System.out.println(res.getInt("trackid"));
-                Delete track = new Delete();
-                track.deleteTrack(res.getInt("trackid"));
-            }
         } catch (SQLException e) {
 
         }

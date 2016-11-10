@@ -17,7 +17,6 @@ import javafx.stage.Stage;
  *
  * @author kunal
  */
-
 public class SongEditorController implements Initializable {
 
     /**
@@ -36,43 +35,44 @@ public class SongEditorController implements Initializable {
     private Button ok;
     @FXML
     private Button cancel;
+
     @FXML
-    private void okExecute(){
-        try{
+    private void okExecute() {
+        try {
             Update u = new Update();
             String songString = songField.getText().trim(), albumString = albumField.getText().trim(), artistString = artistField.getText().trim(), genreString = genreField.getText().trim();
-            u.updateTrack(song.getId(), songString);
-            u.updateAlbum(song.getId(), albumString);
-            u.updateArtist(song.getId(), artistString);
-            u.updateGenre(song.getId(), genreString);
+            u.updateTrack(song.getId(), songString, artistString, albumString, genreString);
             song.setName(songString);
             song.setAlbum(albumString);
             song.setArtist(artistString);
             song.setGenre(genreString);
             int index = BBGenerator.find(BeatBoxer.nowPlaying, song);
-            if(index!=-1)
+            if (index != -1) {
                 BeatBoxer.nowPlaying.set(index, song);
+            }
             cancel();
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             System.out.println("err");
         }
     }
+
     @FXML
-    private void cancel(){
+    private void cancel() {
         Stage currentStage = (Stage) cancel.getScene().getWindow();
         currentStage.close();
     }
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+
     }
-    public void initData(BBSong song){
+
+    public void initData(BBSong song) {
         this.song = song;
         this.songField.setText(song.getName());
         this.albumField.setText(song.getAlbum());
         this.artistField.setText(song.getArtist());
         this.genreField.setText(song.getGenre());
     }
-    
+
 }
