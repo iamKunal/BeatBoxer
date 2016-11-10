@@ -139,8 +139,20 @@ public class Show extends CreateConnection {
                 genre.add("Soft");
                 genre.add("Trap");
                 genre.add("Soothing");
-                
+
                 return BBGenerator.song(ShowByGenre(genre));
+        }
+        return null;
+    }
+
+    public ObservableList<BBSong> ShowRecentlyAdded() {
+        try {
+            String sql = "select * from track natural join artist natural join album natural join trackinfo where to_seconds(dateadded) + 86400 >= to_seconds(current_timestamp()) order by trackorder";
+            Statement tracks = con.createStatement();
+            ResultSet res = tracks.executeQuery(sql);
+            return BBGenerator.song(res);
+        } catch (SQLException e) {
+
         }
         return null;
     }
@@ -154,7 +166,7 @@ public class Show extends CreateConnection {
             sql += " order by trackname";
             PreparedStatement tracks = con.prepareStatement(sql);
             for (int i = 0; i < genre.size(); i++) {
-                tracks.setString(i+1, '%' + genre.get(i) + '%');
+                tracks.setString(i + 1, '%' + genre.get(i) + '%');
             }
             return tracks.executeQuery();
         } catch (SQLException e) {
