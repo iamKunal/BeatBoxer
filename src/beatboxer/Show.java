@@ -147,7 +147,7 @@ public class Show extends CreateConnection {
 
     public ObservableList<BBSong> ShowRecentlyAdded() {
         try {
-            String sql = "select * from track natural join artist natural join album natural join trackinfo where to_seconds(dateadded) + 86400 >= to_seconds(current_timestamp()) order by trackorder";
+            String sql = "select * from track natural join artist natural join album natural join trackinfo where to_seconds(dateadded) + 86400 >= to_seconds(current_timestamp()) order by dateadded";
             Statement tracks = con.createStatement();
             ResultSet res = tracks.executeQuery(sql);
             return BBGenerator.song(res);
