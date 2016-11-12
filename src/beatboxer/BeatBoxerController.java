@@ -450,6 +450,7 @@ public class BeatBoxerController implements Initializable {
                 BeatBoxer.nowPlaying = sh.ShowRecentlyAdded();
             } catch (Exception e) {
                 ;
+            }
         }
         else{
             try{
