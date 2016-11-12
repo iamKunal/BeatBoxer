@@ -36,7 +36,7 @@ public class DataBase {
                     + "artistid int NOT NULL,albumid int NOT NULL)");
             check.execute("create table id(newid int, playlistid int)");
             check.execute("insert into id values(1,1)");
-            check.execute("create trigger incrementid after insert on track for each row update id set newid = newid + 1");
+            check.execute("create trigger incrementidinsert after insert on trackinfo for each row update id set newid = newid + 1");
             check.execute("create trigger incrementplaylistid after insert on playlist for each row update id set playlistid = playlistid + 1");
             check.execute("create trigger deleterefresh after delete on trackinfo "
                     + "for each row begin "
@@ -47,6 +47,7 @@ public class DataBase {
                     + "for each row begin "
                     + "delete from album where albumid not in (select distinct albumid from trackinfo); "
                     + "delete from artist where artistid not in (select distinct artistid from trackinfo); "
+                    + "update id set newid = newid + 1;"
                     + "end");
 
             check.execute("CREATE PROCEDURE addtrack(in trackname varchar(50),in artistname varchar(50),in albumname varchar(100),in location varchar(500),in genre varchar(30)) "
