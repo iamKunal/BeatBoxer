@@ -443,6 +443,13 @@ public class BeatBoxerController implements Initializable {
             catch(Exception e){
                 ;
             }
+        } else if (playlist.getId() == -2) {
+            try {
+                Show sh = new Show();
+                nowPlayingListView.setItems(sh.ShowRecentlyAdded());
+                BeatBoxer.nowPlaying = sh.ShowRecentlyAdded();
+            } catch (Exception e) {
+                ;
         }
         else{
             try{
