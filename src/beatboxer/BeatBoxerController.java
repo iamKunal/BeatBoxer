@@ -197,7 +197,7 @@ public class BeatBoxerController implements Initializable {
         }
         if(tabSelected==2){
             BBItem selectedPlayList;
-            if(playlistListView.getSelectionModel().getSelectedIndex()<=1){
+            if(playlistListView.getSelectionModel().getSelectedIndex()<=2){
                 return;
             }
             selectedPlayList = playlistListView.getSelectionModel().getSelectedItem();
@@ -264,7 +264,7 @@ public class BeatBoxerController implements Initializable {
         }
         if(tabSelected==2){
             BBItem selectedPlayList;
-            if(playlistListView.getSelectionModel().getSelectedIndex()<=1){
+            if(playlistListView.getSelectionModel().getSelectedIndex()<=2){
                 return;
             }
             selectedPlayList = playlistListView.getSelectionModel().getSelectedItem();
