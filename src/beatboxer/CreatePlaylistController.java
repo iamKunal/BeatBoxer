@@ -46,30 +46,29 @@ public class CreatePlaylistController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
+    }
 
     @FXML
-    private void checkName(KeyEvent event) throws Exception{
+    private void checkName(KeyEvent event) throws Exception {
         String newPlaylist = nameField.getText();
         newPlaylist = newPlaylist.trim();
-        if(newPlaylist.equals("")){
+        if (newPlaylist.equals("")) {
             ok.setDisable(true);
             errorLabel.setText("");
-        }
-        else{
+        } else {
             Show sh = new Show();
             ObservableList<BBItem> list = sh.ShowAllPlayLists();
-            for(BBItem playList : list){
-                if(playList.getName().equalsIgnoreCase(newPlaylist)){
+            for (BBItem playList : list) {
+                if (playList.getName().equalsIgnoreCase(newPlaylist)) {
                     ok.setDisable(true);
                     errorLabel.setText("A playlist with that name already exists. Please enter \na different name.");
                     return;
                 }
             }
-            if(newPlaylist.equalsIgnoreCase("All Songs") || newPlaylist.equalsIgnoreCase("Favourites")){
+            if (newPlaylist.equalsIgnoreCase("All Songs") || newPlaylist.equalsIgnoreCase("Favourites") || newPlaylist.equalsIgnoreCase("Recently Added")) {
                 ok.setDisable(true);
                 errorLabel.setText("A playlist with that name already exists. Please enter \na different name.");
-                return;       
+                return;
             }
             errorLabel.setText("");
             ok.setDisable(false);
@@ -84,14 +83,13 @@ public class CreatePlaylistController implements Initializable {
 
     @FXML
     private void okExecute(ActionEvent event) {
-        try{
+        try {
             PlayList p = new PlayList();
             p.create(nameField.getText());
             cancel(new ActionEvent());
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             ;
         }
     }
-    
+
 }
