@@ -52,7 +52,6 @@ public class BeatBoxer extends Application {
         state.addListener(new ChangeListener<String>(){
             @Override
             public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                System.out.println(newValue);
                 if(newValue.equals("autoPlayNext")){
 //                    playNext();
                         if(currentIndex==nowPlaying.size()-1){
@@ -98,16 +97,32 @@ public class BeatBoxer extends Application {
         else{
             currentIndex++;
             BBSong song = nowPlaying.get(currentIndex);
-            System.out.println(song);
             play(song);
         }
     }
+    
+    private static double getvolumevalue(String genre) {
+        double volume;
+        if (genre.contains("Dance") || genre.contains("Party") || genre.contains("Rock") || genre.contains("Metal") || genre.contains("Progressive House")) {
+            volume = 1.0;
+        } else if (genre.contains("Pop") || genre.contains("Electro") || genre.contains("Techno") || genre.contains("Edm") || genre.contains("Hip hop") || genre.contains("Hip-hop") || genre.contains("Trap")) {
+            volume = 0.05;
+        } else if (genre.contains("Romantic") || genre.contains("Soothing") || genre.contains("Soul") || genre.contains("Piano") || genre.contains("Tropical House") || genre.contains("Ambient")) {
+            volume = 0.02;
+        } else if (genre.contains("Bollywood")) {
+            volume = 0.1;
+        } else {
+            volume = 0.3;
+        }
+        return volume;
+    }
+    
     public static void play(BBSong track){
         mediaPlayer.dispose();
         mediaPlayer = toMediaPlayer(track.getLocation());
         initMediaPlayer();
         currentIndex = BBGenerator.find(nowPlaying, track);
-        System.out.println("cI=" + currentIndex  + track + " " + track.isFavourite());
+        mediaPlayer.setVolume(getvolumevalue(track.getGenre()));
         mediaPlayer.play();
     }
     public static void initMediaPlayer(){
