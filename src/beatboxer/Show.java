@@ -9,7 +9,7 @@ public class Show extends CreateConnection {
     public ObservableList<BBSong> ShowAllTracks() {
         try {
             Statement count = con.createStatement();
-            ResultSet res = count.executeQuery("select * from track natural join artist natural join album natural join trackinfo order by trackname");
+            ResultSet res = count.executeQuery("select trackid,trackname,artistname,albumname,location,genre,favourite from track natural join artist natural join album natural join trackinfo order by trackname");
             return BBGenerator.song(res);
         } catch (SQLException e) {
 
@@ -30,7 +30,7 @@ public class Show extends CreateConnection {
 
     public ObservableList<BBSong> ShowAllTracksByArtists(int artistId) {
         try {
-            String sql = "select * from track natural join artist natural join album natural join trackinfo WHERE artistid = ? order by trackname";
+            String sql = "select trackid,trackname,artistname,albumname,location,genre,favourite from track natural join artist natural join album natural join trackinfo WHERE artistid = ? order by trackname";
             PreparedStatement statement = con.prepareStatement(sql);
             statement.setInt(1, artistId);
             ResultSet res = statement.executeQuery();
@@ -116,6 +116,7 @@ public class Show extends CreateConnection {
                 genre.add("Rap");
                 genre.add("Rock");
                 genre.add("Romantic");
+                genre.add("Pop");
                 return BBGenerator.song(ShowByGenre(genre));
             case "exercise":
                 genre.add("Dance");
@@ -123,6 +124,7 @@ public class Show extends CreateConnection {
                 genre.add("Hiphop");
                 genre.add("Edm");
                 genre.add("Rock");
+                genre.add("Pop");
                 return BBGenerator.song(ShowByGenre(genre));
             case "party":
                 genre.add("House");
@@ -133,6 +135,7 @@ public class Show extends CreateConnection {
                 genre.add("Hip hop");
                 genre.add("Hip-hop");
                 genre.add("Pop");
+                genre.add("Electro");
                 return BBGenerator.song(ShowByGenre(genre));
             case "soothing":
                 genre.add("Romantic");
@@ -140,7 +143,9 @@ public class Show extends CreateConnection {
                 genre.add("Soft");
                 genre.add("Trap");
                 genre.add("Soothing");
-
+                genre.add("Paino");
+                genre.add("Tropical");
+                genre.add("Soul");
                 return BBGenerator.song(ShowByGenre(genre));
         }
         return null;
