@@ -55,7 +55,7 @@ public class Show extends CreateConnection {
 
     public ObservableList<BBSong> ShowAllTracksinAlbum(int albumId) {
         try {
-            String sql = "select * from track natural join artist natural join album natural join trackinfo WHERE albumid = ? order by trackname";
+            String sql = "select trackid,trackname,artistname,albumname,location,genre,favourite from track natural join artist natural join album natural join trackinfo WHERE albumid = ? order by trackname";
             PreparedStatement statement = con.prepareStatement(sql);
             statement.setInt(1, albumId);
             ResultSet res = statement.executeQuery();
@@ -74,6 +74,7 @@ public class Show extends CreateConnection {
             ObservableList<BBItem> list = FXCollections.observableArrayList();
             list.add(new BBItem(0, "All Songs"));
             list.add(new BBItem(-1, "Favourites"));
+            list.add(new BBItem(-2, "Recently Added"));
             list.addAll(BBGenerator.item(res));
             return list;
         } catch (SQLException e) {
@@ -84,7 +85,7 @@ public class Show extends CreateConnection {
 
     public ObservableList<BBSong> ShowAllTracksinPlayList(int playlistid) {
         try {
-            String sql = "select * from track natural join artist natural join album natural join trackinfo natural join playlistinfo where playlistid = ? order by trackorder";
+            String sql = "select trackid,trackname,artistname,albumname,location,genre,favourite from track natural join artist natural join album natural join trackinfo natural join playlistinfo where playlistid = ? order by trackorder";
             PreparedStatement tracks = con.prepareStatement(sql);
             tracks.setInt(1, playlistid);
             ResultSet res = tracks.executeQuery();
@@ -97,7 +98,7 @@ public class Show extends CreateConnection {
 
     public ObservableList<BBSong> ShowAllFavourites() {
         try {
-            String sql = "select * from track natural join artist natural join album natural join trackinfo where favourite = true order by trackname";
+            String sql = "select trackid,trackname,artistname,albumname,location,genre,favourite from track natural join artist natural join album natural join trackinfo where favourite = true order by trackname";
             Statement tracks = con.createStatement();
             ResultSet res = tracks.executeQuery(sql);
             return BBGenerator.song(res);
@@ -147,7 +148,7 @@ public class Show extends CreateConnection {
 
     public ObservableList<BBSong> ShowRecentlyAdded() {
         try {
-            String sql = "select * from track natural join artist natural join album natural join trackinfo where to_seconds(dateadded) + 86400 >= to_seconds(current_timestamp()) order by dateadded desc";
+            String sql = "select trackid,trackname,artistname,albumname,location,genre,favourite from track natural join artist natural join album natural join trackinfo where to_seconds(dateadded) + 86400 >= to_seconds(current_timestamp()) order by dateadded desc";
             Statement tracks = con.createStatement();
             ResultSet res = tracks.executeQuery(sql);
             return BBGenerator.song(res);
@@ -159,7 +160,7 @@ public class Show extends CreateConnection {
 
     private ResultSet ShowByGenre(ArrayList<String> genre) {
         try {
-            String sql = "select * from track natural join artist natural join album natural join trackinfo where genre like ?";
+            String sql = "select trackid,trackname,artistname,albumname,location,genre,favourite from track natural join artist natural join album natural join trackinfo where genre like ?";
             for (int i = 0; i < genre.size() - 1; i++) {
                 sql += " or genre like ?";
             }
