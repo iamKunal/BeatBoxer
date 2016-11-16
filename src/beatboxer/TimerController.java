@@ -67,6 +67,30 @@ public class TimerController implements Initializable {
         });
         minuteLabel.textProperty().bind(Bindings.format("%02.0f",minuteSlider.valueProperty()));
         secondLabel.textProperty().bind(Bindings.format("%02.0f",secondSlider.valueProperty()));
+        secondSlider.valueProperty().addListener(new ChangeListener<Number>(){
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                if(newValue.intValue()<1 && minuteSlider.getValue()<1){
+                    ok.setDisable(true);
+                }
+                else if(newValue.intValue()>=1){
+                    ok.setDisable(false);
+                }
+            }
+            
+        });
+        minuteSlider.valueProperty().addListener(new ChangeListener<Number>(){
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                if(newValue.intValue()<1 && secondSlider.getValue()<1){
+                    ok.setDisable(true);
+                }
+                else if(newValue.intValue()>=1){
+                    ok.setDisable(false);
+                }
+            }
+            
+        });
         if(BeatBoxer.timer!=null){
             stop.setDisable(false);
             BeatBoxer.timer.currentTimeProperty().addListener(new ChangeListener<Duration>(){
