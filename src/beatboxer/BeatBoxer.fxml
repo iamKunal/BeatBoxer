@@ -24,7 +24,10 @@
          <bottom>
             <BorderPane id="player" fx:id="player" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                <top>
-                  <Slider fx:id="timeSlider" BorderPane.alignment="CENTER" />
+                  <Slider fx:id="timeSlider" BorderPane.alignment="CENTER">
+                     <padding>
+                        <Insets left="5.0" right="5.0" />
+                     </padding></Slider>
                </top>
                <left>
                   <Label fx:id="timer" minWidth="70.0" prefWidth="70.0" text="-- : --" BorderPane.alignment="CENTER" />
@@ -205,6 +208,18 @@
                </children>
             </VBox>
          </right>
+         <left>
+            <VBox BorderPane.alignment="CENTER">
+               <children>
+                  <Label fx:id="volumeLabel" maxWidth="45.0" minWidth="45.0" prefWidth="45.0" text="100" textAlignment="CENTER" />
+                  <Slider fx:id="volumeSlider" maxHeight="-Infinity" orientation="VERTICAL" prefHeight="500.0" prefWidth="45.0">
+                     <padding>
+                        <Insets bottom="5.0" left="10.0" right="5.0" top="5.0" />
+                     </padding>
+                  </Slider>
+               </children>
+            </VBox>
+         </left>
       </BorderPane>
     </children>
 </AnchorPane>

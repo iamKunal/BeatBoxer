@@ -34,6 +34,7 @@ public class BeatBoxer extends Application {
     public static StringProperty state;
     public static BBSong defaultSong;
     public static Timeline timer;
+    public static double volume;
     @Override
     public void start(Stage stage) throws Exception {
         state= new SimpleStringProperty("Unknown");
@@ -101,28 +102,14 @@ public class BeatBoxer extends Application {
         }
     }
     
-    private static double getvolumevalue(String genre) {
-        double volume;
-        if (genre.contains("Dance") || genre.contains("Party") || genre.contains("Rock") || genre.contains("Metal") || genre.contains("Progressive House")) {
-            volume = 1.0;
-        } else if (genre.contains("Pop") || genre.contains("Electro") || genre.contains("Techno") || genre.contains("Edm") || genre.contains("Hip hop") || genre.contains("Hip-hop") || genre.contains("Trap")) {
-            volume = 0.05;
-        } else if (genre.contains("Romantic") || genre.contains("Soothing") || genre.contains("Soul") || genre.contains("Piano") || genre.contains("Tropical House") || genre.contains("Ambient")) {
-            volume = 0.02;
-        } else if (genre.contains("Bollywood")) {
-            volume = 0.1;
-        } else {
-            volume = 0.3;
-        }
-        return volume;
-    }
+
     
     public static void play(BBSong track){
         mediaPlayer.dispose();
         mediaPlayer = toMediaPlayer(track.getLocation());
         initMediaPlayer();
         currentIndex = BBGenerator.find(nowPlaying, track);
-        mediaPlayer.setVolume(getvolumevalue(track.getGenre()));
+        mediaPlayer.setVolume(volume);
         mediaPlayer.play();
     }
     public static void initMediaPlayer(){

@@ -96,6 +96,10 @@ public class BeatBoxerController implements Initializable {
     @FXML
     private Button shuffleButton;
     @FXML
+    private Slider volumeSlider;
+    @FXML
+    private Label volumeLabel;
+    @FXML
     private ToggleButton autoplayButton;
     public static ChangeListener currentTimePropertyListener;
     public static ChangeListener totalDurationPropertyListener;
@@ -302,13 +306,18 @@ public class BeatBoxerController implements Initializable {
     public void playNext(){
         int size = BeatBoxer.nowPlaying.size();
         BeatBoxer.mediaPlayer.stop();
-        BeatBoxer.play(BeatBoxer.nowPlaying.get((BeatBoxer.currentIndex + 1)%size));
+        BBSong a;
+        a=BeatBoxer.nowPlaying.get((BeatBoxer.currentIndex + 1)%size);
+        setVolumeValue(a.getGenre());
+        BeatBoxer.play(a);
     }
     @FXML
     public void playPrevious(){
         int size = BeatBoxer.nowPlaying.size();
         BeatBoxer.mediaPlayer.stop();
-        BeatBoxer.play(BeatBoxer.nowPlaying.get((BeatBoxer.currentIndex + size - 1)%size));
+        BBSong a = BeatBoxer.nowPlaying.get((BeatBoxer.currentIndex + size - 1)%size);
+        setVolumeValue(a.getGenre());
+        BeatBoxer.play(a);
     }
     @FXML
     private void shuffle(){
@@ -353,6 +362,7 @@ public class BeatBoxerController implements Initializable {
             favouriteButton.setDisable(false);
             nowPlayingListView.setItems(BeatBoxer.nowPlaying);
             listViewTabPane.getSelectionModel().select(0);
+            setVolumeValue(BeatBoxer.nowPlaying.get(0).getGenre());
             BeatBoxer.play(BeatBoxer.nowPlaying.get(0));
             BeatBoxer.mediaPlayer.stop();
         }
@@ -374,6 +384,7 @@ public class BeatBoxerController implements Initializable {
             favouriteButton.setDisable(false);
             nowPlayingListView.setItems(BeatBoxer.nowPlaying);
             listViewTabPane.getSelectionModel().select(0);
+            setVolumeValue(BeatBoxer.nowPlaying.get(0).getGenre());
             BeatBoxer.play(BeatBoxer.nowPlaying.get(0));
             BeatBoxer.mediaPlayer.stop();
         }
@@ -402,6 +413,7 @@ public class BeatBoxerController implements Initializable {
     }
     private void refresh(){
         try{
+            volumeSlider.setValue(100);
             nowPlayingListView.setDisable(true);
             nowPlayingListView.setItems(null);
             trackDetails.setText("\n\nNo track Playing.");
@@ -474,11 +486,27 @@ public class BeatBoxerController implements Initializable {
             favouriteButton.setDisable(true);
         }
         else{
+            setVolumeValue(BeatBoxer.nowPlaying.get(0).getGenre());
             BeatBoxer.play(BeatBoxer.nowPlaying.get(0));
         }
         BeatBoxer.mediaPlayer.stop();
     }
-    
+    private double setVolumeValue(String genre) {
+        double volume=100;
+        if (genre.contains("Dance") || genre.contains("Party") || genre.contains("Rock") || genre.contains("Metal") || genre.contains("Progressive House")) {
+            volume = 100;
+        } else if (genre.contains("Pop") || genre.contains("Electro") || genre.contains("Techno") || genre.contains("Edm") || genre.contains("Hip hop") || genre.contains("Hip-hop") || genre.contains("Trap")) {
+            volume = 70;
+        } else if (genre.contains("Romantic") || genre.contains("Soothing") || genre.contains("Soul") || genre.contains("Piano") || genre.contains("Tropical House") || genre.contains("Ambient")) {
+            volume = 40;
+        } else if (genre.contains("Bollywood")) {
+            volume = 80;
+        } else {
+            volume = 90;
+        }
+        volumeSlider.setValue(volume);
+        return BeatBoxer.volume;
+    }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         newPlayListMenu.setAccelerator(new KeyCodeCombination(KeyCode.N));
@@ -513,6 +541,24 @@ public class BeatBoxerController implements Initializable {
                 BeatBoxer.mediaPlayer.stop();
             });
         }
+        volumeSlider.valueProperty().addListener(new ChangeListener<Number>(){
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                volumeLabel.setText(Integer.toString(newValue.intValue()));
+                if(newValue.intValue()>=1){
+                    BeatBoxer.volume = 1-(0.5*Math.log10(100-newValue.intValue()));
+                    if(Double.isInfinite(BeatBoxer.volume)){
+                        BeatBoxer.volume = 1.00;
+                    }
+                    BeatBoxer.mediaPlayer.setVolume(BeatBoxer.volume);
+                }
+                else{
+                    BeatBoxer.volume=0;
+                    BeatBoxer.mediaPlayer.setVolume(0);
+                }
+            }
+            
+        });
         /*-------------Slider and Time Listeners----------------------------*/
         
         currentTimePropertyListener =  new ChangeListener<Duration>() {
@@ -624,6 +670,7 @@ public class BeatBoxerController implements Initializable {
                    else{
                         BBSong a = nowPlayingListView.getSelectionModel().getSelectedItem();
                         nowPlayingListView.getSelectionModel().select(-1);
+                        setVolumeValue(a.getGenre());
                          BeatBoxer.play(a);
                     }
                 }
@@ -642,6 +689,7 @@ public class BeatBoxerController implements Initializable {
                         allsongsListView.getSelectionModel().select(-1);
                          System.out.println(a.getId());
                          playPlaylist(new BBItem(0, "All Songs"));
+                        setVolumeValue(a.getGenre());
                          BeatBoxer.play(a);
                     }
                 }
@@ -710,6 +758,7 @@ public class BeatBoxerController implements Initializable {
                         songListView.getSelectionModel().select(-1);
                          System.out.println(a.getId());
                          playPlaylist(new BBItem(0, "All Songs"));
+                        setVolumeValue(a.getGenre());
                          BeatBoxer.play(a);
                     }
                 }
