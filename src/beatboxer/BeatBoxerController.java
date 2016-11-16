@@ -7,7 +7,9 @@ package beatboxer;
 
 import com.sun.deploy.uitoolkit.impl.fx.HostServicesFactory;
 import com.sun.javafx.application.HostServicesDelegate;
+import java.awt.Desktop;
 import java.io.IOException;
+import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -350,10 +352,15 @@ public class BeatBoxerController implements Initializable {
         alert.setContentText("BeatBoxer is made by:\nKunal Gupta, Shivam Tayal & Punit Lakshwani.");
         Optional<ButtonType> result = alert.showAndWait();
         if(result.get()==github){
+            String url = "https://goo.gl/fl49zi";
             try {
-                new ProcessBuilder("x-www-browser", "https://goo.gl/fl49zi").start();
+                new ProcessBuilder("x-www-browser", url).start();   //Linux
             } catch (IOException e) {
-                ;
+                try {
+                    Desktop.getDesktop().browse(new URI(url));      //Windows
+                } catch (Exception e1) {
+                    ;
+                }
             }
         }
     }
