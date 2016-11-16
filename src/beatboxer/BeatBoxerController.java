@@ -5,18 +5,17 @@
  */
 package beatboxer;
 
-import java.io.File;
+import com.sun.deploy.uitoolkit.impl.fx.HostServicesFactory;
+import com.sun.javafx.application.HostServicesDelegate;
+import java.io.IOException;
 import java.net.URL;
-import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.ResourceBundle;
-import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -26,12 +25,9 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCodeCombination;
-import javafx.scene.input.KeyCombination;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
-import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -125,7 +121,7 @@ public class BeatBoxerController implements Initializable {
     @FXML
     private void search(){
         String searchString = searchField.getText();
-        System.out.println(searchString);
+//        System.out.println(searchString);
         searchString = searchString.trim();
         if(searchString.equals("")){
             songListView.setItems(null);
@@ -140,7 +136,7 @@ public class BeatBoxerController implements Initializable {
             artistListView.setItems(se.SearchArtist(searchString));
         }
         catch(Exception e){
-            System.out.println("Hey");
+            ;
         }
     }
     @FXML
@@ -178,7 +174,7 @@ public class BeatBoxerController implements Initializable {
                     return;
                 selectedSong = allsongsListView.getSelectionModel().getSelectedItem();
             }
-            System.out.println(selectedSong);
+//            System.out.println(selectedSong);
             FXMLLoader loader = new FXMLLoader(getClass().getResource("SongEditor.fxml"));
             Parent songEditorRoot = (Parent) loader.load();
             Scene songEditor = new Scene(songEditorRoot);
@@ -196,7 +192,7 @@ public class BeatBoxerController implements Initializable {
                 allsongsListView.setItems(songList);
             }
             catch(Exception e){
-                System.out.println("Prob");
+                ;
             }
         }
         if(tabSelected==2){
@@ -207,7 +203,7 @@ public class BeatBoxerController implements Initializable {
             selectedPlayList = playlistListView.getSelectionModel().getSelectedItem();
             if(selectedPlayList.getId() <= 0)
                 return;
-            System.out.println(selectedPlayList);
+//            System.out.println(selectedPlayList);
             
             FXMLLoader loader = new FXMLLoader(getClass().getResource("PlaylistEditor.fxml"));
             Parent playlistEditorRoot = (Parent) loader.load();
@@ -343,6 +339,24 @@ public class BeatBoxerController implements Initializable {
     private void exit(){
         System.exit(0);
     }
+    @FXML
+    private void showHelp(){
+        ButtonType github = new ButtonType("Visit on GitHub");
+        ButtonType ok = new ButtonType("OK",ButtonBar.ButtonData.OK_DONE);
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.getButtonTypes().setAll(github,ok);
+        alert.setTitle("About BeatBoxer");
+        alert.setHeaderText(null);
+        alert.setContentText("BeatBoxer is made by:\nKunal Gupta, Shivam Tayal & Punit Lakshwani.");
+        Optional<ButtonType> result = alert.showAndWait();
+        if(result.get()==github){
+            try {
+                new ProcessBuilder("x-www-browser", "https://goo.gl/fl49zi").start();
+            } catch (IOException e) {
+                ;
+            }
+        }
+    }
     public void playAll(){      //play All Songs
         Show show = new Show();
         ObservableList<BBSong> allSongs = show.ShowAllTracks();
@@ -354,7 +368,7 @@ public class BeatBoxerController implements Initializable {
             ObservableList<BBSong> songList = sh.ShowAllTracksinAlbum(album.getId());
             BeatBoxer.nowPlaying.setAll(songList);
             for(BBSong song : songList){
-                System.out.println(song);
+//                System.out.println(song);
             }
             nowPlayingListView.setDisable(false);
             disablePlayGroup(false);
@@ -375,9 +389,6 @@ public class BeatBoxerController implements Initializable {
             Show sh = new Show();
             ObservableList<BBSong> songList = sh.ShowAllTracksByArtists(artist.getId());
             BeatBoxer.nowPlaying.setAll(songList);
-            for(BBSong song : songList){
-                System.out.println(song);
-            }
             nowPlayingListView.setDisable(false);
             disablePlayGroup(false);
             editButton.setDisable(false);
@@ -666,7 +677,7 @@ public class BeatBoxerController implements Initializable {
                 if (click.getClickCount() == 2) {
                    //Use ListView's getSelected Item
                    if(nowPlayingListView.getSelectionModel().getSelectedItem()==null)
-                        System.out.println("empty1");//pass
+                       ;//pass
                    else{
                         BBSong a = nowPlayingListView.getSelectionModel().getSelectedItem();
                         nowPlayingListView.getSelectionModel().select(-1);
@@ -683,11 +694,11 @@ public class BeatBoxerController implements Initializable {
                 if (click.getClickCount() == 2) {
                    //Use ListView's getSelected Item
                    if(allsongsListView.getSelectionModel().getSelectedItem()==null)
-                        System.out.println("empty2");//pass
+                       ;//pass
                    else{
                         BBSong a = allsongsListView.getSelectionModel().getSelectedItem();
                         allsongsListView.getSelectionModel().select(-1);
-                         System.out.println(a.getId());
+//                         System.out.println(a.getId());
                          playPlaylist(new BBItem(0, "All Songs"));
                         setVolumeValue(a.getGenre());
                          BeatBoxer.play(a);
@@ -703,7 +714,7 @@ public class BeatBoxerController implements Initializable {
                 if (click.getClickCount() == 2) {
                    //Use ListView's getSelected Item
                    if(playlistListView.getSelectionModel().getSelectedItem()==null)
-                        System.out.println("empty3");//pass
+                       ;//pass
                    else{
                         BBItem a = playlistListView.getSelectionModel().getSelectedItem();
                         playlistListView.getSelectionModel().select(-1);
@@ -720,7 +731,7 @@ public class BeatBoxerController implements Initializable {
                 if (click.getClickCount() == 2) {
                    //Use ListView's getSelected Item
                    if(albumListView.getSelectionModel().getSelectedItem()==null)
-                        System.out.println("empty1");//pass
+                       ;//pass
                    else{
                         BBItem a = albumListView.getSelectionModel().getSelectedItem();
                         albumListView.getSelectionModel().select(-1);
@@ -736,7 +747,7 @@ public class BeatBoxerController implements Initializable {
                 if (click.getClickCount() == 2) {
                    //Use ListView's getSelected Item
                    if(artistListView.getSelectionModel().getSelectedItem()==null)
-                        System.out.println("empty1");//pass
+                       ;//pass
                    else{
                         BBItem a = artistListView.getSelectionModel().getSelectedItem();
                         artistListView.getSelectionModel().select(-1);
@@ -752,11 +763,11 @@ public class BeatBoxerController implements Initializable {
                 if (click.getClickCount() == 2) {
                    //Use ListView's getSelected Item
                    if(songListView.getSelectionModel().getSelectedItem()==null)
-                        System.out.println("empty2");//pass
+                       ;//pass
                    else{
                         BBSong a = songListView.getSelectionModel().getSelectedItem();
                         songListView.getSelectionModel().select(-1);
-                         System.out.println(a.getId());
+//                         System.out.println(a.getId());
                          playPlaylist(new BBItem(0, "All Songs"));
                         setVolumeValue(a.getGenre());
                          BeatBoxer.play(a);

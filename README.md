@@ -1153,8 +1153,3 @@
     <img src="docs/images/er.png" name="Picture 1" align="bottom" width="624" height="596" border="0"/>
 </p>
 <p>
-    <img src="" align="left" hspace="12" vspace="5"/>
-    <img src="" align="left" hspace="12" vspace="5"/>
-    <br/>
-    <br/>
-</p>

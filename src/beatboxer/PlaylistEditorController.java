@@ -22,7 +22,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 import javafx.util.Pair;
-import javax.xml.crypto.dsig.spec.C14NMethodParameterSpec;
 
 /**
  * FXML Controller class

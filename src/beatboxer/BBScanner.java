@@ -9,13 +9,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import javafx.collections.FXCollections;
-import javafx.collections.MapChangeListener;
 import javafx.collections.ObservableList;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-import javafx.util.Duration;
 import org.jaudiotagger.audio.*;
-import org.jaudiotagger.*;
 import org.jaudiotagger.tag.*;
 /**
  *

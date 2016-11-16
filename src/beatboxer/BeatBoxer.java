@@ -6,7 +6,6 @@
 package beatboxer;
 
 import java.io.File;
-import java.util.ArrayList;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.beans.property.SimpleStringProperty;

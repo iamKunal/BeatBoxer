@@ -52,7 +52,7 @@ public class SongEditorController implements Initializable {
             }
             cancel();
         } catch (Exception e) {
-            System.out.println("err");
+            ;
         }
     }
 

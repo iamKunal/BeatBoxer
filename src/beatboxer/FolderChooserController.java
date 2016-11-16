@@ -6,11 +6,8 @@
 package beatboxer;
 
 import java.net.URL;
-import java.sql.ResultSet;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -19,7 +16,6 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import javafx.util.Pair;
-import java.sql.*;
 
 /**
  * FXML Controller class
