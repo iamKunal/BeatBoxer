@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="" name="Picture 6" align="bottom" hspace="1" width="207" height="228" border="0"/>
+    <img src="docs/images/iit.png" name="Picture 6" align="bottom" hspace="1" width="207" height="228" border="0"/>
 </p>
 <p align="center">
     <strong>Indian Institute of Technology, Indore</strong>
@@ -1150,7 +1150,7 @@
 </h5>
 <p align="center">
     <a name="_GoBack"></a>
-    <img src="" name="Picture 1" align="bottom" width="624" height="596" border="0"/>
+    <img src="docs/images/er.png" name="Picture 1" align="bottom" width="624" height="596" border="0"/>
 </p>
 <p>
     <img src="" align="left" hspace="12" vspace="5"/>
