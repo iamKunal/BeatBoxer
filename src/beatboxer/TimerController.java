@@ -70,10 +70,10 @@ public class TimerController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 if(newValue.intValue()<1 && minuteSlider.getValue()<1){
-                    ok.setDisable(true);
+                        ok.setDisable(true);
                 }
                 else if(newValue.intValue()>=1){
-                    ok.setDisable(false);
+                        ok.setDisable(false);
                 }
             }
             
@@ -82,16 +82,17 @@ public class TimerController implements Initializable {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 if(newValue.intValue()<1 && secondSlider.getValue()<1){
-                    ok.setDisable(true);
+                        ok.setDisable(true);
                 }
                 else if(newValue.intValue()>=1){
-                    ok.setDisable(false);
+                        ok.setDisable(false);
                 }
             }
             
         });
         if(BeatBoxer.timer!=null){
             stop.setDisable(false);
+            try{
             BeatBoxer.timer.currentTimeProperty().addListener(new ChangeListener<Duration>(){
                 @Override
                 public void changed(ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue) {
@@ -104,6 +105,10 @@ public class TimerController implements Initializable {
                     }
                 }
             });
+            }
+            catch (NullPointerException e){
+                ;
+            }
         }
         else
             stop.setDisable(true);

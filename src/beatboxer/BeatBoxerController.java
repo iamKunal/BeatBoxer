@@ -613,6 +613,14 @@ public class BeatBoxerController implements Initializable {
                             //                            bb.mediaPlayer.dispose();
 //                                if(BeatBoxer.autoPlay){
                             BeatBoxer.state.setValue("autoPlayNext");
+                            if(BeatBoxer.currentIndex==BeatBoxer.nowPlaying.size()-1){
+                                BBSong song = (BeatBoxer.nowPlaying.get(0));
+                                setVolumeValue(song.getGenre());
+                        }
+                        else{
+                            BBSong song = (BeatBoxer.nowPlaying.get(BeatBoxer.currentIndex+1));
+                                setVolumeValue(song.getGenre());
+                        }
                             //                                BeatBoxer.play();
 //                                }
 //                                else

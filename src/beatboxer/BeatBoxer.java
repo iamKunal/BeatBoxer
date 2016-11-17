@@ -17,6 +17,7 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.scene.media.*;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
@@ -43,10 +44,10 @@ public class BeatBoxer extends Application {
         mediaPlayer = toMediaPlayer(nowPlaying.get(0));
         Parent root = FXMLLoader.load(getClass().getResource("BeatBoxer.fxml"));
         Scene scene = new Scene(root);
-        
         scene.getStylesheets().add(getClass().getResource("stylesheet.css").toExternalForm());
         stage.setScene(scene);
         stage.setTitle("BeatBoxer");
+        stage.getIcons().add(new Image(BeatBoxer.class.getResourceAsStream( "images/BeatBoxer.png" ))); 
         stage.show();
 //        mediaPlayer.play();
         state.addListener(new ChangeListener<String>(){
