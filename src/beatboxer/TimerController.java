@@ -98,7 +98,7 @@ public class TimerController implements Initializable {
                 public void changed(ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue) {
                     minuteSlider.setValue(Math.floor(BeatBoxer.timer.getTotalDuration().toMinutes() - newValue.toMinutes()));
                     secondSlider.setValue(Math.floor(BeatBoxer.timer.getTotalDuration().toSeconds() - newValue.toSeconds())%60);
-                    if((BeatBoxer.timer.getTotalDuration().toSeconds() - newValue.toSeconds())<=0.5){
+                    if((BeatBoxer.timer.getTotalDuration().toSeconds() - newValue.toSeconds())<=0.0){
                         stop.setDisable(true);
                         minuteSlider.setValue(5);
                         secondSlider.setValue(0);
