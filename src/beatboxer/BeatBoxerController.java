@@ -245,7 +245,10 @@ public class BeatBoxerController implements Initializable {
                 }
                 selectedSong = allsongsListView.getSelectionModel().getSelectedItem();
             }
-            System.out.println(selectedSong);
+            boolean rightNow=false;
+            if(BeatBoxer.nowPlaying.get(BeatBoxer.currentIndex).equals(selectedSong)){
+                rightNow=true;
+            }
             FXMLLoader loader = new FXMLLoader(getClass().getResource("ItemDeleter.fxml"));
             Parent itemDeleterRoot = (Parent) loader.load();
             Scene songEditor = new Scene(itemDeleterRoot);
@@ -255,6 +258,9 @@ public class BeatBoxerController implements Initializable {
             stager.setScene(songEditor);
             stager.setTitle("Delete Song : " + selectedSong.getName());
             stager.showAndWait();
+            if(!BeatBoxer.nowPlaying.contains(selectedSong) && rightNow){
+                setVolumeValue(BeatBoxer.nowPlaying.get(BeatBoxer.currentIndex).getGenre());
+            }
             if (new Show().ShowAllTracks().size() == 0 || BeatBoxer.nowPlaying.size() == 0) {
                 refresh();
             }

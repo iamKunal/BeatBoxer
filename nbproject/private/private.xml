@@ -4,28 +4,29 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/home/kunal/Documents/GITPRO/BeatBoxer/src/beatboxer/PlayList.java</file>
-            <file>file:/home/kunal/Documents/GITPRO/BeatBoxer/src/beatboxer/CreatePlaylistController.java</file>
+            <file>file:/home/kunal/Documents/GITPRO/BeatBoxer/src/beatboxer/TimerController.java</file>
             <file>file:/home/kunal/Documents/GITPRO/BeatBoxer/src/beatboxer/DataBase.java</file>
             <file>file:/home/kunal/Documents/GITPRO/BeatBoxer/src/beatboxer/BBGenerator.java</file>
+            <file>file:/home/kunal/Documents/GITPRO/BeatBoxer/src/beatboxer/Favourites.java</file>
+            <file>file:/home/kunal/Documents/GITPRO/BeatBoxer/src/beatboxer/Delete.java</file>
+            <file>file:/home/kunal/Documents/GITPRO/BeatBoxer/src/beatboxer/Run.java</file>
+            <file>file:/home/kunal/Documents/GITPRO/BeatBoxer/src/beatboxer/Directory.java</file>
+            <file>file:/home/kunal/Documents/GITPRO/BeatBoxer/src/beatboxer/BBItem.java</file>
+            <file>file:/home/kunal/Documents/GITPRO/BeatBoxer/src/beatboxer/ItemDeleterController.java</file>
+            <file>file:/home/kunal/Documents/GITPRO/BeatBoxer/src/beatboxer/Show.java</file>
+            <file>file:/home/kunal/Documents/GITPRO/BeatBoxer/src/beatboxer/stylesheet.css</file>
+            <file>file:/home/kunal/Documents/GITPRO/BeatBoxer/src/beatboxer/BeatBoxer.fxml</file>
+            <file>file:/home/kunal/Documents/GITPRO/BeatBoxer/src/beatboxer/Timer.fxml</file>
+            <file>file:/home/kunal/Documents/GITPRO/BeatBoxer/src/beatboxer/CreatePlaylistController.java</file>
             <file>file:/home/kunal/Documents/GITPRO/BeatBoxer/src/beatboxer/CreateConnection.java</file>
             <file>file:/home/kunal/Documents/GITPRO/BeatBoxer/src/beatboxer/SongEditorController.java</file>
             <file>file:/home/kunal/Documents/GITPRO/BeatBoxer/src/beatboxer/playlistStylesheet.css</file>
             <file>file:/home/kunal/Documents/GITPRO/BeatBoxer/src/beatboxer/BeatBoxer.java</file>
-            <file>file:/home/kunal/Documents/GITPRO/BeatBoxer/src/beatboxer/Favourites.java</file>
-            <file>file:/home/kunal/Documents/GITPRO/BeatBoxer/src/beatboxer/Delete.java</file>
             <file>file:/home/kunal/Documents/GITPRO/BeatBoxer/src/beatboxer/Search.java</file>
-            <file>file:/home/kunal/Documents/GITPRO/BeatBoxer/src/beatboxer/Run.java</file>
-            <file>file:/home/kunal/Documents/GITPRO/BeatBoxer/src/beatboxer/Directory.java</file>
             <file>file:/home/kunal/Documents/GITPRO/BeatBoxer/src/beatboxer/BBScanner.java</file>
-            <file>file:/home/kunal/Documents/GITPRO/BeatBoxer/src/beatboxer/BBItem.java</file>
-            <file>file:/home/kunal/Documents/GITPRO/BeatBoxer/src/beatboxer/ItemDeleterController.java</file>
-            <file>file:/home/kunal/Documents/GITPRO/BeatBoxer/src/beatboxer/Show.java</file>
             <file>file:/home/kunal/Documents/GITPRO/BeatBoxer/src/beatboxer/BeatBoxerController.java</file>
             <file>file:/home/kunal/Documents/GITPRO/BeatBoxer/src/beatboxer/FolderChooserController.java</file>
             <file>file:/home/kunal/Documents/GITPRO/BeatBoxer/src/beatboxer/BBSong.java</file>
-            <file>file:/home/kunal/Documents/GITPRO/BeatBoxer/src/beatboxer/stylesheet.css</file>
-            <file>file:/home/kunal/Documents/GITPRO/BeatBoxer/src/beatboxer/BeatBoxer.fxml</file>
-            <file>file:/home/kunal/Documents/GITPRO/BeatBoxer/src/beatboxer/Timer.fxml</file>
             <file>file:/home/kunal/Documents/GITPRO/BeatBoxer/src/beatboxer/PlayListInfo.java</file>
         </group>
     </open-files>
