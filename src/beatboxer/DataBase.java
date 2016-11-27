@@ -12,6 +12,8 @@ public class DataBase {
             check.execute("use beatboxer");
             check.execute("create table track("
                     + "trackid int primary key NOT NULL,"
+                    + "artistid int NOT NULL,"
+                    + "albumid int NOT NULL,"
                     + "trackname varchar(50) NOT NULL,"
                     + "dateadded timestamp NOT NULL DEFAULT current_timestamp,"
                     + "location varchar(500) NOT NULL UNIQUE,"
@@ -32,21 +34,19 @@ public class DataBase {
                     + "trackid int NOT NULL,"
                     + "trackorder int NOT NULL,"
                     + "primary key(playlistid, trackid))");
-            check.execute("create table trackinfo(trackid int Primary key NOT NULL,"
-                    + "artistid int NOT NULL,albumid int NOT NULL)");
             check.execute("create table id(newid int, playlistid int)");
             check.execute("insert into id values(1,1)");
-            check.execute("create trigger incrementidinsert after insert on trackinfo for each row update id set newid = newid + 1");
+            check.execute("create trigger incrementidinsert after insert on track for each row update id set newid = newid + 1");
             check.execute("create trigger incrementplaylistid after insert on playlist for each row update id set playlistid = playlistid + 1");
-            check.execute("create trigger deleterefresh after delete on trackinfo "
+            check.execute("create trigger deleterefresh after delete on track "
                     + "for each row begin "
-                    + "delete from album where albumid not in (select distinct albumid from trackinfo); "
-                    + "delete from artist where artistid not in (select distinct artistid from trackinfo); "
+                    + "delete from album where albumid not in (select distinct albumid from track); "
+                    + "delete from artist where artistid not in (select distinct artistid from track); "
                     + "end");
-            check.execute("create trigger updaterefresh after update on trackinfo "
+            check.execute("create trigger updaterefresh after update on track "
                     + "for each row begin "
-                    + "delete from album where albumid not in (select distinct albumid from trackinfo); "
-                    + "delete from artist where artistid not in (select distinct artistid from trackinfo); "
+                    + "delete from album where albumid not in (select distinct albumid from track); "
+                    + "delete from artist where artistid not in (select distinct artistid from track); "
                     + "update id set newid = newid + 1;"
                     + "end");
 
@@ -58,7 +58,6 @@ public class DataBase {
                     + "set trackid = (select newid from id); "
                     + "set artistid = searchartist(artistname); "
                     + "set albumid = searchalbum(albumname); "
-                    + "insert into track(trackid,trackname,location,genre) values(trackid, trackname, location, genre); "
                     + "if (artistid = -1) then "
                     + "	set artistid = (select newid from id); "
                     + "	insert into artist values (artistid, artistname); "
@@ -67,7 +66,7 @@ public class DataBase {
                     + "	set albumid = (select newid from id); "
                     + "	insert into album values (albumid, albumname); "
                     + "end if; "
-                    + "insert into trackinfo values (trackid, artistid, albumid); "
+                    + "insert into track(trackid,artistid,albumid,trackname,location,genre) values(trackid,artistid,albumid,trackname,location,genre); "
                     + "end");
             check.execute("CREATE PROCEDURE adddirectory(in location varchar(500)) "
                     + "BEGIN "
@@ -75,15 +74,9 @@ public class DataBase {
                     + "END");
             check.execute("CREATE PROCEDURE deletedirectory(in location varchar(500)) "
                     + "BEGIN "
-                    + "	declare tid int; "
-                    + " declare trackids cursor for select trackid from track where track.location like concat(location, '%'); "
-                    + "    delete from directories where folderlocation = location; "
-                    + "    open trackids; "
-                    + "    get_trackid : LOOP "
-                    + "		fetch trackids into tid; "
-                    + "		call deletetrack(tid); "
-                    + "	end loop get_trackid; "
-                    + "close trackids; "
+                    + "delete from playlistinfo where playlistinfo.trackid in (select track.trackid from track where track.location like concat(location, '%'));"
+                    + "delete from track where track.location like concat(location, '%');  "
+                    + "delete from directories where folderlocation = location; "
                     + "END");
             check.execute("CREATE PROCEDURE movetrack(in pid int, in tid int, in direction int) "
                     + "BEGIN "
@@ -128,7 +121,6 @@ public class DataBase {
             check.execute("CREATE PROCEDURE deletetrack(in TrackId int) "
                     + "BEGIN "
                     + "delete from track where track.trackid=TrackId; "
-                    + "delete from trackinfo where trackinfo.trackid=TrackId; "
                     + "delete from playlistinfo where playlistinfo.trackid=TrackId; "
                     + "END");
             check.execute("CREATE PROCEDURE favourite(in TrackId int) "
@@ -143,7 +135,6 @@ public class DataBase {
                     + "BEGIN "
                     + "declare ArtistId int; "
                     + "declare AlbumId int; "
-                    + "update track set trackname = newtrack, genre = newgenre where track.trackid = TrackId; "
                     + "set ArtistId=searchartist(newartist); "
                     + "set AlbumId=searchalbum(newalbum); "
                     + "if (ArtistId = -1) then "
@@ -154,7 +145,7 @@ public class DataBase {
                     + "	set AlbumId = (select newid from id); "
                     + "	insert into album values (AlbumId,newalbum); "
                     + "end if; "
-                    + "update trackinfo set artistid=ArtistId, albumid=AlbumId where trackinfo.trackid = TrackId; "
+                    + "update track set trackname = newtrack,genre = newgenre,track.artistid = track.ArtistId,albumid = AlbumId where track.trackid = TrackId; "
                     + "END");
             check.execute("CREATE FUNCTION searchartist(name varchar(50)) RETURNS int(11) "
                     + "BEGIN "
