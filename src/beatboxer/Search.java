@@ -19,7 +19,7 @@ public class Search extends CreateConnection {
 
     public ObservableList<BBSong> SearchTrack(String string) {
         try {
-            String sql = "select * from track natural join artist natural join album natural join trackinfo where trackname LIKE ? order by trackname";
+            String sql = "select * from track natural join artist natural join album where trackname LIKE ? order by trackname";
             PreparedStatement statement = con.prepareStatement(sql);
             statement.setString(1, "%" + string + "%");
             ResultSet res = statement.executeQuery();
