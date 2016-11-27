@@ -145,7 +145,7 @@ public class DataBase {
                     + "	set AlbumId = (select newid from id); "
                     + "	insert into album values (AlbumId,newalbum); "
                     + "end if; "
-                    + "update track set trackname = newtrack,genre = newgenre,track.artistid = track.ArtistId,albumid = AlbumId where track.trackid = TrackId; "
+                    + "update track set trackname = newtrack,genre = newgenre,track.artistid = ArtistId,track.albumid = AlbumId where track.trackid = TrackId; "
                     + "END");
             check.execute("CREATE FUNCTION searchartist(name varchar(50)) RETURNS int(11) "
                     + "BEGIN "
