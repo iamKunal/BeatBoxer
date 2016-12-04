@@ -50,82 +50,81 @@ public class PlaylistEditorController implements Initializable {
     private Button down;
     @FXML
     private ListView<BBSong> playListListView;
-    private ArrayList<Pair <Integer, Integer>> instructions; //1-4 = R,L,U,D
+    private ArrayList<Pair<Integer, Integer>> instructions; //1-4 = R,L,U,D
     private BBItem playlist;
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         instructions = new ArrayList<>();
-        allSongsListView.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>(){
+        allSongsListView.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                if(newValue.intValue()==-1){
+                if (newValue.intValue() == -1) {
                     right.setDisable(true);
-                }
-                else{
+                } else {
                     right.setDisable(false);
                 }
             }
         });
-        playListListView.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>(){
+        playListListView.getSelectionModel().selectedIndexProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                if(newValue.intValue()==-1){
+                if (newValue.intValue() == -1) {
                     left.setDisable(true);
                     up.setDisable(true);
                     down.setDisable(true);
-                }
-                else{
+                } else {
                     left.setDisable(false);
                     up.setDisable(false);
                     down.setDisable(false);
-                    if(newValue.intValue()==0){
+                    if (newValue.intValue() == 0) {
                         up.setDisable(true);
                     }
-                    if(newValue.intValue() == playListListView.getItems().size()-1){
+                    if (newValue.intValue() == playListListView.getItems().size() - 1) {
                         down.setDisable(true);
                     }
                 }
             }
-            
+
         });
-    }    
-    public void initData(BBItem playlist){
+    }
+
+    public void initData(BBItem playlist) {
         this.playlist = playlist;
         this.nameField.setText(playlist.toString());
-        Show sh = new Show();
         ObservableList<BBSong> playlistList;
         ObservableList<BBSong> allsongList;
-        playlistList = sh.ShowAllTracksinPlayList(playlist.getId());
-        allsongList = sh.ShowAllTracks();
+        playlistList = new PlayList().ShowAllTracksinPlayList(playlist.getId());
+        allsongList = new Track().ShowAllTracks();
         allsongList.removeAll(playlistList);
         allSongsListView.setItems(allsongList);
         playListListView.setItems(playlistList);
     }
+
     @FXML
     private void checkName(KeyEvent event) {
         String newPlaylist = nameField.getText();
         newPlaylist = newPlaylist.trim();
-        if(newPlaylist.equals("")){
+        if (newPlaylist.equals("")) {
             ok.setDisable(true);
             errorLabel.setText("");
-        }
-        else{
-            Show sh = new Show();
-            ObservableList<BBItem> list = sh.ShowAllPlayLists();
-            for(BBItem playList : list){
-                if(playList.getName().equalsIgnoreCase(newPlaylist) && !newPlaylist.equalsIgnoreCase(playList.getName())){
+        } else {
+            PlayList pl = new PlayList();
+            ObservableList<BBItem> list = pl.ShowAllPlayLists();
+            for (BBItem playList : list) {
+                if (playList.getName().equalsIgnoreCase(newPlaylist) && !newPlaylist.equalsIgnoreCase(playList.getName())) {
                     ok.setDisable(true);
                     errorLabel.setText("A playlist with that name already exists. Please enter \na different name.");
                     return;
                 }
             }
-            if(newPlaylist.equalsIgnoreCase("All Songs") || newPlaylist.equalsIgnoreCase("Favourites")){
+            if (newPlaylist.equalsIgnoreCase("All Songs") || newPlaylist.equalsIgnoreCase("Favourites")) {
                 ok.setDisable(true);
                 errorLabel.setText("A playlist with that name already exists. Please enter \na different name.");
-                return;       
+                return;
             }
             errorLabel.setText("");
             ok.setDisable(false);
@@ -134,10 +133,10 @@ public class PlaylistEditorController implements Initializable {
 
     @FXML
     private void okExecute(ActionEvent event) {
-        try{
-            PlayListInfo p = new PlayListInfo();
-            for(Pair<Integer,Integer> k: instructions){
-                switch(k.getKey()){
+        try {
+            PlayList p = new PlayList();
+            for (Pair<Integer, Integer> k : instructions) {
+                switch (k.getKey()) {
                     case 1:
                         p.addtrack(playlist.getId(), k.getValue());
                         break;
@@ -154,9 +153,8 @@ public class PlaylistEditorController implements Initializable {
             }
             cancel(new ActionEvent());
             String playlistString = nameField.getText().trim();
-            new PlayList().update(playlist.getId(),playlistString);
-        }
-        catch(Exception e){
+            new PlayList().update(playlist.getId(), playlistString);
+        } catch (Exception e) {
             ;
         }
     }
@@ -174,57 +172,57 @@ public class PlaylistEditorController implements Initializable {
         int index = BBGenerator.find(list, song);
         list.remove(song);
         allSongsListView.setItems(list);
-        if(list.size()!=index){
+        if (list.size() != index) {
             allSongsListView.getSelectionModel().clearAndSelect(index);
         }
         list = playListListView.getItems();
         list.add(song);
         playListListView.setItems(list);
-        instructions.add(new Pair(1,song.getId()));
+        instructions.add(new Pair(1, song.getId()));
     }
 
     @FXML
     private void left(ActionEvent event) {
-        BBSong song  = playListListView.getSelectionModel().getSelectedItem();
+        BBSong song = playListListView.getSelectionModel().getSelectedItem();
         ObservableList<BBSong> list = playListListView.getItems();
         int index = BBGenerator.find(list, song);
         list.remove(song);
         playListListView.setItems(list);
-        if(list.size()!=index){
+        if (list.size() != index) {
             playListListView.getSelectionModel().clearAndSelect(index);
         }
         list = allSongsListView.getItems();
         list.add(song);
-        FXCollections.sort(list, (a,b) -> a.getName().compareToIgnoreCase(b.getName()));
+        FXCollections.sort(list, (a, b) -> a.getName().compareToIgnoreCase(b.getName()));
         allSongsListView.setItems(list);
-        if(allSongsListView.getSelectionModel().getSelectedIndex()==-1){
+        if (allSongsListView.getSelectionModel().getSelectedIndex() == -1) {
             allSongsListView.getSelectionModel().select(song);
         }
-        instructions.add(new Pair(2,song.getId()));
+        instructions.add(new Pair(2, song.getId()));
     }
 
     @FXML
     private void up(ActionEvent event) {
         int index = playListListView.getSelectionModel().getSelectedIndex();
-        BBSong song  = playListListView.getSelectionModel().getSelectedItem();
+        BBSong song = playListListView.getSelectionModel().getSelectedItem();
         ObservableList<BBSong> list = playListListView.getItems();
         list.remove(song);
-        list.add(index-1, song);
+        list.add(index - 1, song);
         playListListView.setItems(list);
-        playListListView.getSelectionModel().clearAndSelect(index-1);
-        instructions.add(new Pair(3,song.getId()));
+        playListListView.getSelectionModel().clearAndSelect(index - 1);
+        instructions.add(new Pair(3, song.getId()));
     }
 
     @FXML
     private void down(ActionEvent event) {
         int index = playListListView.getSelectionModel().getSelectedIndex();
-        BBSong song  = playListListView.getSelectionModel().getSelectedItem();
+        BBSong song = playListListView.getSelectionModel().getSelectedItem();
         ObservableList<BBSong> list = playListListView.getItems();
         list.remove(song);
-        list.add(index+1, song);
+        list.add(index + 1, song);
         playListListView.setItems(list);
-        playListListView.getSelectionModel().clearAndSelect(index+1);
-        instructions.add(new Pair(4,song.getId()));
+        playListListView.getSelectionModel().clearAndSelect(index + 1);
+        instructions.add(new Pair(4, song.getId()));
     }
-    
+
 }

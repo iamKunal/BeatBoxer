@@ -56,8 +56,8 @@ public class CreatePlaylistController implements Initializable {
             ok.setDisable(true);
             errorLabel.setText("");
         } else {
-            Show sh = new Show();
-            ObservableList<BBItem> list = sh.ShowAllPlayLists();
+            PlayList pl = new PlayList();
+            ObservableList<BBItem> list = pl.ShowAllPlayLists();
             for (BBItem playList : list) {
                 if (playList.getName().equalsIgnoreCase(newPlaylist)) {
                     ok.setDisable(true);

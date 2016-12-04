@@ -1,2 +1,4 @@
 dist/
 build/
+/Sqlite/nbproject/private/
+/test/nbproject/private/

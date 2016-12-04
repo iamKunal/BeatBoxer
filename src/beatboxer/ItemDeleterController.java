@@ -5,6 +5,7 @@
  */
 package beatboxer;
 
+import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -40,57 +41,59 @@ public class ItemDeleterController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         // TODO
-    }    
-    public void initSong(BBSong song){
+    }
+
+    public void initSong(BBSong song) {
         isSong = true;
         this.song = song;
         detailsLabel.setText(detailsLabel.getText() + " song ?\n" + song.getName() + " by " + song.getArtist());
     }
-    public void initPlayList(BBItem playList){
+
+    public void initPlayList(BBItem playList) {
         isSong = false;
         this.playList = playList;
         detailsLabel.setText(detailsLabel.getText() + " playlist ?\n" + playList.getName());
     }
+
     @FXML
     private void cancel(ActionEvent event) {
         Stage currentStage = (Stage) cancel.getScene().getWindow();
-        currentStage.close();   
+        currentStage.close();
     }
 
     @FXML
     private void okExecute(ActionEvent event) {
-        try{
-            if(isSong){
-                Delete d = new Delete();
-                d.deleteTrack(song.getId());
-                if(BeatBoxer.nowPlaying.size()==1 && BeatBoxer.nowPlaying.contains(song)){
+        try {
+            if (isSong) {
+                Track track = new Track();
+                track.DeleteTrack(song.getId());
+                System.out.println(song.getLocation());
+                File file = new File(song.getLocation());
+                file.delete();
+                if (BeatBoxer.nowPlaying.size() == 1 && BeatBoxer.nowPlaying.contains(song)) {
                     BeatBoxer.play(BeatBoxer.defaultSong);
                     BeatBoxer.mediaPlayer.stop();
-                }
-                else if (new Show().ShowAllTracks().size()==0){
+                } else if (new Track().ShowAllTracks().isEmpty()) {
                     BeatBoxer.play(BeatBoxer.defaultSong);
                     BeatBoxer.mediaPlayer.stop();
-                }
-                else if(BeatBoxer.nowPlaying.get(BeatBoxer.currentIndex).equals(song)){
+                } else if (BeatBoxer.nowPlaying.get(BeatBoxer.currentIndex).equals(song)) {
                     int size = BeatBoxer.nowPlaying.size();
-                    BeatBoxer.play(BeatBoxer.nowPlaying.get((BeatBoxer.currentIndex + 1)%size));
+                    BeatBoxer.play(BeatBoxer.nowPlaying.get((BeatBoxer.currentIndex + 1) % size));
                 }
-                if(BeatBoxer.nowPlaying.contains(song)){
+                if (BeatBoxer.nowPlaying.contains(song)) {
                     BBSong newSong = BeatBoxer.nowPlaying.get(BeatBoxer.currentIndex);
                     BeatBoxer.nowPlaying.remove(song);
                     BeatBoxer.currentIndex = BBGenerator.find(BeatBoxer.nowPlaying, newSong);
                 }
-            }
-            else{
+            } else {
                 PlayList d = new PlayList();
                 d.delete(playList.getId());
             }
             cancel(new ActionEvent());
+        } catch (Exception e) {
+
         }
-        catch(Exception e){
-            
-        }
-        
+
     }
-    
+
 }

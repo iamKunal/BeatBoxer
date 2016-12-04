@@ -8,8 +8,9 @@ public class CreateConnection {
 
     CreateConnection() {
         try {
-            con = DriverManager.getConnection("jdbc:mysql://localhost:3306/beatboxer", "root", "123");
-        } catch (SQLException e) {
+            Class.forName("org.sqlite.JDBC");
+            con = DriverManager.getConnection("jdbc:sqlite:beatboxer.db");
+        } catch (Exception e) {
 
         }
     }

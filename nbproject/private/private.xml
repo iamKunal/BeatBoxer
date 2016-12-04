@@ -3,10 +3,26 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/SANJAY%20TAYAL/Documents/NetBeansProjects/BeatBoxer/src/beatboxer/Search.java</file>
+            <file>file:/C:/Users/SANJAY%20TAYAL/Documents/NetBeansProjects/BeatBoxer/src/beatboxer/CreateConnection.java</file>
+            <file>file:/C:/Users/SANJAY%20TAYAL/Documents/NetBeansProjects/BeatBoxer/src/beatboxer/ItemDeleterController.java</file>
+            <file>file:/C:/Users/SANJAY%20TAYAL/Documents/NetBeansProjects/BeatBoxer/src/beatboxer/BBSong.java</file>
             <file>file:/C:/Users/SANJAY%20TAYAL/Documents/NetBeansProjects/BeatBoxer/src/beatboxer/DataBase.java</file>
+            <file>file:/C:/Users/SANJAY%20TAYAL/Documents/NetBeansProjects/BeatBoxer/src/beatboxer/TimerController.java</file>
+            <file>file:/C:/Users/SANJAY%20TAYAL/Documents/NetBeansProjects/BeatBoxer/src/beatboxer/PlayList.java</file>
+            <file>file:/C:/Users/SANJAY%20TAYAL/Documents/NetBeansProjects/BeatBoxer/src/beatboxer/CreatePlaylistController.java</file>
+            <file>file:/C:/Users/SANJAY%20TAYAL/Documents/NetBeansProjects/BeatBoxer/src/beatboxer/Track.java</file>
+            <file>file:/C:/Users/SANJAY%20TAYAL/Documents/NetBeansProjects/BeatBoxer/src/beatboxer/BeatBoxer.java</file>
+            <file>file:/C:/Users/SANJAY%20TAYAL/Documents/NetBeansProjects/BeatBoxer/src/beatboxer/SongEditorController.java</file>
+            <file>file:/C:/Users/SANJAY%20TAYAL/Documents/NetBeansProjects/BeatBoxer/src/beatboxer/Artist.java</file>
+            <file>file:/C:/Users/SANJAY%20TAYAL/Documents/NetBeansProjects/BeatBoxer/src/beatboxer/Timer.fxml</file>
             <file>file:/C:/Users/SANJAY%20TAYAL/Documents/NetBeansProjects/BeatBoxer/src/beatboxer/Directory.java</file>
-            <file>file:/C:/Users/SANJAY%20TAYAL/Documents/NetBeansProjects/BeatBoxer/src/beatboxer/Show.java</file>
+            <file>file:/C:/Users/SANJAY%20TAYAL/Documents/NetBeansProjects/BeatBoxer/src/beatboxer/PlaylistEditorController.java</file>
+            <file>file:/C:/Users/SANJAY%20TAYAL/Documents/NetBeansProjects/BeatBoxer/src/beatboxer/BBScanner.java</file>
+            <file>file:/C:/Users/SANJAY%20TAYAL/Documents/NetBeansProjects/BeatBoxer/src/beatboxer/Test.java</file>
+            <file>file:/C:/Users/SANJAY%20TAYAL/Documents/NetBeansProjects/BeatBoxer/src/beatboxer/Album.java</file>
+            <file>file:/C:/Users/SANJAY%20TAYAL/Documents/NetBeansProjects/BeatBoxer/src/beatboxer/BBGenerator.java</file>
+            <file>file:/C:/Users/SANJAY%20TAYAL/Documents/NetBeansProjects/BeatBoxer/src/beatboxer/FolderChooserController.java</file>
+            <file>file:/C:/Users/SANJAY%20TAYAL/Documents/NetBeansProjects/BeatBoxer/src/beatboxer/BeatBoxerController.java</file>
         </group>
     </open-files>
 </project-private>

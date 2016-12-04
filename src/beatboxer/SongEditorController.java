@@ -39,9 +39,9 @@ public class SongEditorController implements Initializable {
     @FXML
     private void okExecute() {
         try {
-            Update u = new Update();
+            Track track = new Track();
             String songString = songField.getText().trim(), albumString = albumField.getText().trim(), artistString = artistField.getText().trim(), genreString = genreField.getText().trim();
-            u.updateTrack(song.getId(), songString, artistString, albumString, genreString);
+            track.UpdateTrack(song.getId(), songString, artistString, albumString, genreString);
             song.setName(songString);
             song.setAlbum(albumString);
             song.setArtist(artistString);
@@ -52,7 +52,7 @@ public class SongEditorController implements Initializable {
             }
             cancel();
         } catch (Exception e) {
-            ;
+            System.out.println("hey");
         }
     }
 

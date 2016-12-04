@@ -101,7 +101,7 @@ public class FolderChooserController implements Initializable {
             pathList = scanner.getList();
             songList = scanner.getMeta(pathList);
             for(BBSong song : songList){
-                new AddTrack(song.getName(), song.getArtist(), song.getAlbum(), song.getLocation(), song.getGenre());
+                new Track().AddTrack(song.getName(), song.getArtist(), song.getAlbum(), song.getLocation(), song.getGenre());
             }
         } catch (Exception e) {
             ;
