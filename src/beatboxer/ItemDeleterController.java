@@ -67,9 +67,6 @@ public class ItemDeleterController implements Initializable {
             if (isSong) {
                 Track track = new Track();
                 track.DeleteTrack(song.getId());
-                System.out.println(song.getLocation());
-                File file = new File(song.getLocation());
-                file.delete();
                 if (BeatBoxer.nowPlaying.size() == 1 && BeatBoxer.nowPlaying.contains(song)) {
                     BeatBoxer.play(BeatBoxer.defaultSong);
                     BeatBoxer.mediaPlayer.stop();
@@ -85,6 +82,8 @@ public class ItemDeleterController implements Initializable {
                     BeatBoxer.nowPlaying.remove(song);
                     BeatBoxer.currentIndex = BBGenerator.find(BeatBoxer.nowPlaying, newSong);
                 }
+                File file = new File(song.getLocation());
+                file.delete();
             } else {
                 PlayList d = new PlayList();
                 d.delete(playList.getId());

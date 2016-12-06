@@ -6,6 +6,7 @@
 package beatboxer;
 
 import java.sql.*;
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 /**
@@ -14,31 +15,12 @@ import javafx.collections.ObservableList;
  */
 public class Album extends CreateConnection {
 
-    public ObservableList<BBItem> ShowAllAlbums() {
-        Statement count = null;
-        try {
-            count = con.createStatement();
-            return BBGenerator.item(count.executeQuery("Select * from album order by albumname"));
-        } catch (SQLException e) {
-
-        } finally {
-            if (count != null) {
-                try {
-                    count.close();
-                } catch (SQLException e) {
-
-                }
-            }
-        }
-        return null;
-    }
-
-    public ObservableList<BBSong> ShowAllTracksinAlbum(int albumId) {
+    public ObservableList<BBSong> ShowAllTracksinAlbum(String Albumname) {
         PreparedStatement statement = null;
         try {
-            String sql = "select trackid,trackname,artistname,albumname,location,genre,favourite from track natural join artist natural join album WHERE albumid = ? order by trackname";
+            String sql = "select trackid,trackname,artistname,albumname,location,genre,favourite from track WHERE albumname = ? order by trackname";
             statement = con.prepareStatement(sql);
-            statement.setInt(1, albumId);
+            statement.setString(1, Albumname);
             return BBGenerator.song(statement.executeQuery());
         } catch (SQLException e) {
 
@@ -55,13 +37,20 @@ public class Album extends CreateConnection {
 
     }
 
-    public ObservableList<BBItem> SearchAlbum(String string) {
+    public ObservableList<String> SearchAlbum(String string) {
         PreparedStatement statement = null;
+        ObservableList<String> list = FXCollections.observableArrayList();
+        ResultSet res = null;
         try {
-            String sql = "select * from album WHERE albumname LIKE ? order by albumname";
+            String sql = "select distinct albumname from track WHERE albumname LIKE ? order by albumname";
             statement = con.prepareStatement(sql);
             statement.setString(1, '%' + string + '%');
-            return BBGenerator.item(statement.executeQuery());
+            res = statement.executeQuery();
+            while (res.next()) {
+                list.add(res.getString(1));
+            }
+            res.close();
+            return list;
         } catch (Exception e) {
             return null;
         } finally {

@@ -5,12 +5,17 @@
  */
 package beatboxer;
 
+import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import org.jaudiotagger.audio.AudioFile;
+import org.jaudiotagger.audio.AudioFileIO;
+import org.jaudiotagger.tag.FieldKey;
+import org.jaudiotagger.tag.Tag;
 
 /**
  * FXML Controller class
@@ -51,6 +56,19 @@ public class SongEditorController implements Initializable {
                 BeatBoxer.nowPlaying.set(index, song);
             }
             cancel();
+            try {
+                File file = new File(song.getLocation());
+                AudioFile a = AudioFileIO.read(file);
+                Tag tags = a.getTag();
+                tags.setField(FieldKey.TITLE, songString);
+                tags.setField(FieldKey.ALBUM, albumString);
+                tags.setField(FieldKey.ARTIST, artistString);
+                tags.setField(FieldKey.GENRE, genreString);
+                a.setTag(tags);
+                a.commit();
+            } catch (Exception e) {
+                
+            }
         } catch (Exception e) {
             System.out.println("hey");
         }
@@ -63,7 +81,8 @@ public class SongEditorController implements Initializable {
     }
 
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
+    public void initialize(URL url, ResourceBundle rb
+    ) {
 
     }
 

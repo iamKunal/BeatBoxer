@@ -7,27 +7,13 @@ import javafx.collections.ObservableList;
 public class PlayList extends CreateConnection {
 
     public void create(String playlistname) {
-        Statement st = null;
         PreparedStatement statement = null;
         try {
-            st = con.createStatement();
-            ResultSet res = st.executeQuery("select playlistid from id");
-            res.next();
-            int pid = res.getInt("playlistid");
-            res.close();
-            statement = con.prepareStatement("insert into playlist(playlistid,playlistname) values(?,?)");
-            statement.setInt(1, pid);
-            statement.setString(2, playlistname.trim());
+            statement = con.prepareStatement("insert into playlist(playlistname) values(?)");
+            statement.setString(1, playlistname.trim());
             statement.execute();
         } catch (Exception e) {
         } finally {
-            if (st != null) {
-                try {
-                    st.close();
-                } catch (SQLException e) {
-
-                }
-            }
             if (statement != null) {
                 try {
                     statement.close();
@@ -225,7 +211,7 @@ public class PlayList extends CreateConnection {
     public ObservableList<BBSong> ShowAllTracksinPlayList(int playlistid) {
         PreparedStatement tracks = null;
         try {
-            String sql = "select trackid,trackname,artistname,albumname,location,genre,favourite from track natural join artist natural join album natural join playlistinfo where playlistid = ? order by trackorder";
+            String sql = "select trackid,trackname,artistname,albumname,location,genre,favourite from track natural join playlistinfo where playlistid = ? order by trackorder";
             tracks = con.prepareStatement(sql);
             tracks.setInt(1, playlistid);
             return BBGenerator.song(tracks.executeQuery());

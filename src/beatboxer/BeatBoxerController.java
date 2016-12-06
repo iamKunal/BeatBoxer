@@ -74,9 +74,9 @@ public class BeatBoxerController implements Initializable {
     @FXML
     private TextField searchField;
     @FXML
-    private ListView<BBItem> albumListView;
+    private ListView<String> albumListView;
     @FXML
-    private ListView<BBItem> artistListView;
+    private ListView<String> artistListView;
     @FXML
     private ListView<BBSong> songListView;
     @FXML
@@ -387,14 +387,11 @@ public class BeatBoxerController implements Initializable {
         BeatBoxer.nowPlaying.setAll(allSongs);
     }
 
-    public void playAlbum(BBItem album) {
+    public void playAlbum(String album) {
         try {
             Album al = new Album();
-            ObservableList<BBSong> songList = al.ShowAllTracksinAlbum(album.getId());
+            ObservableList<BBSong> songList = al.ShowAllTracksinAlbum(album);
             BeatBoxer.nowPlaying.setAll(songList);
-            for (BBSong song : songList) {
-//                System.out.println(song);
-            }
             nowPlayingListView.setDisable(false);
             disablePlayGroup(false);
             editButton.setDisable(false);
@@ -409,10 +406,10 @@ public class BeatBoxerController implements Initializable {
         }
     }
 
-    public void playArtist(BBItem artist) {
+    public void playArtist(String artist) {
         try {
             Artist at = new Artist();
-            ObservableList<BBSong> songList = at.ShowAllTracksByArtists(artist.getId());
+            ObservableList<BBSong> songList = at.ShowAllTracksByArtists(artist);
             BeatBoxer.nowPlaying.setAll(songList);
             nowPlayingListView.setDisable(false);
             disablePlayGroup(false);
@@ -768,7 +765,7 @@ public class BeatBoxerController implements Initializable {
                     if (albumListView.getSelectionModel().getSelectedItem() == null)
                        ;//pass
                     else {
-                        BBItem a = albumListView.getSelectionModel().getSelectedItem();
+                        String a = albumListView.getSelectionModel().getSelectedItem();
                         albumListView.getSelectionModel().select(-1);
                         playAlbum(a);
                     }
@@ -784,7 +781,7 @@ public class BeatBoxerController implements Initializable {
                     if (artistListView.getSelectionModel().getSelectedItem() == null)
                        ;//pass
                     else {
-                        BBItem a = artistListView.getSelectionModel().getSelectedItem();
+                        String a = artistListView.getSelectionModel().getSelectedItem();
                         artistListView.getSelectionModel().select(-1);
                         playArtist(a);
                     }

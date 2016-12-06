@@ -20,206 +20,207 @@
 
 <AnchorPane id="root" fx:id="root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="beatboxer.BeatBoxerController">
     <children>
-      <BorderPane id="borderPane" layoutX="79.0" layoutY="21.0" prefHeight="800.0" prefWidth="700.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <bottom>
-            <BorderPane id="player" fx:id="player" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-               <top>
-                  <Slider fx:id="timeSlider" BorderPane.alignment="CENTER">
-                     <padding>
-                        <Insets left="5.0" right="5.0" />
-                     </padding></Slider>
-               </top>
-               <left>
-                  <Label fx:id="timer" minWidth="70.0" prefWidth="70.0" text="-- : --" BorderPane.alignment="CENTER" />
-               </left>
-               <right>
-                  <Label fx:id="totalTimer" minWidth="70.0" prefWidth="70.0" text="-- : --" BorderPane.alignment="CENTER" />
-               </right>
-               <center>
-                  <BorderPane BorderPane.alignment="CENTER">
-                     <center>
-                        <HBox maxHeight="100.0" maxWidth="250.0" minHeight="0.0" minWidth="0.0" prefHeight="0.0" prefWidth="0.0" spacing="5.0" BorderPane.alignment="CENTER">
-                           <children>
-                              <Button id="previousButton" fx:id="previousButton" layoutX="110.0" layoutY="35.0" maxHeight="75.0" maxWidth="75.0" minHeight="75.0" minWidth="75.0" mnemonicParsing="false" onAction="#playPrevious" prefHeight="75.0" prefWidth="75.0">
-                                 <HBox.margin>
-                                    <Insets top="13.0" />
-                                 </HBox.margin>
-                              </Button>
-                              <ToggleButton id="playButton" fx:id="playButton" contentDisplay="CENTER" maxHeight="100.0" maxWidth="100.0" minHeight="100.0" minWidth="100.0" mnemonicParsing="false" onAction="#playMusic" prefHeight="100.0" prefWidth="100.0" style="-fx-background-color: #FFFFFF;" />
-                              <Button id="nextButton" fx:id="nextButton" maxHeight="75.0" maxWidth="75.0" minHeight="75.0" minWidth="75.0" mnemonicParsing="false" onAction="#playNext" prefHeight="75.0" prefWidth="75.0">
-                                 <HBox.margin>
-                                    <Insets top="13.0" />
-                                 </HBox.margin>
-                              </Button>
-                           </children>
-                        </HBox>
-                     </center>
-                     <right>
-                        <Button id="shuffleButton" fx:id="shuffleButton" maxHeight="60.0" maxWidth="60.0" mnemonicParsing="false" onAction="#shuffle" prefHeight="60.0" prefWidth="60.0" BorderPane.alignment="CENTER">
-                           <BorderPane.margin>
-                              <Insets right="60.0" />
-                           </BorderPane.margin>
-                        </Button>
-                     </right>
-                     <left>
-                        <ToggleButton id="autoplayButton" fx:id="autoplayButton" maxHeight="60.0" maxWidth="60.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" BorderPane.alignment="CENTER">
-                           <BorderPane.margin>
-                              <Insets left="60.0" />
-                           </BorderPane.margin>
-                        </ToggleButton>
-                     </left>
-                  </BorderPane>
-               </center>
-            </BorderPane>
-         </bottom>
-         <top>
-            <VBox fx:id="detailBox" prefHeight="173.0" prefWidth="862.0" styleClass="detailBox" BorderPane.alignment="CENTER">
-               <children>
-                  <MenuBar fx:id="menuBar">
-                    <menus>
-                      <Menu fx:id="fileMenu" mnemonicParsing="false" text="File">
-                        <items>
-                              <MenuItem mnemonicParsing="false" onAction="#chooseFolders" text="Choose Folders..." />
-                          <MenuItem mnemonicParsing="false" onAction="#exit" text="Close" />
-                        </items>
-                      </Menu>
-                        <Menu fx:id="modeMenu" mnemonicParsing="false" text="Mode">
-                          <items>
-                            <MenuItem mnemonicParsing="false" text="Driving" />
-                              <MenuItem mnemonicParsing="false" text="Exercise" />
-                              <MenuItem mnemonicParsing="false" text="Party" />
-                              <MenuItem mnemonicParsing="false" text="Soothing" />
-                          </items>
-                        </Menu>
-                      <Menu fx:id="playlistMenu" mnemonicParsing="false" text="Playlist">
-                        <items>
-                          <MenuItem fx:id="newPlayListMenu" mnemonicParsing="false" onAction="#createPlaylist" text="New..." />
-                        </items>
-                      </Menu>
-                        <Menu mnemonicParsing="false" text="Timer">
-                          <items>
-                            <MenuItem mnemonicParsing="false" onAction="#timer" text="Timer..." />
-                          </items>
-                        </Menu>
-                      <Menu fx:id="helpMenu" mnemonicParsing="false" text="Help">
-                        <items>
-                          <MenuItem mnemonicParsing="false" onAction="#showHelp" text="About" />
-                        </items>
-                      </Menu>
-                    </menus>
-                  </MenuBar>
-                  <HBox spacing="20.0">
-                     <children>
-                        <VBox prefWidth="600.0">
-                           <children>
-                              <Label fx:id="nowPlaying" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Not Playing...">
-                                 <font>
-                                    <Font name="Arial Bold Italic" size="20.0" />
-                                 </font>
-                              </Label>
-                              <Label id="trackDetails" fx:id="trackDetails" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="No Track Playing.">
-                                 <font>
-                                    <Font name="Arial" size="15.0" />
-                                 </font>
-                              </Label>
-                           </children>
-                        </VBox>
-                        <BorderPane prefHeight="200.0" prefWidth="200.0">
-                           <right>
-                              <HBox alignment="CENTER_RIGHT" spacing="20.0" BorderPane.alignment="CENTER_RIGHT">
-                                 <children>
-                                    <Button id="deleteButton" fx:id="deleteButton" layoutX="130.0" layoutY="27.0" mnemonicParsing="false" onAction="#deleteItem" prefHeight="100.0" prefWidth="100.0" />
-                                    <ToggleButton id="favouriteButton" fx:id="favouriteButton" maxHeight="100.0" maxWidth="100.0" minHeight="100.0" minWidth="100.0" mnemonicParsing="false" onAction="#favourite" prefHeight="100.0" prefWidth="100.0" />
-                                    <Button id="editButton" fx:id="editButton" mnemonicParsing="false" onAction="#editItem" prefHeight="100.0" prefWidth="100.0" />
-                                 </children>
-                                 <opaqueInsets>
-                                    <Insets />
-                                 </opaqueInsets>
-                                 <padding>
-                                    <Insets right="10.0" />
-                                 </padding>
-                              </HBox>
-                           </right>
+        <BorderPane id="borderPane" layoutX="79.0" layoutY="21.0" prefHeight="800.0" prefWidth="700.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <bottom>
+                <BorderPane id="player" fx:id="player" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                    <top>
+                        <Slider fx:id="timeSlider" BorderPane.alignment="CENTER">
+                            <padding>
+                                <Insets left="5.0" right="5.0" />
+                            </padding>
+                        </Slider>
+                    </top>
+                    <left>
+                        <Label fx:id="timer" minWidth="70.0" prefWidth="70.0" text="-- : --" BorderPane.alignment="CENTER" />
+                    </left>
+                    <right>
+                        <Label fx:id="totalTimer" minWidth="70.0" prefWidth="70.0" text="-- : --" BorderPane.alignment="CENTER" />
+                    </right>
+                    <center>
+                        <BorderPane BorderPane.alignment="CENTER">
+                            <center>
+                                <HBox maxHeight="100.0" maxWidth="250.0" minHeight="0.0" minWidth="0.0" prefHeight="0.0" prefWidth="0.0" spacing="5.0" BorderPane.alignment="CENTER">
+                                    <children>
+                                        <Button id="previousButton" fx:id="previousButton" layoutX="110.0" layoutY="35.0" maxHeight="75.0" maxWidth="75.0" minHeight="75.0" minWidth="75.0" mnemonicParsing="false" onAction="#playPrevious" prefHeight="75.0" prefWidth="75.0">
+                                            <HBox.margin>
+                                                <Insets top="13.0" />
+                                            </HBox.margin>
+                                        </Button>
+                                        <ToggleButton id="playButton" fx:id="playButton" contentDisplay="CENTER" maxHeight="100.0" maxWidth="100.0" minHeight="100.0" minWidth="100.0" mnemonicParsing="false" onAction="#playMusic" prefHeight="100.0" prefWidth="100.0" style="-fx-background-color: #FFFFFF;" />
+                                        <Button id="nextButton" fx:id="nextButton" maxHeight="75.0" maxWidth="75.0" minHeight="75.0" minWidth="75.0" mnemonicParsing="false" onAction="#playNext" prefHeight="75.0" prefWidth="75.0">
+                                            <HBox.margin>
+                                                <Insets top="13.0" />
+                                            </HBox.margin>
+                                        </Button>
+                                    </children>
+                                </HBox>
+                            </center>
+                            <right>
+                                <Button id="shuffleButton" fx:id="shuffleButton" maxHeight="60.0" maxWidth="60.0" mnemonicParsing="false" onAction="#shuffle" prefHeight="60.0" prefWidth="60.0" BorderPane.alignment="CENTER">
+                                    <BorderPane.margin>
+                                        <Insets right="60.0" />
+                                    </BorderPane.margin>
+                                </Button>
+                            </right>
+                            <left>
+                                <ToggleButton id="autoplayButton" fx:id="autoplayButton" maxHeight="60.0" maxWidth="60.0" mnemonicParsing="false" prefHeight="60.0" prefWidth="60.0" BorderPane.alignment="CENTER">
+                                    <BorderPane.margin>
+                                        <Insets left="60.0" />
+                                    </BorderPane.margin>
+                                </ToggleButton>
+                            </left>
                         </BorderPane>
-                     </children>
-                     <VBox.margin>
-                        <Insets top="10.0" />
-                     </VBox.margin>
-                  </HBox>
-               </children>
-               <BorderPane.margin>
-                  <Insets />
-               </BorderPane.margin>
-            </VBox>
-         </top>
-         <center>
-            <VBox maxHeight="1.7976931348623157E308" prefWidth="100.0" BorderPane.alignment="CENTER">
-               <children>
-                  <TabPane fx:id="listViewTabPane" maxHeight="1.7976931348623157E308" tabClosingPolicy="UNAVAILABLE" tabMaxHeight="1.7976931348623158E307" tabMinWidth="150.0">
-                    <tabs>
-                      <Tab closable="false" text="Now Playing">
-                           <content>
-                              <VBox>
-                                 <children>
-                                    <ListView id="playlistListView" fx:id="nowPlayingListView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" />
-                                 </children>
-                              </VBox>
-                           </content>
-                        </Tab>
-                      <Tab closable="false" text="All Songs">
-                           <content>
-                              <VBox>
-                                 <children>
-                                    <ListView id="playlistListView" fx:id="allsongsListView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" />
-                                 </children>
-                              </VBox>
-                           </content>
-                        </Tab>
-                        <Tab id="playlsits" closable="false" text="Playlists">
-                           <content>
-                              <VBox>
-                                 <children>
-                                    <ListView id="playlistListView" fx:id="playlistListView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" />
-                                 </children>
-                              </VBox>
-                           </content>
-                        </Tab>
-                    </tabs>
-                     <VBox.margin>
+                    </center>
+                </BorderPane>
+            </bottom>
+            <top>
+                <VBox fx:id="detailBox" prefHeight="173.0" prefWidth="862.0" styleClass="detailBox" BorderPane.alignment="CENTER">
+                    <children>
+                        <MenuBar fx:id="menuBar">
+                            <menus>
+                                <Menu fx:id="fileMenu" mnemonicParsing="false" text="File">
+                                    <items>
+                                        <MenuItem mnemonicParsing="false" onAction="#chooseFolders" text="Choose Folders..." />
+                                        <MenuItem mnemonicParsing="false" onAction="#exit" text="Close" />
+                                    </items>
+                                </Menu>
+                                <Menu fx:id="modeMenu" mnemonicParsing="false" text="Mode">
+                                    <items>
+                                        <MenuItem mnemonicParsing="false" text="Driving" />
+                                        <MenuItem mnemonicParsing="false" text="Exercise" />
+                                        <MenuItem mnemonicParsing="false" text="Party" />
+                                        <MenuItem mnemonicParsing="false" text="Soothing" />
+                                    </items>
+                                </Menu>
+                                <Menu fx:id="playlistMenu" mnemonicParsing="false" text="Playlist">
+                                    <items>
+                                        <MenuItem fx:id="newPlayListMenu" mnemonicParsing="false" onAction="#createPlaylist" text="New..." />
+                                    </items>
+                                </Menu>
+                                <Menu mnemonicParsing="false" text="Timer">
+                                    <items>
+                                        <MenuItem mnemonicParsing="false" onAction="#timer" text="Timer..." />
+                                    </items>
+                                </Menu>
+                                <Menu fx:id="helpMenu" mnemonicParsing="false" text="Help">
+                                    <items>
+                                        <MenuItem mnemonicParsing="false" onAction="#showHelp" text="About" />
+                                    </items>
+                                </Menu>
+                            </menus>
+                        </MenuBar>
+                        <HBox spacing="20.0">
+                            <children>
+                                <VBox prefWidth="600.0">
+                                    <children>
+                                        <Label fx:id="nowPlaying" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Not Playing...">
+                                            <font>
+                                                <Font name="Arial Bold Italic" size="20.0" />
+                                            </font>
+                                        </Label>
+                                        <Label id="trackDetails" fx:id="trackDetails" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="No Track Playing.">
+                                            <font>
+                                                <Font name="Arial" size="15.0" />
+                                            </font>
+                                        </Label>
+                                    </children>
+                                </VBox>
+                                <BorderPane prefHeight="200.0" prefWidth="200.0">
+                                    <right>
+                                        <HBox alignment="CENTER_RIGHT" spacing="20.0" BorderPane.alignment="CENTER_RIGHT">
+                                            <children>
+                                                <Button id="deleteButton" fx:id="deleteButton" layoutX="130.0" layoutY="27.0" mnemonicParsing="false" onAction="#deleteItem" prefHeight="100.0" prefWidth="100.0" />
+                                                <ToggleButton id="favouriteButton" fx:id="favouriteButton" maxHeight="100.0" maxWidth="100.0" minHeight="100.0" minWidth="100.0" mnemonicParsing="false" onAction="#favourite" prefHeight="100.0" prefWidth="100.0" />
+                                                <Button id="editButton" fx:id="editButton" mnemonicParsing="false" onAction="#editItem" prefHeight="100.0" prefWidth="100.0" />
+                                            </children>
+                                            <opaqueInsets>
+                                                <Insets />
+                                            </opaqueInsets>
+                                            <padding>
+                                                <Insets right="10.0" />
+                                            </padding>
+                                        </HBox>
+                                    </right>
+                                </BorderPane>
+                            </children>
+                            <VBox.margin>
+                                <Insets top="10.0" />
+                            </VBox.margin>
+                        </HBox>
+                    </children>
+                    <BorderPane.margin>
                         <Insets />
-                     </VBox.margin>
-                  </TabPane>
-               </children>
-               <padding>
-                  <Insets left="10.0" />
-               </padding>
-            </VBox>
-         </center>
-         <right>
-            <VBox prefHeight="200.0" prefWidth="343.0" BorderPane.alignment="CENTER">
-               <children>
-                  <TextField fx:id="searchField" onKeyReleased="#search" promptText="Search..." />
-                  <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Albums" />
-                  <ListView fx:id="albumListView" maxWidth="1.7976931348623157E308" />
-                  <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Artist" />
-                  <ListView fx:id="artistListView" maxWidth="1.7976931348623157E308" />
-                  <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Songs" />
-                  <ListView fx:id="songListView" maxWidth="1.7976931348623157E308" />
-               </children>
-            </VBox>
-         </right>
-         <left>
-            <VBox BorderPane.alignment="CENTER">
-               <children>
-                  <Label fx:id="volumeLabel" maxWidth="45.0" minWidth="45.0" prefWidth="45.0" text="100" textAlignment="CENTER" />
-                  <Slider fx:id="volumeSlider" maxHeight="-Infinity" orientation="VERTICAL" prefHeight="500.0" prefWidth="45.0">
-                     <padding>
-                        <Insets bottom="5.0" left="10.0" right="5.0" top="5.0" />
-                     </padding>
-                  </Slider>
-               </children>
-            </VBox>
-         </left>
-      </BorderPane>
+                    </BorderPane.margin>
+                </VBox>
+            </top>
+            <center>
+                <VBox maxHeight="1.7976931348623157E308" prefWidth="100.0" BorderPane.alignment="CENTER">
+                    <children>
+                        <TabPane fx:id="listViewTabPane" maxHeight="1.7976931348623157E308" tabClosingPolicy="UNAVAILABLE" tabMaxHeight="1.7976931348623158E307" tabMinWidth="150.0">
+                            <tabs>
+                                <Tab closable="false" text="Now Playing">
+                                    <content>
+                                        <VBox>
+                                            <children>
+                                                <ListView id="playlistListView" fx:id="nowPlayingListView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" />
+                                            </children>
+                                        </VBox>
+                                    </content>
+                                </Tab>
+                                <Tab closable="false" text="All Songs">
+                                    <content>
+                                        <VBox>
+                                            <children>
+                                                <ListView id="playlistListView" fx:id="allsongsListView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" />
+                                            </children>
+                                        </VBox>
+                                    </content>
+                                </Tab>
+                                <Tab id="playlsits" closable="false" text="Playlists">
+                                    <content>
+                                        <VBox>
+                                            <children>
+                                                <ListView id="playlistListView" fx:id="playlistListView" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="-Infinity" />
+                                            </children>
+                                        </VBox>
+                                    </content>
+                                </Tab>
+                            </tabs>
+                            <VBox.margin>
+                                <Insets />
+                            </VBox.margin>
+                        </TabPane>
+                    </children>
+                    <padding>
+                        <Insets left="10.0" />
+                    </padding>
+                </VBox>
+            </center>
+            <right>
+                <VBox prefHeight="200.0" prefWidth="343.0" BorderPane.alignment="CENTER">
+                    <children>
+                        <TextField fx:id="searchField" onKeyReleased="#search" promptText="Search..." />
+                        <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Albums" />
+                        <ListView fx:id="albumListView" maxWidth="1.7976931348623157E308" />
+                        <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Artist" />
+                        <ListView fx:id="artistListView" maxWidth="1.7976931348623157E308" />
+                        <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Songs" />
+                        <ListView fx:id="songListView" maxWidth="1.7976931348623157E308" />
+                    </children>
+                </VBox>
+            </right>
+            <left>
+                <VBox BorderPane.alignment="CENTER">
+                    <children>
+                        <Label fx:id="volumeLabel" maxWidth="45.0" minWidth="45.0" prefWidth="45.0" text="100" textAlignment="CENTER" />
+                        <Slider fx:id="volumeSlider" maxHeight="-Infinity" orientation="VERTICAL" prefHeight="500.0" prefWidth="45.0">
+                            <padding>
+                                <Insets bottom="5.0" left="10.0" right="5.0" top="5.0" />
+                            </padding>
+                        </Slider>
+                    </children>
+                </VBox>
+            </left>
+        </BorderPane>
     </children>
 </AnchorPane>

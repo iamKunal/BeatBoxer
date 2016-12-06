@@ -23,7 +23,7 @@ import javafx.util.Pair;
  * @author kunal
  */
 public class FolderChooserController implements Initializable {
-    
+
     @FXML
     private ListView<String> folderChooserListView;
     @FXML
@@ -35,34 +35,36 @@ public class FolderChooserController implements Initializable {
     @FXML
     private Button cancel;
     private ObservableList<String> directories;
-    private ArrayList<Pair<Integer,String>> instructions;
+    private ArrayList<Pair<Integer, String>> instructions;
+
     /**
      * Initializes the controller class.
      */
     @FXML
-    private void chooseFolder(){
+    private void chooseFolder() {
         ObservableList<String> folderList = FXCollections.observableArrayList();
         folderList = folderChooserListView.getItems();
         String newFolder = BeatBoxer.getDirectory();
-        if(! folderList.contains(newFolder) &&  !newFolder.equals("")){
+        if (!folderList.contains(newFolder) && !newFolder.equals("")) {
             folderList.add(newFolder);
-            instructions.add(new Pair(1,newFolder));
+            instructions.add(new Pair(1, newFolder));
             folderChooserListView.setItems(folderList);
         }
     }
+
     @FXML
-    private void cancel(){
+    private void cancel() {
         instructions.clear();
         Stage currentStage = (Stage) cancel.getScene().getWindow();
         currentStage.close();
     }
-    
+
     @FXML
-    private void okExecute(){
-        try{
+    private void okExecute() {
+        try {
             Directory d = new Directory();
-            for(Pair<Integer, String> p : instructions){
-                switch(p.getKey()){
+            for (Pair<Integer, String> p : instructions) {
+                switch (p.getKey()) {
                     case 1:
                         d.add(p.getValue());
                         break;
@@ -71,62 +73,62 @@ public class FolderChooserController implements Initializable {
                         break;
                 }
             }
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             ;
         }
         scanNow();
         cancel();
     }
+
     @FXML
-    private void remove(){
+    private void remove() {
         String remDir = folderChooserListView.getSelectionModel().getSelectedItem();
         ObservableList<String> folderList = FXCollections.observableArrayList();
         folderList = folderChooserListView.getItems();
-        if(folderList.contains(remDir)){
+        if (folderList.contains(remDir)) {
             folderList.remove(remDir);
-            instructions.add(new Pair(2,remDir));
+            instructions.add(new Pair(2, remDir));
         }
     }
-    private void scanNow(){
-        try{
+
+    private void scanNow() {
+        try {
             Directory con = new Directory();
             ArrayList<String> folders = con.Show();
             BBScanner scanner = new BBScanner();
             ObservableList<BBSong> songList;
             ArrayList<String> pathList;
-            for(String folder: folders){
+            for (String folder : folders) {
                 scanner.scan(folder);
             }
             pathList = scanner.getList();
             songList = scanner.getMeta(pathList);
-            for(BBSong song : songList){
+            for (BBSong song : songList) {
                 new Track().AddTrack(song.getName(), song.getArtist(), song.getAlbum(), song.getLocation(), song.getGenre());
             }
         } catch (Exception e) {
             ;
         }
     }
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         instructions = new ArrayList<>();
         directories = FXCollections.observableArrayList();
-        try{
+        try {
             Directory con = new Directory();
             directories.addAll(con.Show());
             folderChooserListView.setItems(directories);
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             ;
         }
         folderChooserListView.getSelectionModel().selectedIndexProperty().addListener((ObservableValue<? extends Number> observable, Number oldValue, Number newValue) -> {
-            if(newValue.intValue()==-1){
+            if (newValue.intValue() == -1) {
                 remove.setDisable(true);
-            }
-            else{
+            } else {
                 remove.setDisable(false);
             }
         });
-    }    
-    
+    }
+
 }

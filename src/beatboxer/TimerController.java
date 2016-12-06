@@ -44,83 +44,82 @@ public class TimerController implements Initializable {
     private Slider minuteSlider;
     @FXML
     private Slider secondSlider;
+
     @FXML
-    private void stop(){
+    private void stop() {
         BeatBoxer.timer.stop();
         BeatBoxer.timer = null;
         minuteSlider.setValue(5);
         secondSlider.setValue(0);
         stop.setDisable(true);
     }
+
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        stop.disabledProperty().addListener(new ChangeListener<Boolean>(){
+        stop.disabledProperty().addListener(new ChangeListener<Boolean>() {
             @Override
             public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
                 ok.setDisable(!newValue);
             }
-            
+
         });
-        minuteLabel.textProperty().bind(Bindings.format("%02.0f",minuteSlider.valueProperty()));
-        secondLabel.textProperty().bind(Bindings.format("%02.0f",secondSlider.valueProperty()));
-        secondSlider.valueProperty().addListener(new ChangeListener<Number>(){
+        minuteLabel.textProperty().bind(Bindings.format("%02.0f", minuteSlider.valueProperty()));
+        secondLabel.textProperty().bind(Bindings.format("%02.0f", secondSlider.valueProperty()));
+        secondSlider.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                if(newValue.intValue()<1 && minuteSlider.getValue()<1){
-                        ok.setDisable(true);
-                }
-                else if(newValue.intValue()>=1){
-                        ok.setDisable(false);
+                if (newValue.intValue() < 1 && minuteSlider.getValue() < 1) {
+                    ok.setDisable(true);
+                } else if (newValue.intValue() >= 1) {
+                    ok.setDisable(false);
                 }
             }
-            
+
         });
-        minuteSlider.valueProperty().addListener(new ChangeListener<Number>(){
+        minuteSlider.valueProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                if(newValue.intValue()<1 && secondSlider.getValue()<1){
-                        ok.setDisable(true);
-                }
-                else if(newValue.intValue()>=1){
-                        ok.setDisable(false);
+                if (newValue.intValue() < 1 && secondSlider.getValue() < 1) {
+                    ok.setDisable(true);
+                } else if (newValue.intValue() >= 1) {
+                    ok.setDisable(false);
                 }
             }
-            
+
         });
-        if(BeatBoxer.timer!=null){
+        if (BeatBoxer.timer != null) {
             stop.setDisable(false);
-            try{
-            BeatBoxer.timer.currentTimeProperty().addListener(new ChangeListener<Duration>(){
-                @Override
-                public void changed(ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue) {
-                    minuteSlider.setValue(Math.floor(BeatBoxer.timer.getTotalDuration().toMinutes() - newValue.toMinutes()));
-                    secondSlider.setValue(Math.floor(BeatBoxer.timer.getTotalDuration().toSeconds() - newValue.toSeconds())%60);
-                    if((BeatBoxer.timer.getTotalDuration().toSeconds() - newValue.toSeconds())<=0.0){
-                        stop.setDisable(true);
-                        minuteSlider.setValue(5);
-                        secondSlider.setValue(0);
+            try {
+                BeatBoxer.timer.currentTimeProperty().addListener(new ChangeListener<Duration>() {
+                    @Override
+                    public void changed(ObservableValue<? extends Duration> observable, Duration oldValue, Duration newValue) {
+                        minuteSlider.setValue(Math.floor(BeatBoxer.timer.getTotalDuration().toMinutes() - newValue.toMinutes()));
+                        secondSlider.setValue(Math.floor(BeatBoxer.timer.getTotalDuration().toSeconds() - newValue.toSeconds()) % 60);
+                        if ((BeatBoxer.timer.getTotalDuration().toSeconds() - newValue.toSeconds()) <= 0.0) {
+                            stop.setDisable(true);
+                            minuteSlider.setValue(5);
+                            secondSlider.setValue(0);
+                        }
                     }
-                }
-            });
-            }
-            catch (NullPointerException e){
+                });
+            } catch (NullPointerException e) {
                 ;
             }
-        }
-        else
+        } else {
             stop.setDisable(true);
-    }    
+        }
+    }
 
     @FXML
     private void okExecute(ActionEvent event) {
-        double d = Double.parseDouble(minuteLabel.getText())*60 + Double.parseDouble(secondLabel.getText());
+        double d = Double.parseDouble(minuteLabel.getText()) * 60 + Double.parseDouble(secondLabel.getText());
         BeatBoxer.timer = new Timeline(new KeyFrame(Duration.seconds(d), new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                if(BeatBoxer.mediaPlayer.getStatus().equals(MediaPlayer.Status.PLAYING)){
+                if (BeatBoxer.mediaPlayer.getStatus().equals(MediaPlayer.Status.PLAYING)) {
                     BeatBoxer.play();
                 }
                 BeatBoxer.timer = null;
@@ -138,5 +137,5 @@ public class TimerController implements Initializable {
         Stage currentStage = (Stage) cancel.getScene().getWindow();
         currentStage.close();
     }
-    
+
 }
