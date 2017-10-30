@@ -2,7 +2,7 @@
     <img src="docs/images/iit.png" name="Picture 6" align="bottom" hspace="1" width="207" height="228" border="0"/>
 </p>
 <p align="center">
-    <strong>Indian Institute of Technology, Indore</strong>
+    <strong>Indian Institute of Technology Indore</strong>
 </p>
 <p align="center">
     <strong>Computer Science &amp; Engineering</strong>
@@ -29,7 +29,7 @@
     <strong>STEP-WISE ANALYSIS OF CASE STUDY </strong>
 </p>
 <h1>
-    <em>1.Identification of Entity Sets:</em>
+    <em>1. Identification of Entity Sets:</em>
 </h1>
 <ul>
     <li>
@@ -59,7 +59,9 @@
     </li>
 </ul>
 <p>
-    <em>2.Modeling Attributes and Keys:</em>
+    <h1>
+    <em>2. Modeling Attributes and Keys:</em>
+    </h1>
 </p>
 <ol>
     <li>
