@@ -284,7 +284,9 @@
     </li>
 </ul>
 <p>
+    <h1>
     <em>3. Identification of Relationships:</em>
+        </h1>
 </p>
 <p>
     Track, Artist and Album are related to each other. <strong>TrackInfo </strong>contains the artist and album of each track.
