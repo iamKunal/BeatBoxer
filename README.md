@@ -8,7 +8,7 @@
     <strong>Computer Science &amp; Engineering</strong>
 </p>
 <p align="center">
-    <strong>CS 257: Lab Assignment on Case Study</strong>
+    <strong>CS 257: Lab Assignment (Case Study)</strong>
 </p>
 <p align="center">
     <strong>Music Player &amp; Music Management System</strong>
